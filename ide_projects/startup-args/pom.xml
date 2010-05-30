@@ -23,9 +23,9 @@
 	</dependencies>
 
 	<scm>
-		<connection>scm:git:git@vara.no-ip.org:args-app.git</connection>
-		<url>scm:git:git@vara.no-ip.org:args-app.git</url>
-		<developerConnection>scm:git:git@vara.no-ip.org:args-app.git</developerConnection>
+		<connection>scm:git:ssh://git@vara.no-ip.org/args-app.git</connection>
+		<url>scm:git:ssh://git@vara.no-ip.org/args-app.git</url>
+		<developerConnection>scm:git:ssh://git@vara.no-ip.org/args-app.git</developerConnection>
 	</scm>
 
 	<build>
