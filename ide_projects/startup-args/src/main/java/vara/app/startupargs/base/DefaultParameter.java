@@ -1,26 +1,30 @@
 package vara.app.startupargs.base;
 
+import vara.app.startupargs.Exception.ParseOptionException;
+
 /**
  *
  * @author wara
  */
 public abstract class DefaultParameter implements AbstractParameter {
 
-    private String option;
+	private String option;
 	private String shortOption;
 
 	public DefaultParameter(String option,String shortOption){
-        this.option = option;
+
+		//TODO:Added detection for prefixes '--' and '-'
+		this.option = option;
 		this.shortOption = shortOption;
-    }
+	}
 
 	@Override
-    public String getOption() {
-        return option;
-    }
+	public String getSymbol() {
+		return option;
+	}
 
 	@Override
-	public String getShortOption() {
+	public String getShortSymbol() {
 		return shortOption;
 	}
 
@@ -37,7 +41,7 @@ public abstract class DefaultParameter implements AbstractParameter {
 
 		DefaultParameter other = ((DefaultParameter)obj);
 
-		return other.getOption().equals(option) || other.getShortOption().equals(shortOption);
+		return other.getSymbol().equals(option) || other.getShortSymbol().equals(shortOption);
 	}
 
 	@Override
@@ -49,15 +53,15 @@ public abstract class DefaultParameter implements AbstractParameter {
 	}
 
 	@Override
-    public void handleOption(String[] optionValues){
-            int nOptions = optionValues != null? optionValues.length: 0;
-            if (nOptions != getOptionValuesLength()){
-                throw new IllegalArgumentException();
-            }
+	public void handleOption(String[] optionValues){
+			int nOptions = optionValues != null? optionValues.length: 0;
+			if (nOptions != getOptionValuesLength()){
+				throw new ParseOptionException("Wrong Number of input parameters. Got:"+nOptions+" expected:"+getOptionValuesLength());
+			}
 
-            safeOption(optionValues);
-        }
+			safeOption(optionValues);
+		}
 
-    public abstract boolean isExit();
-    public abstract void safeOption(String[] optionValues);
+	public abstract boolean isExit();
+	public abstract void safeOption(String[] optionValues);
 }

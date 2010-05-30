@@ -10,14 +10,14 @@ public interface AbstractParameter {
 	 *
      * @Return symbol name
      */
-    String getOption();
+    String getSymbol();
 
 	/**
 	 * Get short representation of option.
 	 *
 	 * @return optional symbol
 	 */
-	String getShortOption();
+	String getShortSymbol();
 
     /*
      * @Return description for parameter
@@ -32,7 +32,7 @@ public interface AbstractParameter {
 	/**
 	 * Method for handling input parameters.
 	 *
-	 * @param input parameters
+	 * @param values table with input parameters
 	 */
     void handleOption(String[] values);
 }

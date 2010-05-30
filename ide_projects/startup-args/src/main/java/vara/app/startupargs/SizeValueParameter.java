@@ -1,5 +1,7 @@
 package vara.app.startupargs;
 
+import vara.app.startupargs.Exception.ParseOptionException;
+
 import java.awt.*;
 import java.util.StringTokenizer;
 
@@ -17,7 +19,7 @@ public abstract class SizeValueParameter extends SingleValueParameter{
     public void handleOption(String optionValue) {
         Dimension dim = parseDimension(optionValue);
         if(dim == null){
-            throw new IllegalArgumentException();
+            throw new ParseOptionException("Cant convert '"+optionValue+"' to Dimension object. Usage: x,y");
         }
         
         handleOption(dim);
@@ -28,6 +30,8 @@ public abstract class SizeValueParameter extends SingleValueParameter{
     public Dimension parseDimension(String dimensionValue){
 
         Dimension dim = null;
+
+		//TODO: Use simplest method `split`
         StringTokenizer st = new StringTokenizer(dimensionValue, ",");
         if(st.countTokens() == 2){
             String xStr = st.nextToken();
