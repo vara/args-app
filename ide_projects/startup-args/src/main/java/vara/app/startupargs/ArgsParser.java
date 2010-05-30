@@ -1,6 +1,7 @@
 package vara.app.startupargs;
 
 import org.apache.log4j.Logger;
+import vara.app.startupargs.Exception.CatchOnException;
 import vara.app.startupargs.base.DefaultParameter;
 import vara.app.startupargs.base.Parameters;
 

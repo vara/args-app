@@ -1,4 +1,4 @@
-package vara.app.startupargs;
+package vara.app.startupargs.Exception;
 
 /**
  * User: Grzegorz (vara) Warywoda
