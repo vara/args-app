@@ -15,16 +15,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="f57eba0c-2e84-44b2-939f-3c1cb9b67c35" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/vara/app/startupargs/base/Parameters.java" afterPath="$PROJECT_DIR$/src/main/java/vara/app/startupargs/base/Parameters.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/vara/app/startupargs/base/AbstractParameter.java" afterPath="$PROJECT_DIR$/src/main/java/vara/app/startupargs/base/AbstractParameter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/startup-arguments.iws" afterPath="$PROJECT_DIR$/startup-arguments.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/vara/app/startupargs/base/DefaultParameter.java" afterPath="$PROJECT_DIR$/src/main/java/vara/app/startupargs/base/DefaultParameter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/vara/app/startupargs/ArgumentsContainerTest.java" afterPath="$PROJECT_DIR$/src/test/java/vara/app/startupargs/ArgumentsContainerTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/vara/app/startupargs/FileValueParameter.java" afterPath="$PROJECT_DIR$/src/main/java/vara/app/startupargs/FileValueParameter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/vara/app/startupargs/BooleanValueParameter.java" afterPath="$PROJECT_DIR$/src/main/java/vara/app/startupargs/BooleanValueParameter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/startup-arguments.ipr" afterPath="$PROJECT_DIR$/startup-arguments.ipr" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/vara/app/startupargs/Exception/ParseOptionException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/vara/app/startupargs/SizeValueParameter.java" afterPath="$PROJECT_DIR$/src/main/java/vara/app/startupargs/SizeValueParameter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/vara/app/startupargs/FixtureUtil.java" afterPath="$PROJECT_DIR$/src/test/java/vara/app/startupargs/FixtureUtil.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/vara/app/startupargs/SingleValueParameter.java" afterPath="$PROJECT_DIR$/src/main/java/vara/app/startupargs/SingleValueParameter.java" />
     </list>
     <ignored path="$USER_HOME_GRAILS$/" />
     <ignored path="$USER_HOME_GRIFFON$/" />
@@ -84,10 +79,19 @@
   <component name="FileColors" enabled="true" enabledForTabs="true" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SizeValueParameter.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="SizeValueParameter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/vara/app/startupargs/SizeValueParameter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="24" selection-start="854" selection-end="854" vertical-scroll-proportion="0.5625">
+            <state line="33" column="24" selection-start="854" selection-end="854" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="25" selection-start="341" selection-end="341" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -102,10 +106,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BooleanValueParameter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/vara/app/startupargs/BooleanValueParameter.java">
+      <file leaf-file-name="FileValueParameter.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/vara/app/startupargs/FileValueParameter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="76" selection-start="646" selection-end="646" vertical-scroll-proportion="0.0">
+            <state line="38" column="56" selection-start="772" selection-end="772" vertical-scroll-proportion="0.72983354">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -143,8 +147,10 @@
       <file leaf-file-name="SingleValueParameter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/vara/app/startupargs/SingleValueParameter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="61" selection-start="191" selection-end="191" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="20" column="76" selection-start="560" selection-end="560" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -168,7 +174,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/test/java/vara/app/startupargs/ArgumentsContainerTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/vara/app/startupargs/CmdLineArgumentsTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/vara/app/startupargs/FloatValueParameter.java" />
@@ -178,9 +183,12 @@
         <option value="$PROJECT_DIR$/src/main/java/vara/app/startupargs/ArgsParser.java" />
         <option value="$PROJECT_DIR$/src/main/java/vara/app/startupargs/Exception/ParseOptionException.java" />
         <option value="$PROJECT_DIR$/src/test/java/vara/app/startupargs/FixtureUtil.java" />
-        <option value="$PROJECT_DIR$/src/main/java/vara/app/startupargs/BooleanValueParameter.java" />
         <option value="$PROJECT_DIR$/src/main/java/vara/app/startupargs/base/DefaultParameter.java" />
         <option value="$PROJECT_DIR$/src/main/java/vara/app/startupargs/SizeValueParameter.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/vara/app/startupargs/SingleValueParameter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/vara/app/startupargs/BooleanValueParameter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/vara/app/startupargs/FileValueParameter.java" />
       </list>
     </option>
   </component>
@@ -774,16 +782,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/vara/app/startupargs/base/Parameters.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="47" selection-start="2603" selection-end="2603" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/vara/app/startupargs/IntegerValueParameter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="0" selection-start="571" selection-end="571" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/vara/app/startupargs/CatchOnException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="8" column="15" selection-start="153" selection-end="159" vertical-scroll-proportion="0.0">
@@ -791,23 +789,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="16" selection-start="1071" selection-end="1071" vertical-scroll-proportion="0.6158771">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/vara/app/startupargs/base/AbstractParameter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="34" column="48" selection-start="620" selection-end="620" vertical-scroll-proportion="0.65300894">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/vara/app/startupargs/ArgsParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="52" selection-start="2568" selection-end="2568" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -852,33 +836,65 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/vara/app/startupargs/BooleanValueParameter.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/vara/app/startupargs/SizeValueParameter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="76" selection-start="646" selection-end="646" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="33" column="24" selection-start="854" selection-end="854" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/vara/app/startupargs/SingleValueParameter.java">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="61" selection-start="191" selection-end="191" vertical-scroll-proportion="0.0">
+        <state line="5" column="25" selection-start="341" selection-end="341" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/vara/app/startupargs/base/DefaultParameter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="11" selection-start="1639" selection-end="1639" vertical-scroll-proportion="0.86256546">
+        <state line="55" column="46" selection-start="1265" selection-end="1265" vertical-scroll-proportion="0.66753924">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/vara/app/startupargs/SizeValueParameter.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/vara/app/startupargs/SingleValueParameter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="24" selection-start="854" selection-end="854" vertical-scroll-proportion="0.5625">
+        <state line="20" column="76" selection-start="560" selection-end="560" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/vara/app/startupargs/BooleanValueParameter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="22" selection-start="605" selection-end="605" vertical-scroll-proportion="0.48015365">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/vara/app/startupargs/NoValueParameter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="22" selection-start="152" selection-end="152" vertical-scroll-proportion="0.15364917">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/vara/app/startupargs/ArgsParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="81" column="52" selection-start="2568" selection-end="2568" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/vara/app/startupargs/FileValueParameter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="56" selection-start="772" selection-end="772" vertical-scroll-proportion="0.72983354">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
