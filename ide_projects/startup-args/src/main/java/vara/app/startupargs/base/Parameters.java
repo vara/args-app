@@ -54,6 +54,10 @@ public class Parameters {
         return allParams;
     }
 
+	public static int numberOfParameters(){
+		return mapOfParameters.size();
+	}
+
     public static boolean isEmpty(){
         return mapOfParameters.isEmpty();
     }
@@ -96,13 +100,13 @@ public class Parameters {
 			if( !(obj instanceof DefaultParameter)) return false;
 			if(this == obj) return true;
 
-			return ((DefaultParameter)obj).getOption().equals(symbolName) ||
-						((DefaultParameter)obj).getShortOption().equals(symbolName) ;
+			return ((DefaultParameter)obj).getSymbol().equals(symbolName) ||
+						((DefaultParameter)obj).getShortSymbol().equals(symbolName) ;
 		}
 
 		@Override
 		public String toString() {
-			return getClass().getSimpleName()+"@'"+ getSymbolName()+"'";
+			return getClass().getSimpleName()+"'"+ getSymbolName()+"'";
 		}
 	}
 }
