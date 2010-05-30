@@ -1,6 +1,7 @@
 package vara.app.startupargs;
 
 import org.apache.log4j.Logger;
+import org.junit.Ignore;
 import vara.app.startupargs.base.Parameters;
 
 /**
@@ -8,6 +9,7 @@ import vara.app.startupargs.base.Parameters;
  * Date: 2010-05-12
  * Time: 15:28:20
  */
+@Ignore
 public class CmdLineArgumentsTest extends FixtureUtil{
 	private static final Logger log = Logger.getLogger(CmdLineArgumentsTest.class);
 
