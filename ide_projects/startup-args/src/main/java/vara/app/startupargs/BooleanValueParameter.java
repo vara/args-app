@@ -1,6 +1,7 @@
 package vara.app.startupargs;
 
 import org.apache.log4j.Logger;
+import vara.app.startupargs.Exception.ParseOptionException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,7 +25,7 @@ public abstract class BooleanValueParameter extends SingleValueParameter {
 			handleOption(Boolean.parseBoolean(optionValue));
 
 		} catch(Exception e){
-			throw new IllegalArgumentException(e);
+			throw new ParseOptionException(e);
 		}
 	}
 

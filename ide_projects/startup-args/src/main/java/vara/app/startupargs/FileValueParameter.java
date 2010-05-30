@@ -1,5 +1,7 @@
 package vara.app.startupargs;
 
+import vara.app.startupargs.Exception.ParseOptionException;
+
 import java.io.File;
 
 /**
@@ -8,33 +10,33 @@ import java.io.File;
  */
 public abstract class FileValueParameter extends SingleValueParameter{
 
-    public FileValueParameter(String symbol,String shortSymbol) {
-        super(symbol,shortSymbol);
-    }
+	public FileValueParameter(String symbol,String shortSymbol) {
+		super(symbol,shortSymbol);
+	}
 
-    @Override
-    public void handleOption(String optionValue) {
+	@Override
+	public void handleOption(String optionValue) {
 
-        File file = createFile(optionValue);
-        if(file == null){
-            throw new IllegalArgumentException();
-        }
-        handleOption(file);
-    }
+		File file = createFile(optionValue);
+		if(file == null){
+			throw new ParseOptionException("Cant resolve path for '"+optionValue+"'.");
+		}
+		handleOption(file);
+	}
 
-    @Override
-    public boolean isExit() {
-        return false;
-    }
-    
-    public abstract void handleOption(File optionValue);
+	@Override
+	public boolean isExit() {
+		return false;
+	}
 
-    public File createFile(String path){
-        File f = new File(path);
+	public abstract void handleOption(File optionValue);
 
-        if(!f.exists()){            
-            f = null;
-        }
-        return f;
-    }
+	private File createFile(String path){
+		File f = new File(path);
+
+		if(!f.exists()){
+			f = null;
+		}
+		return f;
+	}
 }
