@@ -55,13 +55,13 @@ public class ArgumentsContainerTest extends FixtureUtil{
 		wasAdded = Parameters.putParameter(paramTest1Bool);
 		assertFalse(wasAdded);
 
-		wasAdded = Parameters.putParameter(new TestParamBoolean(paramTest1Bool.getOption(),paramTest1Bool.getShortOption()));
+		wasAdded = Parameters.putParameter(new TestParamBoolean(paramTest1Bool.getSymbol(),paramTest1Bool.getShortSymbol()));
 		assertFalse(wasAdded);
 
-		wasAdded = Parameters.putParameter(new TestParamBoolean(paramTest1Bool.getOption(),"-notImportant"));
+		wasAdded = Parameters.putParameter(new TestParamBoolean(paramTest1Bool.getSymbol(),"-notImportant"));
 		assertFalse(wasAdded);
 
-		wasAdded = Parameters.putParameter(new TestParamBoolean("-notImportant",paramTest1Bool.getShortOption()));
+		wasAdded = Parameters.putParameter(new TestParamBoolean("-notImportant",paramTest1Bool.getShortSymbol()));
 		assertFalse(wasAdded);
 
 		wasAdded = Parameters.putParameter(new TestParamBoolean("-notImportant","-notImportant"));
@@ -73,19 +73,15 @@ public class ArgumentsContainerTest extends FixtureUtil{
 	public void removeAll(){
 		log.info("Arguments Container Test - removeAll");
 
-		log.info(" *Fill container ... All parameters in container :"+fillContainerDefaultsParameters());
+		Parameters.putParameter(createParameters());
+		
+		log.info(" *Fill container ... All parameters in container :"+Parameters.numberOfParameters());
 
 		Parameters.removeAll();
 
 		assertTrue(Parameters.isEmpty());
 
 		log.info("Now Container is empty.");
-	}
-
-	public int fillContainerDefaultsParameters(){
-
-		int numOfParameters = CoreGui.getAllParameters().size();
-		return numOfParameters;
 	}
 
 	static class TestParamBoolean extends BooleanValueParameter{
@@ -104,7 +100,7 @@ public class ArgumentsContainerTest extends FixtureUtil{
 
 		@Override
 		public String toString() {
-			return getClass().getSimpleName()+"@'"+getOption()+"' '"+getShortOption()+"'";
+			return getClass().getSimpleName()+"@'"+ getSymbol()+"' '"+ getShortSymbol()+"'";
 		}
 	}
 }

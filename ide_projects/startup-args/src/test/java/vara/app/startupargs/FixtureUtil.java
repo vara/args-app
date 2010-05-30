@@ -32,7 +32,7 @@ public class FixtureUtil {
 	public void beforeTest() throws Exception {}
 
 
-	private static List<DefaultParameter> createParameters(){
+	public static List<DefaultParameter> createParameters(){
 
         List<DefaultParameter> params = new ArrayList<DefaultParameter>();
 
@@ -42,7 +42,7 @@ public class FixtureUtil {
                 List<DefaultParameter> params = Parameters.getAllParameters();
 				System.out.println("Options:");
 				for (DefaultParameter ap : params) {
-					System.out.printf("%s \n\t %s\n",ap.getOption(),ap.getOptionDescription());
+					System.out.printf("%s or %s\n\t %s\n",ap.getSymbol(),ap.getShortSymbol(),ap.getOptionDescription());
 				}
             }
 
@@ -57,6 +57,40 @@ public class FixtureUtil {
 			}
         });
 
+		params.add(new NoValueParameter("--verbose","-v") {
+            @Override public void handleOption() {
+				System.out.println("Detected verbose option");
+			}
+            @Override
+            public String getOptionDescription() {
+                return "option set debug level on root logger";
+            }
+        });
+
+		params.add(new FloatValueParameter("--fraction","-f"){
+			@Override
+			public void handleOption(float optionValue) {
+				System.out.println("Detected fraction option, value was set to "+optionValue);
+			}
+
+			@Override
+			public String getOptionDescription() {
+				return "Set fraction value [float]";
+			}
+		});
+
+		params.add(new BooleanValueParameter("--boolean","-b"){
+			@Override
+			public void handleOption(boolean optionValue) {
+				System.out.println("Detected boolean parameter, value was set to "+optionValue);
+			}
+
+			@Override
+			public String getOptionDescription() {
+				return "Set flag like a boolean value (true or false)";
+			}
+		});
+		
         return params;
     }
 }
