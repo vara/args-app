@@ -5,7 +5,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import vara.app.startupargs.base.DefaultParameter;
+import vara.app.startupargs.base.AbstractParameter;
 import vara.app.startupargs.exceptions.CatchOnException;
 
 import java.util.ArrayList;
@@ -39,9 +39,9 @@ static class Output implements CatchOnException{
 	}
 }
 
-public static List<DefaultParameter> createParameters(){
+public static List<AbstractParameter> createParameters(){
 
-	List<DefaultParameter> params = new ArrayList<DefaultParameter>();
+	List<AbstractParameter> params = new ArrayList();
 
 	params.add(new NoValueParameter("--verbose","-v") {
 		@Override public void handleOption() {

@@ -65,7 +65,7 @@ public class ArgsParser {
 
 			if(log.isDebugEnabled())log.debug("Current parsing argument : '"+pretenderToSymbolParam+"'");
 
-			DefaultParameter optionHandler = Parameters.getParameter(pretenderToSymbolParam);
+			DefaultParameter optionHandler = (DefaultParameter)Parameters.getParameter(pretenderToSymbolParam);
 			if (optionHandler == null){
 				Exception e = new OptionNotFoundException(pretenderToSymbolParam,"Unrecognized parameter "+pretenderToSymbolParam);
 				deliverCaughtException(e);

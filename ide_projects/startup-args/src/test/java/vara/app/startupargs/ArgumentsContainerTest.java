@@ -2,6 +2,7 @@ package vara.app.startupargs;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
+import vara.app.startupargs.base.AbstractParameter;
 import vara.app.startupargs.base.DefaultParameter;
 import vara.app.startupargs.base.Parameters;
 
@@ -31,14 +32,14 @@ public class ArgumentsContainerTest extends FixtureUtil{
 	public void get(){
 		log.info("Arguments Container Test - get");
 
-		DefaultParameter paramGetShortSymbol = Parameters.getParameter("-t1");
-		DefaultParameter paramGetSymbol = Parameters.getParameter("--test1");
+		AbstractParameter paramGetShortSymbol = Parameters.getParameter("-t1");
+		AbstractParameter paramGetSymbol = Parameters.getParameter("--test1");
 
 		assertNotNull(paramGetShortSymbol);
 		assertNotNull(paramGetSymbol);
 
-		DefaultParameter paramGetShortNull = Parameters.getParameter("-n1");
-		DefaultParameter paramGetNull = Parameters.getParameter("--null1");
+		AbstractParameter paramGetShortNull = Parameters.getParameter("-n1");
+		AbstractParameter paramGetNull = Parameters.getParameter("--null1");
 
 		assertNull(paramGetShortNull);
 		assertNull(paramGetNull);

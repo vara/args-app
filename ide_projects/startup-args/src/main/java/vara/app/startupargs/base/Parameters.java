@@ -15,13 +15,13 @@ public class Parameters {
 
 	private static final Logger log = Logger.getLogger(Parameters.class);
 
-	private final static List<DefaultParameter> mapOfParameters = new ArrayList();
+	private final static List<AbstractParameter> mapOfParameters = new ArrayList();
 
 	static {
 		mapOfParameters.add(new DefaultHelpParameter("--help","-h"));
 	}
 	
-	public static boolean putParameter(DefaultParameter parameter){
+	public static boolean putParameter(AbstractParameter parameter){
 
 		if(parameter!=null){
 			if(!mapOfParameters.contains(parameter)){
@@ -33,9 +33,9 @@ public class Parameters {
 		return false;
 	}
 
-	public static void putParameter(List<DefaultParameter> vap){
+	public static void putParameter(List<AbstractParameter> vap){
 		if(vap != null){
-			for (DefaultParameter ap : vap) {
+			for (AbstractParameter ap : vap) {
 				putParameter(ap);
 			}
 		}
@@ -45,7 +45,7 @@ public class Parameters {
 		mapOfParameters.removeAll(mapOfParameters);
 	}
 
-	public static DefaultParameter getParameter(String symbol){
+	public static AbstractParameter getParameter(String symbol){
 
 		EntryParameter entry  = new EntryParameter(symbol);
 
