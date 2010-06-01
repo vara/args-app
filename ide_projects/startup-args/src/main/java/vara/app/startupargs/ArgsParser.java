@@ -1,9 +1,12 @@
 package vara.app.startupargs;
 
 import org.apache.log4j.Logger;
-import vara.app.startupargs.Exception.CatchOnException;
+import vara.app.startupargs.exceptions.CatchOnException;
 import vara.app.startupargs.base.DefaultParameter;
 import vara.app.startupargs.base.Parameters;
+import vara.app.startupargs.exceptions.OptionNotFoundException;
+import vara.app.startupargs.exceptions.UnexpectedNumberOfArguments;
+import vara.app.startupargs.exceptions.ValidationObjectException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,16 +22,22 @@ public class ArgsParser {
 
 	private static List<CatchOnException> exceptionCatchers = new ArrayList<CatchOnException>();
 
-	public static void parseParameters(String[] args) throws Exception{
+	public static void parseParameters(String[] args){
 		parseParameters(Arrays.asList(args));
 	}
 
 	public static void setCatchOnException(CatchOnException catcher){
-		if(catcher != null && exceptionCatchers.contains(catcher)){
+		
+		if(!exceptionCatchers.contains(catcher)){
 			exceptionCatchers.add(catcher);
 		}else{
-			log.warn("Cant add CatchOnException object ! (Object is null or has been added before)");
+			log.warn("Cant add CatchOnException object ! Object has been added before");
 		}
+	}
+
+	public static void removeCatchOnException(CatchOnException catcher){
+		//TODO : Add log inf
+		exceptionCatchers.remove(catcher);
 	}
 
 	private static void deliverCaughtException(Exception exc){
@@ -58,15 +67,14 @@ public class ArgsParser {
 
 			DefaultParameter optionHandler = Parameters.getParameter(pretenderToSymbolParam);
 			if (optionHandler == null){
-				Exception e = new Exception("Unrecognized parameter "+pretenderToSymbolParam+".\nTry run application with option '-h'");
+				Exception e = new OptionNotFoundException(pretenderToSymbolParam,"Unrecognized parameter "+pretenderToSymbolParam);
 				deliverCaughtException(e);
 
 			} else {
 				int nOptionArgs = optionHandler.getOptionValuesLength();
 
 				if (i + nOptionArgs >= iElements){
-					Exception e = new Exception("Error not enough option values for : "+ pretenderToSymbolParam+
-						"\nUsage:\n"+optionHandler.getOptionDescription());
+					Exception e = new UnexpectedNumberOfArguments(optionHandler,"Not enough option values");
 					deliverCaughtException(e);
 				}
 
@@ -80,9 +88,10 @@ public class ArgsParser {
 
 					optionHandler.handleOption(optionValues);
 
-				} catch(IllegalArgumentException e){
-					Exception exc = new Exception("Error: illegal argument for option "+optionHandler.getSymbol() +" : "+
-										 optionValuesToString(optionValues)+".\nTry run application with option '-h'");
+				} catch(ValidationObjectException exc){
+
+//					Exception exc = new Exception("Error: illegal argument for option "+optionHandler.getSymbol() +" : "+
+//										 optionValuesToString(optionValues)+".\nTry run application with option '-h'");
 					deliverCaughtException(exc);
 
 				}

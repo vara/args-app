@@ -1,6 +1,7 @@
 package vara.app.startupargs;
 
-import vara.app.startupargs.Exception.ParseOptionException;
+import vara.app.startupargs.exceptions.UnexpectedValueException;
+import vara.app.startupargs.exceptions.ValidationObjectException;
 
 import java.io.File;
 
@@ -15,11 +16,11 @@ public abstract class FileValueParameter extends SingleValueParameter{
 	}
 
 	@Override
-	public void handleOption(String optionValue) {
+	public void handleOption(String optionValue)  throws ValidationObjectException{
 
 		File file = createFile(optionValue);
 		if(file == null){
-			throw new ParseOptionException("Cant resolve path for '"+optionValue+"'.");
+			throw new UnexpectedValueException(this,"Cant resolve path for '"+optionValue+"'.");
 		}
 		handleOption(file);
 	}
@@ -29,7 +30,7 @@ public abstract class FileValueParameter extends SingleValueParameter{
 		return false;
 	}
 
-	public abstract void handleOption(File optionValue);
+	public abstract void handleOption(File optionValue) throws ValidationObjectException;
 
 	private File createFile(String path){
 		File f = new File(path);

@@ -1,6 +1,7 @@
 package vara.app.startupargs;
 
-import vara.app.startupargs.Exception.ParseOptionException;
+import vara.app.startupargs.exceptions.UnexpectedValueException;
+import vara.app.startupargs.exceptions.ValidationObjectException;
 
 import java.awt.*;
 import java.util.StringTokenizer;
@@ -11,41 +12,46 @@ import java.util.StringTokenizer;
  */
 public abstract class SizeValueParameter extends SingleValueParameter{
 
-    public SizeValueParameter(String symbol,String shortSymbol){
-        super(symbol,shortSymbol);
-    }
+	public SizeValueParameter(String symbol,String shortSymbol){
+		super(symbol,shortSymbol);
+	}
 
-    @Override
-    public void handleOption(String optionValue) {
-        Dimension dim = parseDimension(optionValue);
-        if(dim == null){
-            throw new ParseOptionException("Cant convert '"+optionValue+"' to Dimension object. Usage: x,y");
-        }
-        
-        handleOption(dim);
-    }
+	@Override
+	public void handleOption(String optionValue)  throws ValidationObjectException {
+		Dimension dim = parseDimension(optionValue);
+		if(dim == null){
+			throw new UnexpectedValueException(this,"Cant convert '"+optionValue+"' to Dimension object");
+		}
 
-    public abstract void handleOption(Dimension dimensionValue);
+		handleOption(dim);
+	}
 
-    public Dimension parseDimension(String dimensionValue){
+	@Override
+	public String getOptionUsage() {
+		return super.getOptionUsage()+" [x,y] (Integer values)";
+	}
 
-        Dimension dim = null;
+	public abstract void handleOption(Dimension dimensionValue);
+
+	public Dimension parseDimension(String dimensionValue){
+
+		Dimension dim = null;
 
 		//TODO: Use simplest method `split`
-        StringTokenizer st = new StringTokenizer(dimensionValue, ",");
-        if(st.countTokens() == 2){
-            String xStr = st.nextToken();
-            String yStr = st.nextToken();
+		StringTokenizer st = new StringTokenizer(dimensionValue, ",");
+		if(st.countTokens() == 2){
+			String xStr = st.nextToken();
+			String yStr = st.nextToken();
 
-            int x,y;
-            try {
-                x = Integer.parseInt(xStr);
-                y = Integer.parseInt(yStr);
+			int x,y;
+			try {
+				x = Integer.parseInt(xStr);
+				y = Integer.parseInt(yStr);
 
-                dim = new Dimension(x, y);
-            }catch(NumberFormatException e){                
-            }
-        }
-        return dim;
-    }
+				dim = new Dimension(x, y);
+			}catch(NumberFormatException e){
+			}
+		}
+		return dim;
+	}
 }

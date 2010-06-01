@@ -1,6 +1,7 @@
 package vara.app.startupargs.base;
 
 import org.apache.log4j.Logger;
+import vara.app.startupargs.defaultImpl.DefaultHelpParameter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +15,15 @@ public class Parameters {
 
 	private static final Logger log = Logger.getLogger(Parameters.class);
 
-    private final static List<DefaultParameter> mapOfParameters = new ArrayList();
-    
-    public static boolean putParameter(DefaultParameter parameter){
+	private final static List<DefaultParameter> mapOfParameters = new ArrayList();
 
-        if(parameter!=null){
+	static {
+		mapOfParameters.add(new DefaultHelpParameter("--help","-h"));
+	}
+	
+	public static boolean putParameter(DefaultParameter parameter){
+
+		if(parameter!=null){
 			if(!mapOfParameters.contains(parameter)){
 				return mapOfParameters.add(parameter);
 			}else{
@@ -26,41 +31,41 @@ public class Parameters {
 			}
 		}
 		return false;
-    }
+	}
 
-    public static void putParameter(List<DefaultParameter> vap){
-        if(vap != null){
-            for (DefaultParameter ap : vap) {
-                putParameter(ap);
-            }
-        }
-    }
+	public static void putParameter(List<DefaultParameter> vap){
+		if(vap != null){
+			for (DefaultParameter ap : vap) {
+				putParameter(ap);
+			}
+		}
+	}
 
 	public static void removeAll(){
 		mapOfParameters.removeAll(mapOfParameters);
 	}
 
-    public static DefaultParameter getParameter(String symbol){
+	public static DefaultParameter getParameter(String symbol){
 
 		EntryParameter entry  = new EntryParameter(symbol);
 
-        int index = mapOfParameters.lastIndexOf(entry);
+		int index = mapOfParameters.lastIndexOf(entry);
 		if(index != -1) return mapOfParameters.get(index);
 		return null;
-    }
+	}
 
-    public static List<DefaultParameter> getAllParameters(){
+	public static List<DefaultParameter> getAllParameters(){
 		Vector<DefaultParameter> allParams = new Vector(mapOfParameters);
-        return allParams;
-    }
+		return allParams;
+	}
 
 	public static int numberOfParameters(){
 		return mapOfParameters.size();
 	}
 
-    public static boolean isEmpty(){
-        return mapOfParameters.isEmpty();
-    }
+	public static boolean isEmpty(){
+		return mapOfParameters.isEmpty();
+	}
 
 	private static class EntryParameter{
 

@@ -1,6 +1,6 @@
 package vara.app.startupargs;
 
-import org.apache.log4j.Logger;
+import vara.app.startupargs.exceptions.ValidationObjectException;
 
 /**
  * User: Grzegorz (vara) Warywoda
@@ -13,7 +13,7 @@ public abstract class FloatValueParameter extends SingleValueParameter{
 	}
 
 	 @Override
-	public void handleOption(String optionValue) {
+	public void handleOption(String optionValue)  throws ValidationObjectException{
 		try{
 			handleOption(Float.valueOf(optionValue));
 		} catch(NumberFormatException e){
@@ -21,5 +21,5 @@ public abstract class FloatValueParameter extends SingleValueParameter{
 		}
 	}
 
-	public abstract void handleOption(float optionValue);
+	public abstract void handleOption(float optionValue)  throws ValidationObjectException;
 }

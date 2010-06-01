@@ -1,7 +1,8 @@
 package vara.app.startupargs;
 
 import org.apache.log4j.Logger;
-import vara.app.startupargs.Exception.ParseOptionException;
+import vara.app.startupargs.exceptions.UnexpectedValueException;
+import vara.app.startupargs.exceptions.ValidationObjectException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,15 +20,20 @@ public abstract class BooleanValueParameter extends SingleValueParameter {
 	}
 
 	@Override
-	public void handleOption(String optionValue) {
+	public void handleOption(String optionValue)  throws ValidationObjectException{
 		try{
 
 			handleOption(Boolean.parseBoolean(optionValue));
 
 		} catch(Exception e){
-			throw new ParseOptionException(e);
+			throw new UnexpectedValueException(this,e);
 		}
 	}
 
-	public abstract void handleOption(boolean optionValue);
+	@Override
+	public String getOptionUsage() {
+		return super.getOptionUsage()+" true|false";
+	}
+
+	public abstract void handleOption(boolean optionValue) throws ValidationObjectException;
 }

@@ -1,6 +1,7 @@
 package vara.app.startupargs;
 
 import vara.app.startupargs.base.DefaultParameter;
+import vara.app.startupargs.exceptions.ValidationObjectException;
 
 /**
  *
@@ -8,27 +9,27 @@ import vara.app.startupargs.base.DefaultParameter;
  */
 public abstract class NoValueParameter extends DefaultParameter {
 
-    /* This class represents a parameter which performs
-     * the action defined and the program ends.
-     */
-    public NoValueParameter(String symbol, String shortSymbol){
-        super(symbol,shortSymbol);
-    }
+	/* This class represents a parameter which performs
+	 * the action defined and the program ends.
+	 */
+	public NoValueParameter(String symbol, String shortSymbol){
+		super(symbol,shortSymbol);
+	}
 
-    @Override
-    public void safeOption(String[] optionValues) {
-        handleOption();
-    }
+	@Override
+	public void safeOption(String[] optionValues)  throws ValidationObjectException{
+		handleOption();
+	}
 
-    @Override
-    public int getOptionValuesLength() {
-        return 0;
-    }
+	@Override
+	public int getOptionValuesLength() {
+		return 0;
+	}
 
-    @Override
-    public boolean isExit() {
-        return false;
-    }
+	@Override
+	public boolean isExit() {
+		return false;
+	}
 
-    public abstract void handleOption();
+	public abstract void handleOption()  throws ValidationObjectException;
 }

@@ -1,23 +1,30 @@
 package vara.app.startupargs;
 
+import vara.app.startupargs.exceptions.ValidationObjectException;
+
 /**
  *
  * @author Grzegorz (vara) Warywoda
  */
 public abstract class IntegerValueParameter extends SingleValueParameter{
 
-    public IntegerValueParameter(String symbol,String shortSymbol) {
-        super(symbol,shortSymbol);
-    }
+	public IntegerValueParameter(String symbol,String shortSymbol) {
+		super(symbol,shortSymbol);
+	}
 
-    @Override
-    public void handleOption(String optionValue) {
-        try{
-            handleOption(Integer.parseInt(optionValue));
-        } catch(NumberFormatException e){
-            throw new IllegalArgumentException(e);
-        }
-    }
-    
-    public abstract void handleOption(int optionValue);
+	@Override
+	public void handleOption(String optionValue)  throws ValidationObjectException{
+		try{
+			handleOption(Integer.parseInt(optionValue));
+		} catch(NumberFormatException e){
+			throw new IllegalArgumentException(e);
+		}
+	}
+
+	@Override
+	public String getOptionUsage() {
+		return null;
+	}
+
+	public abstract void handleOption(int optionValue) throws ValidationObjectException;
 }

@@ -1,7 +1,7 @@
 package vara.app.startupargs;
 
-import vara.app.startupargs.Exception.ParseOptionException;
 import vara.app.startupargs.base.DefaultParameter;
+import vara.app.startupargs.exceptions.ValidationObjectException;
 
 /**
  *
@@ -14,11 +14,11 @@ public abstract class SingleValueParameter extends DefaultParameter {
 	}
 
 	@Override
-	public void safeOption(String[] optionValues) {
+	public void safeOption(String[] optionValues)  throws ValidationObjectException{
 		if(optionValues[0] != null){
 			handleOption(optionValues[0]);
 		}else{
-			throw new ParseOptionException("Option value must be non-null");
+			throw new ValidationObjectException(this,"Option value must be non-null");
 		}
 	}
 
@@ -32,5 +32,5 @@ public abstract class SingleValueParameter extends DefaultParameter {
 		return false;
 	}
 
-	public abstract void handleOption(String optionValue);
+	public abstract void handleOption(String optionValue) throws ValidationObjectException;
 }

@@ -1,6 +1,7 @@
 package vara.app.startupargs.base;
 
-import vara.app.startupargs.Exception.ParseOptionException;
+import vara.app.startupargs.exceptions.UnexpectedNumberOfArguments;
+import vara.app.startupargs.exceptions.ValidationObjectException;
 
 /**
  *
@@ -29,6 +30,11 @@ public abstract class DefaultParameter implements AbstractParameter {
 	}
 
 	@Override
+	public String getOptionUsage() {
+		return getSymbol()+"|"+getShortSymbol();
+	}
+
+	@Override
 	public String toString() {
 		return getClass().getSimpleName()+"@'"+option+"':'"+shortOption+"'";
 	}
@@ -53,15 +59,15 @@ public abstract class DefaultParameter implements AbstractParameter {
 	}
 
 	@Override
-	public void handleOption(String[] optionValues){
+	public void handleOption(String[] optionValues)  throws ValidationObjectException{
 			int nOptions = optionValues != null? optionValues.length: 0;
 			if (nOptions != getOptionValuesLength()){
-				throw new ParseOptionException("Wrong Number of input parameters. Got:"+nOptions+" expected:"+getOptionValuesLength());
+				throw new UnexpectedNumberOfArguments(this,"Wrong Number of input parameters. Got:"+nOptions+" expected:"+getOptionValuesLength());
 			}
 
 			safeOption(optionValues);
 		}
 
 	public abstract boolean isExit();
-	public abstract void safeOption(String[] optionValues);
+	public abstract void safeOption(String[] optionValues) throws ValidationObjectException;
 }
