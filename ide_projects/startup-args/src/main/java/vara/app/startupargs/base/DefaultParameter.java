@@ -13,7 +13,7 @@ public abstract class DefaultParameter implements AbstractParameter {
 
 	public DefaultParameter(String option,String shortOption){
 
-		//TODO:Added detection for prefixes '--' and '-'
+		//TODO:Added detection for prefixes '--' and '-' and auto inserting this
 		this.option = option;
 		this.shortOption = shortOption;
 	}
