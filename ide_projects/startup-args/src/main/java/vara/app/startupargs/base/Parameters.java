@@ -54,8 +54,8 @@ public class Parameters {
 		return null;
 	}
 
-	public static List<DefaultParameter> getAllParameters(){
-		Vector<DefaultParameter> allParams = new Vector(mapOfParameters);
+	public static List<AbstractParameter> getAllParameters(){
+		Vector<AbstractParameter> allParams = new Vector(mapOfParameters);
 		return allParams;
 	}
 
