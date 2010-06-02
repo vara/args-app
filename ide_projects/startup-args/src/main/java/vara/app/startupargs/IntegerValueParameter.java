@@ -23,7 +23,7 @@ public abstract class IntegerValueParameter extends SingleValueParameter{
 
 	@Override
 	public String getOptionUsage() {
-		return null;
+		return super.getOptionUsage()+" value [ Integer value ]";
 	}
 
 	public abstract void handleOption(int optionValue) throws ValidationObjectException;
