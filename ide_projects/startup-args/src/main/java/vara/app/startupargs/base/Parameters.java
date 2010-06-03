@@ -50,7 +50,11 @@ public class Parameters {
 		EntryParameter entry  = new EntryParameter(symbol);
 
 		int index = mapOfParameters.lastIndexOf(entry);
-		if(index != -1) return mapOfParameters.get(index);
+		if(index != -1) {
+			if(log.isDebugEnabled())log.debug("Found parameter for '"+symbol+"' on index "+index);
+			return mapOfParameters.get(index);
+		}
+		if(log.isDebugEnabled())log.debug("Parameter wasn't found for '"+symbol+"'");
 		return null;
 	}
 
@@ -67,6 +71,11 @@ public class Parameters {
 		return mapOfParameters.isEmpty();
 	}
 
+	/**
+	 * Object is helpful for easier to verify the identity of "h? == (h1 or h2)".
+	 * Where h? is represented by this object and right side by AbstractParameter.
+	 *
+	 */
 	private static class EntryParameter{
 
 		private int hashCode = -1;
@@ -94,19 +103,26 @@ public class Parameters {
 
 		@Override
 		public int hashCode() {
+			new Throwable().printStackTrace();
 			return hashCode;
 		}
 
 		@Override
 		public boolean equals(Object obj) {
 
-			if(log.isDebugEnabled()) log.debug("Equals Method: "+this+" equals "+obj);
+			if(log.isDebugEnabled()) log.debug("Equals "+this+" with "+obj);
+			boolean retVal = false;
 
-			if( !(obj instanceof DefaultParameter)) return false;
-			if(this == obj) return true;
-
-			return ((DefaultParameter)obj).getSymbol().equals(symbolName) ||
-						((DefaultParameter)obj).getShortSymbol().equals(symbolName) ;
+			if( !(obj instanceof DefaultParameter)) {
+				retVal =  false;
+			}else if(this == obj){
+				retVal = true;
+			}else if( ((DefaultParameter)obj).getSymbol().equals(symbolName) ||
+						((DefaultParameter)obj).getShortSymbol().equals(symbolName) ){
+				retVal = true;
+			}
+			if(log.isDebugEnabled())log.debug("Result is:"+retVal);
+			return  retVal;
 		}
 
 		@Override
