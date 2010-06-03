@@ -22,16 +22,45 @@ public class ArgsParser {
 
 	private static List<CatchOnException> exceptionCatchers = new ArrayList<CatchOnException>();
 
+	/**
+	 * This class tell to parser what to do when exception will be throw.
+	 * Regardless of your choice, all exception will be redirect to registered
+	 * listeners through 'CatchOnException' object.  
+	 *
+	 */
 	public enum ExceptionBehaviour{
+		/**
+		 * Do nothing
+		 */
 		IGNORE,
+		/**
+		 * When exception will be caught by parser perform as
+		 */
 		THROW,
-		EXIT
+		/**
+		 * When exception will be caught by parser exit from program
+		 */
+		EXIT;
+
+		//TODO: For inner cases. "Throw" for only internal validation exceptions.  
+
 	}
 
+	/**
+	 * Get information of current set object  <code>ExceptionBehaviour<code>
+	 *
+	 * @return
+	 */
 	public static ExceptionBehaviour getExceptionBehaviour() {
 		return exceptionBehaviour;
 	}
 
+	/**
+	 * Tell to parser what to do when exception will be generated.
+	 * Default behaviour is <code>ExceptionBehaviour.EXIT<code>
+	 *
+	 * @param exceptionBehaviour
+	 */
 	public static void setExceptionBehaviour(ExceptionBehaviour exceptionBehaviour) {
 		ArgsParser.exceptionBehaviour = exceptionBehaviour;
 	}
@@ -42,6 +71,11 @@ public class ArgsParser {
 		parseParameters(Arrays.asList(args));
 	}
 
+	/**
+	 *	Set hook for all thrown exceptions by parser.
+	 *
+	 * @param catcher
+	 */
 	public static void setCatchOnException(CatchOnException catcher){
 		
 		if(!exceptionCatchers.contains(catcher)){
@@ -63,9 +97,11 @@ public class ArgsParser {
 			}
 		}
 
-		if(exceptionBehaviour == ExceptionBehaviour.THROW)	throw  exc;
+		if(exceptionBehaviour == ExceptionBehaviour.THROW){
+			throw  exc;
+		}
 		if(exceptionBehaviour == ExceptionBehaviour.EXIT){
-			log.warn(exc);
+			log.error(exc);
 			//TODO: Check for special error code
 			System.exit(1);
 		}
