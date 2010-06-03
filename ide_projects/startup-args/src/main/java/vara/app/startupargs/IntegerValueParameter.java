@@ -6,7 +6,7 @@ import vara.app.startupargs.exceptions.ValidationObjectException;
  *
  * @author Grzegorz (vara) Warywoda
  */
-public abstract class IntegerValueParameter extends SingleValueParameter{
+public abstract class IntegerValueParameter extends StringValueParameter {
 
 	public IntegerValueParameter(String symbol,String shortSymbol) {
 		super(symbol,shortSymbol);

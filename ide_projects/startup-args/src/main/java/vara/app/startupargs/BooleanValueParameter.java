@@ -11,7 +11,7 @@ import vara.app.startupargs.exceptions.ValidationObjectException;
  * Time: 18:07:31
  */
 
-public abstract class BooleanValueParameter extends SingleValueParameter {
+public abstract class BooleanValueParameter extends StringValueParameter {
 
 	private static Logger log = Logger.getLogger(BooleanValueParameter.class);
 

@@ -7,9 +7,9 @@ import vara.app.startupargs.exceptions.ValidationObjectException;
  *
  * @author Grzegorz (vara) Warywoda
  */
-public abstract class SingleValueParameter extends DefaultParameter {
+public abstract class StringValueParameter extends DefaultParameter {
 
-	public SingleValueParameter(String symbol,String shortSymbol) {
+	public StringValueParameter(String symbol,String shortSymbol) {
 		super(symbol,shortSymbol);
 	}
 

@@ -9,7 +9,7 @@ import java.io.File;
  *
  * @author Grzegorz (vara) Warywoda
  */
-public abstract class FileValueParameter extends SingleValueParameter{
+public abstract class FileValueParameter extends StringValueParameter {
 
 	public FileValueParameter(String symbol,String shortSymbol) {
 		super(symbol,shortSymbol);

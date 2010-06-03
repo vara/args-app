@@ -10,9 +10,9 @@ import java.util.StringTokenizer;
  *
  * @author Grzegorz (vara) Warywoda
  */
-public abstract class SizeValueParameter extends SingleValueParameter{
+public abstract class DimensionValueParameter extends StringValueParameter {
 
-	public SizeValueParameter(String symbol,String shortSymbol){
+	public DimensionValueParameter(String symbol,String shortSymbol){
 		super(symbol,shortSymbol);
 	}
 
