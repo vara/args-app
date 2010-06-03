@@ -22,6 +22,22 @@ public class ArgsParser {
 
 	private static List<CatchOnException> exceptionCatchers = new ArrayList<CatchOnException>();
 
+	public enum ExceptionBehaviour{
+		IGNORE,
+		THROW,
+		EXIT
+	}
+
+	public static ExceptionBehaviour getExceptionBehaviour() {
+		return exceptionBehaviour;
+	}
+
+	public static void setExceptionBehaviour(ExceptionBehaviour exceptionBehaviour) {
+		ArgsParser.exceptionBehaviour = exceptionBehaviour;
+	}
+
+	private static ExceptionBehaviour exceptionBehaviour = ExceptionBehaviour.EXIT;
+
 	public static void parseParameters(String[] args){
 		parseParameters(Arrays.asList(args));
 	}
@@ -40,11 +56,18 @@ public class ArgsParser {
 		exceptionCatchers.remove(catcher);
 	}
 
-	private static void deliverCaughtException(Exception exc){
+	private static void deliverCaughtException(RuntimeException exc){
 		if(!exceptionCatchers.isEmpty()){
 			for (CatchOnException exceptionCatcher : exceptionCatchers) {
 				exceptionCatcher.caughtException(exc);
 			}
+		}
+
+		if(exceptionBehaviour == ExceptionBehaviour.THROW)	throw  exc;
+		if(exceptionBehaviour == ExceptionBehaviour.EXIT){
+			log.warn(exc);
+			//TODO: Check for special error code
+			System.exit(1);
 		}
 	}
 
@@ -67,14 +90,14 @@ public class ArgsParser {
 
 			DefaultParameter optionHandler = (DefaultParameter)Parameters.getParameter(pretenderToSymbolParam);
 			if (optionHandler == null){
-				Exception e = new OptionNotFoundException(pretenderToSymbolParam,"Unrecognized parameter "+pretenderToSymbolParam);
+				RuntimeException e = new OptionNotFoundException(pretenderToSymbolParam,"Unrecognized parameter "+pretenderToSymbolParam);
 				deliverCaughtException(e);
 
 			} else {
 				int nOptionArgs = optionHandler.getOptionValuesLength();
 
 				if (i + nOptionArgs >= iElements){
-					Exception e = new UnexpectedNumberOfArguments(optionHandler,"Not enough option values");
+					RuntimeException e = new UnexpectedNumberOfArguments(optionHandler,"Not enough option values");
 					deliverCaughtException(e);
 				}
 
