@@ -1,7 +1,7 @@
 package vara.app.startupargs.defaultImpl;
 
 import vara.app.startupargs.NoValueParameter;
-import vara.app.startupargs.base.DefaultParameter;
+import vara.app.startupargs.base.AbstractParameter;
 import vara.app.startupargs.base.Parameters;
 
 import java.io.PrintStream;
@@ -35,7 +35,7 @@ public class DefaultHelpParameter extends NoValueParameter{
 	}
 
 	private void printInfo(PrintStream out){
-		List<DefaultParameter> params = Parameters.getAllParameters();
+		List<AbstractParameter> params = Parameters.getAllParameters();
 
 		if(usage != null && !usage.isEmpty()){
 
@@ -44,7 +44,7 @@ public class DefaultHelpParameter extends NoValueParameter{
 
 		out.println("Options:");
 		final String format = "\t%s\t\t%s\n";
-		for (DefaultParameter ap : params) {
+		for (AbstractParameter ap : params) {
 			out.printf(format,ap.getOptionUsage(),ap.getOptionDescription());
 		}
 	}
