@@ -5,7 +5,7 @@ package vara.app.startupargs.exceptions;
  * Date: 2010-05-30
  * Time: 01:12:28
  */
-public abstract class ParseOptionException extends Exception{
+public abstract class ParseOptionException extends RuntimeException{
 
 	public String getCorruptedOption() {
 		return option;

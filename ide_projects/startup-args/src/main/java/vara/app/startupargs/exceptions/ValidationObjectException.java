@@ -11,7 +11,7 @@ import vara.app.startupargs.base.AbstractParameter;
  *
  * @author Grzegorz (vara) Warywoda
  */
-public class ValidationObjectException extends Exception{
+public class ValidationObjectException extends RuntimeException{
 
 	public AbstractParameter getParameter() {
 		return parameter;
