@@ -2,9 +2,11 @@ package vara.app.startupargs;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import vara.app.startupargs.base.Parameters;
 import vara.app.startupargs.exceptions.UnexpectedValueException;
 import vara.app.startupargs.exceptions.ValidationObjectException;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * User: Grzegorz (vara) Warywoda
@@ -15,23 +17,30 @@ public class ExceptionsTest extends FixtureUtil{
 
 	private static final Logger log = Logger.getLogger(ExceptionsTest.class);
 
-	public static void main(String[] args) throws Exception {
+//	public static void main(String[] args) throws Exception {
+//
+//		CmdLineArgumentsTest.beforeClass();
+//
+//		Parameters.putParameter(createParameters());
+//
+//		Parameters.putParameter(new ArgsName());
+//
+//		ArgsParser.parseParameters(args);
+//	}
 
-		CmdLineArgumentsTest.beforeClass();
-
-		Parameters.putParameter(createParameters());
-
-		Parameters.putParameter(new ArgsName());
-
-		ArgsParser.parseParameters(args);
-	}
-
-	//@Test
+	@Test (expected = Exception.class)
 	public void illegalValueArguments(){
 
+		ArgsParser.setExceptionBehaviour(ArgsParser.ExceptionBehaviour.THROW);
+
+		log.info("Run illegalValueArguments test");
+
+		List params = Arrays.asList("--throwException");
+
+		ArgsParser.parseParameters(params);
 	}
 
-	static class ArgsName extends SingleValueParameter{
+	static class ArgsName extends StringValueParameter {
 		ArgsName(){
 			super("--name","-n");
 		}
