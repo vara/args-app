@@ -23,6 +23,13 @@ public class ArgsParser {
 	private static List<CatchOnException> exceptionCatchers = new ArrayList<CatchOnException>();
 
 	/**
+	 * For special arguments.
+	 * Add ability to concatenate symbols with value(s) separated this char.
+	 * --symbol=value
+	 */
+	private static char charSeparator = '=';
+
+	/**
 	 * This class tell to parser what to do when exception will be throw.
 	 * Regardless of your choice, all exception will be redirect to registered
 	 * listeners through 'CatchOnException' object.  
@@ -122,6 +129,15 @@ public class ArgsParser {
 				continue;
 			}
 
+			//Special argument consists of symbol and value(s) separated by charSeparator
+			int equalsPos = pretenderToSymbolParam.indexOf(charSeparator);
+
+			String specialArg = null;
+			if ( equalsPos != -1 ) {
+				specialArg = pretenderToSymbolParam.substring(equalsPos+1);
+				pretenderToSymbolParam = pretenderToSymbolParam.substring(0,equalsPos);
+			}
+
 			if(log.isDebugEnabled())log.debug("Current parsing argument : '"+pretenderToSymbolParam+"'");
 
 			DefaultParameter optionHandler = (DefaultParameter)Parameters.getParameter(pretenderToSymbolParam);
@@ -130,18 +146,27 @@ public class ArgsParser {
 				deliverCaughtException(e);
 
 			} else {
-				int nOptionArgs = optionHandler.getOptionValuesLength();
+				String[] optionValues;
 
-				if (i + nOptionArgs >= iElements){
-					RuntimeException e = new UnexpectedNumberOfArguments(optionHandler,"Not enough option values");
-					deliverCaughtException(e);
-				}
+				if(specialArg != null){
+					optionValues = new String [] {specialArg};
 
-				String[] optionValues = new String[nOptionArgs];
-				for (int j=0; j<nOptionArgs; j++){
-					optionValues[j] = (String)args.get(1+i+j);
+				}else{
+					int nOptionArgs = optionHandler.getOptionValuesLength();
+
+					if (i + nOptionArgs >= iElements){
+						RuntimeException e = new UnexpectedNumberOfArguments(optionHandler,"Not enough option values for "+pretenderToSymbolParam+
+														". Expected "+nOptionArgs+" but detected "+(iElements-i-1));
+						deliverCaughtException(e);
+					}
+
+					optionValues = new String[nOptionArgs];
+
+					for (int j=0; j<nOptionArgs; j++){
+						optionValues[j] = (String)args.get(1+i+j);
+					}
+					i += nOptionArgs;
 				}
-				i += nOptionArgs;
 
 				try {
 
@@ -168,13 +193,13 @@ public class ArgsParser {
 		return false;
 	}
 
-	private static String optionValuesToString(String[] v){
+	private static String optionValuesToString(String[] v,String separator){
 
 		StringBuffer sb = new StringBuffer();
 		int n = v != null ? v.length:0;
 		for (int i=0; i<n; i++){
 			sb.append(v[i] );
-			sb.append( ' ' );
+			sb.append( separator );
 		}
 		return sb.toString();
 	}
