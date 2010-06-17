@@ -32,7 +32,7 @@ public abstract class BooleanValueParameter extends StringValueParameter {
 
 	@Override
 	public String getOptionUsage() {
-		return super.getOptionUsage()+" true|false";
+		return super.getOptionUsage();
 	}
 
 	public abstract void handleOption(boolean optionValue) throws ValidationObjectException;
