@@ -27,7 +27,7 @@ public class ArgsParser {
 	 * Add ability to concatenate symbols with value(s) separated this char.
 	 * --symbol=value
 	 */
-	private static char charSeparator = '=';
+	private static char separatorForCombinedArg = '=';
 
 	/**
 	 * This class tell to parser what to do when exception will be throw.
@@ -53,6 +53,16 @@ public class ArgsParser {
 
 	}
 
+	static {
+		//check if the user didn't specify a variable
+		//NOTE:not checked/tested
+		String charForSeparator = System.getProperty("cmdline.symbolseparator","");
+
+		if(!charForSeparator.isEmpty() && charForSeparator.charAt(0) != separatorForCombinedArg){
+			separatorForCombinedArg = charForSeparator.charAt(0);
+			log.info("User define new separator '"+ separatorForCombinedArg +"' for input arguments.");
+		}
+	}
 	/**
 	 * Get information of current set object  <code>ExceptionBehaviour<code>
 	 *
@@ -130,7 +140,7 @@ public class ArgsParser {
 			}
 
 			//Special argument consists of symbol and value(s) separated by charSeparator
-			int equalsPos = pretenderToSymbolParam.indexOf(charSeparator);
+			int equalsPos = pretenderToSymbolParam.indexOf(separatorForCombinedArg);
 
 			String specialArg = null;
 			if ( equalsPos != -1 ) {
