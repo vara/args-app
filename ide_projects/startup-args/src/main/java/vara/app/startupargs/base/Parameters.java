@@ -1,6 +1,7 @@
 package vara.app.startupargs.base;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import vara.app.startupargs.defaultImpl.DefaultHelpParameter;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.Vector;
  */
 public class Parameters {
 
-	private static final Logger log = Logger.getLogger(Parameters.class);
+	private static final Logger log = LoggerFactory.getLogger(Parameters.class);
 
 	private final static List<AbstractParameter> mapOfParameters = new ArrayList();
 

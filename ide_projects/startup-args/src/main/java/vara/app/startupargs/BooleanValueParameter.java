@@ -1,6 +1,7 @@
 package vara.app.startupargs;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import vara.app.startupargs.exceptions.UnexpectedValueException;
 import vara.app.startupargs.exceptions.ValidationObjectException;
 
@@ -13,7 +14,7 @@ import vara.app.startupargs.exceptions.ValidationObjectException;
 
 public abstract class BooleanValueParameter extends StringValueParameter {
 
-	private static Logger log = Logger.getLogger(BooleanValueParameter.class);
+	private static Logger log = LoggerFactory.getLogger(BooleanValueParameter.class);
 
 	public BooleanValueParameter(String symbol,String shortSymbol) {
 		super(symbol,shortSymbol);

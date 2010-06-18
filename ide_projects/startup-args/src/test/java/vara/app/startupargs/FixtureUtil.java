@@ -2,9 +2,10 @@ package vara.app.startupargs;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import vara.app.startupargs.base.AbstractParameter;
 import vara.app.startupargs.exceptions.CatchOnException;
 
@@ -19,12 +20,12 @@ import java.util.List;
 
 //@Ignore /*http://jira.codehaus.org/browse/SUREFIRE-482 <ignore == skip>*/
 public class FixtureUtil {
-private static final Logger log = Logger.getLogger(FixtureUtil.class);
+private static final Logger log = LoggerFactory.getLogger(FixtureUtil.class);
 
 @BeforeClass
 public static void beforeClass() throws Exception {
 	BasicConfigurator.configure();
-	Logger.getLogger("org.apache.commons").setLevel(Level.INFO);
+	org.apache.log4j.Logger.getLogger("org.apache.commons").setLevel(Level.INFO);
 	ArgsParser.setCatchOnException(new Output());
 	//JKlipperLoggerManager.activate();
 }
@@ -35,7 +36,7 @@ public void beforeTest() throws Exception {}
 static class Output implements CatchOnException{
 	@Override
 	public void caughtException(Exception e) {
-		log.warn(e);
+		log.warn("",e);
 	}
 }
 

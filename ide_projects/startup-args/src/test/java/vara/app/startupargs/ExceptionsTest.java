@@ -1,6 +1,7 @@
 package vara.app.startupargs;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.junit.Test;
 import vara.app.startupargs.exceptions.UnexpectedValueException;
 import vara.app.startupargs.exceptions.ValidationObjectException;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public class ExceptionsTest extends FixtureUtil{
 
-	private static final Logger log = Logger.getLogger(ExceptionsTest.class);
+	private static final Logger log = LoggerFactory.getLogger(ExceptionsTest.class);
 
 //	public static void main(String[] args) throws Exception {
 //

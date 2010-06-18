@@ -1,6 +1,7 @@
 package vara.app.startupargs;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.junit.Assert;
 import org.junit.Test;
 import vara.app.startupargs.base.AbstractParameter;
@@ -13,7 +14,7 @@ import vara.app.startupargs.exceptions.ValidationObjectException;
  * Time: 22:19:31
  */
 public class ParameterCreationTest extends FixtureUtil{
-	private static final Logger log = Logger.getLogger(ParameterCreationTest.class);
+	private static final Logger log = LoggerFactory.getLogger(ParameterCreationTest.class);
 
 	@Test
 	public void createParamsPrefixes(){

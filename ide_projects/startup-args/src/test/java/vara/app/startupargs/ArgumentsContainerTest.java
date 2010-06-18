@@ -1,6 +1,7 @@
 package vara.app.startupargs;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.junit.Test;
 import vara.app.startupargs.base.AbstractParameter;
 import vara.app.startupargs.base.DefaultParameter;
@@ -15,7 +16,7 @@ import static vara.app.startupargs.base.Parameters.InsertBehavior;
  * Time: 23:09:04
  */
 public class ArgumentsContainerTest extends FixtureUtil{
-	private static final Logger log = Logger.getLogger(ArgumentsContainerTest.class);
+	private static final Logger log = LoggerFactory.getLogger(ArgumentsContainerTest.class);
 
 	private static final DefaultParameter paramTest1Bool = new TestParamBoolean("--test1","-t1");
 	private static final DefaultParameter paramTest2Bool = new TestParamBoolean("--test2","-t2");

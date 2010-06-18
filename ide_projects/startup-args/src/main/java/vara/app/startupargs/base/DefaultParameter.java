@@ -1,6 +1,7 @@
 package vara.app.startupargs.base;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import vara.app.startupargs.exceptions.BadDeclarationParameter;
 import vara.app.startupargs.exceptions.UnexpectedNumberOfArguments;
 import vara.app.startupargs.exceptions.ValidationObjectException;
@@ -10,7 +11,7 @@ import vara.app.startupargs.exceptions.ValidationObjectException;
  * @author wara
  */
 public abstract class DefaultParameter implements AbstractParameter {
-	private static Logger log = Logger.getLogger(DefaultParameter.class);
+	private static Logger log = LoggerFactory.getLogger(DefaultParameter.class);
 
 	private String symbol;
 	private String shortSymbol;
@@ -23,7 +24,7 @@ public abstract class DefaultParameter implements AbstractParameter {
 
 	private static String check(String symbol,boolean isShort){
 
-		if(log.isDebugEnabled())log.debug("Check symbol '"+symbol+"' isShort:"+isShort);
+		if(log.isDebugEnabled())log.debug("Check symbol '{}' isShort: {}",symbol,isShort);
 
 		if(symbol == null){
 			if(isShort) return null;
@@ -41,16 +42,16 @@ public abstract class DefaultParameter implements AbstractParameter {
 
 		if(prefixCount != neededPref){
 
-			if(log.isDebugEnabled())log.debug("Actual Prefixes : "+prefixCount +" Need:"+neededPref);
+			if(log.isDebugEnabled())log.debug("Actual Prefixes : {} Need: {}",prefixCount,neededPref);
 
 			if(prefixCount>neededPref){
 				int begin = prefixCount-neededPref;
 				symbol = symbol.substring(begin);
-				if(log.isDebugEnabled())log.debug("Substring from:"+begin +" Result:"+symbol);
+				if(log.isDebugEnabled())log.debug("Substring from : {} result {}",begin,symbol);
 			}else{
 				int diff = (neededPref-prefixCount);
 				symbol =  (diff == 1 ?"-" : "--") +symbol;
-				if(log.isDebugEnabled())log.debug("Is less needed pref :" + diff +"result "+symbol);
+				if(log.isDebugEnabled())log.debug("Is less needed pref : {} result {}",diff,symbol);
 			}
 		}
 
@@ -85,7 +86,9 @@ public abstract class DefaultParameter implements AbstractParameter {
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName()+"@'"+ symbol +"':'"+ shortSymbol +"'";
+		String str = new StringBuilder(getClass().getSimpleName()).
+						append("@'").append(symbol).append("':'").append(shortSymbol).append("'").toString();
+		return str;
 	}
 
 	@Override
@@ -111,7 +114,12 @@ public abstract class DefaultParameter implements AbstractParameter {
 	public void handleOption(String[] optionValues)  throws ValidationObjectException{
 			int nOptions = optionValues != null? optionValues.length: 0;
 			if (nOptions != getOptionValuesLength()){
-				throw new UnexpectedNumberOfArguments(this,"Wrong Number of input parameters. Got:"+nOptions+" expected:"+getOptionValuesLength());
+
+				String msg = new StringBuilder("Wrong Number of input parameters. Got:").
+										append(nOptions).append(" expected:").
+										append(getOptionValuesLength()).toString();
+
+				throw new UnexpectedNumberOfArguments(this,msg);
 			}
 
 			safeOption(optionValues);

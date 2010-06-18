@@ -1,6 +1,7 @@
 package vara.app.startupargs;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import vara.app.startupargs.exceptions.CatchOnException;
 import vara.app.startupargs.base.DefaultParameter;
 import vara.app.startupargs.base.Parameters;
@@ -18,7 +19,7 @@ import java.util.List;
 * Time: 15:16:11
 */
 public class ArgsParser {
-	private static final Logger log = Logger.getLogger(ArgsParser.class);
+	private static final Logger log = LoggerFactory.getLogger(ArgsParser.class);
 
 	private static List<CatchOnException> exceptionCatchers = new ArrayList<CatchOnException>();
 
@@ -60,7 +61,7 @@ public class ArgsParser {
 
 		if(!charForSeparator.isEmpty() && charForSeparator.charAt(0) != separatorForCombinedArg){
 			separatorForCombinedArg = charForSeparator.charAt(0);
-			log.info("User define new separator '"+ separatorForCombinedArg +"' for input arguments.");
+			log.info("User define new separator '{}' for input arguments.",separatorForCombinedArg);
 		}
 	}
 	/**
@@ -118,7 +119,7 @@ public class ArgsParser {
 			throw  exc;
 		}
 		if(exceptionBehaviour == ExceptionBehaviour.EXIT){
-			log.error(exc);
+			log.error("",exc);
 			//TODO: Check for special error code
 			System.exit(1);
 		}
@@ -135,7 +136,7 @@ public class ArgsParser {
 
 			if(!isSymbolParameter(pretenderToSymbolParam)){
 				//If parameter flags not detected shift index
-				if(log.isDebugEnabled())log.debug("Current parsing argument ("+pretenderToSymbolParam+") isn't a symbol, skip it.");
+				if(log.isDebugEnabled())log.debug("Current parsing argument ({}) isn't a symbol, skip it.",pretenderToSymbolParam);
 				continue;
 			}
 
@@ -148,7 +149,7 @@ public class ArgsParser {
 				pretenderToSymbolParam = pretenderToSymbolParam.substring(0,equalsPos);
 			}
 
-			if(log.isDebugEnabled())log.debug("Current parsing argument : '"+pretenderToSymbolParam+"'");
+			if(log.isDebugEnabled())log.debug("Current parsing argument : '{}'",pretenderToSymbolParam);
 
 			DefaultParameter optionHandler = (DefaultParameter)Parameters.getParameter(pretenderToSymbolParam);
 			if (optionHandler == null){
@@ -165,8 +166,11 @@ public class ArgsParser {
 					int nOptionArgs = optionHandler.getOptionValuesLength();
 
 					if (i + nOptionArgs >= iElements){
-						RuntimeException e = new UnexpectedNumberOfArguments(optionHandler,"Not enough option values for "+pretenderToSymbolParam+
-														". Expected "+nOptionArgs+" but detected "+(iElements-i-1));
+
+						String msg = new StringBuilder("Not enough option values for ").append(pretenderToSymbolParam).
+											append(". Expected ").append(nOptionArgs).append(" but detected ").append(iElements-i-1).toString();
+
+						RuntimeException e = new UnexpectedNumberOfArguments(optionHandler,msg);
 						deliverCaughtException(e);
 					}
 
@@ -183,9 +187,9 @@ public class ArgsParser {
 					optionHandler.handleOption(optionValues);
 
 				} catch(ValidationObjectException exc){
+//					String msg = new StringBuilder(100).append("Error: illegal argument for option ").append(optionHandler.getSymbol()).
+//											append(" : ").append(optionValuesToString(optionValues," ")).append(".\nTry run application with option '-h'").toString();
 
-//					Exception exc = new Exception("Error: illegal argument for option "+optionHandler.getSymbol() +" : "+
-//										 optionValuesToString(optionValues)+".\nTry run application with option '-h'");
 					deliverCaughtException(exc);
 
 				}
