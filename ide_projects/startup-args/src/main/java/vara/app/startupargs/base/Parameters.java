@@ -101,17 +101,21 @@ public class Parameters {
 	}
 
 	public static void removeAll(){
-		mapOfParameters.removeAll(mapOfParameters);
+		synchronized (mapOfParameters){
+			mapOfParameters.removeAll(mapOfParameters);
+		}
 	}
 
 	public static AbstractParameter getParameter(String symbol){
 
 		EntryParameter entry  = new EntryParameter(symbol);
+		synchronized (mapOfParameters){
 
-		int index = mapOfParameters.lastIndexOf(entry);
-		if(index != -1) {
-			if(log.isDebugEnabled())log.debug("Found parameter for '"+symbol+"' on index "+index);
-			return mapOfParameters.get(index);
+			int index = mapOfParameters.lastIndexOf(entry);
+			if(index != -1) {
+				if(log.isDebugEnabled())log.debug("Found parameter for '"+symbol+"' on index "+index);
+				return mapOfParameters.get(index);
+			}
 		}
 		if(log.isDebugEnabled())log.debug("Parameter wasn't found for '"+symbol+"'");
 		return null;
