@@ -7,6 +7,7 @@ import vara.app.startupargs.base.DefaultParameter;
 import vara.app.startupargs.base.Parameters;
 
 import static org.junit.Assert.*;
+import static vara.app.startupargs.base.Parameters.InsertBehavior;
 
 /**
  * User: Grzegorz (vara) Warywoda
@@ -83,6 +84,39 @@ public class ArgumentsContainerTest extends FixtureUtil{
 		assertTrue(Parameters.isEmpty());
 
 		log.info("Now Container is empty.");
+	}
+
+	@Test
+	public void putBehavior(){
+		log.info("Put behavior test");
+
+		final  AbstractParameter behParam1 = new TestParamBoolean("--behavior","-beh");
+		final  AbstractParameter behParam2 = new TestParamBoolean("--behavior","-beh");
+
+		//we should sure that the param not exists.
+		boolean wasAdded = Parameters.putParameter(behParam1, InsertBehavior.DontReplaceExisting);
+		assertTrue(wasAdded);
+
+		//Will not add because the same instance of this param exists in container.
+		wasAdded = Parameters.putParameter(behParam1,InsertBehavior.ReplaceExisting);
+		assertFalse(wasAdded);
+
+		//Try add the same param but inner instance
+		//Will not add because the behavior protect older param
+		wasAdded = Parameters.putParameter(behParam2,InsertBehavior.DontReplaceExisting);
+		assertFalse(wasAdded);
+
+		//Will add because we have different instances of params
+		wasAdded = Parameters.putParameter(behParam2,InsertBehavior.ReplaceExisting);
+		assertTrue(wasAdded);
+
+		//Try add the same param but inner instance
+		//Will add because we have different instances of params
+		//remove behParam2
+		wasAdded = Parameters.putParameter(behParam1,InsertBehavior.ReplaceExisting);
+		assertTrue(wasAdded);
+
+		
 	}
 
 	static class TestParamBoolean extends BooleanValueParameter{

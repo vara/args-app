@@ -17,17 +17,76 @@ public class Parameters {
 
 	private final static List<AbstractParameter> mapOfParameters = new ArrayList();
 
+	public static enum InsertBehavior{
+		DontReplaceExisting,
+		ReplaceExisting;
+	}
+
 	static {
 		mapOfParameters.add(new DefaultHelpParameter("--help","-h"));
 	}
-	
+
+	/**
+	 * Add new parameter to container.
+	 * If current parameter will be detected in container then not be added to the list.
+	 * If you want changed this behavior use second method {@code putParameter}  
+	 *
+	 * @param parameter
+	 * @return true if parameter has benn added to the container otherwise false.
+	 */
 	public static boolean putParameter(AbstractParameter parameter){
+		return putParameter(parameter,InsertBehavior.DontReplaceExisting);
+	}
+
+	/**
+	 * Add new parameter to container.
+	 * If current parameter will be detected in container then situation will depend on second parameter.
+	 *
+	 * @param parameter
+	 * @return true if parameter has benn added to the container otherwise false.
+	 */
+
+	public static boolean putParameter(AbstractParameter parameter,InsertBehavior behavior){
 
 		if(parameter!=null){
-			if(!mapOfParameters.contains(parameter)){
-				return mapOfParameters.add(parameter);
-			}else{
-				log.warn("Detected multiply parameter in container for '"+parameter+"'");
+
+			synchronized (mapOfParameters){
+
+				if(!mapOfParameters.contains(parameter)){
+
+					return mapOfParameters.add(parameter);
+				}else{
+					if(log.isDebugEnabled())log.debug("Detected multiply parameter in container for '"+parameter+"' behavior:"+behavior);
+
+					switch (behavior) {
+
+						case DontReplaceExisting:	break;
+						case ReplaceExisting:
+
+							//Remove object parameter with same symbols but probably inner behavior.
+							//Make sure that the objects are different by additional checking instance.
+							//this block invoked only when parameter is in array.
+							//and index should be  less then zero.
+							//Added synchronize statement for race condition protection
+							int index = mapOfParameters.indexOf(parameter);
+
+							assert index!=-1;
+
+							AbstractParameter oldParam = mapOfParameters.get(index);
+
+							if(oldParam != parameter){
+								if(log.isDebugEnabled())log.debug("You tried add the same parameter to container with different instance. Parameters will be replaced");
+
+								mapOfParameters.remove(parameter);
+								return mapOfParameters.add(parameter);
+								
+							}else{
+								if(log.isDebugEnabled())log.debug("You tried add the same parameter to container. Operation canceled !");
+							}
+					}
+
+					return false;
+				}
 			}
 		}
 		return false;
