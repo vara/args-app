@@ -56,7 +56,9 @@ public class ArgsUtil {
 
 	public static boolean isSymbolParameter(String symbol){
 
-		return  symbol.charAt(0) == prefixChar;
+		if(symbol != null && !symbol.isEmpty())
+			return  symbol.charAt(0) == prefixChar;
+		return false;
 	}
 
 	private static int countOfPrefixes(String str,char prefix){
