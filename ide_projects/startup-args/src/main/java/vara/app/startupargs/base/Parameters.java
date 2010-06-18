@@ -78,14 +78,13 @@ public class Parameters {
 							if(oldParam != parameter){
 								if(log.isDebugEnabled())log.debug("You tried add the same parameter to container with different instance. Parameters will be replaced");
 
-								mapOfParameters.remove(parameter);
-								return mapOfParameters.add(parameter);
+								mapOfParameters.set(index,parameter);
+								return true;
 								
 							}else{
 								if(log.isDebugEnabled())log.debug("You tried add the same parameter to container. Operation canceled !");
 							}
 					}
-
 					return false;
 				}
 			}
