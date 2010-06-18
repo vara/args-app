@@ -1,5 +1,7 @@
 package vara.app.startupargs.base;
 
+import org.apache.log4j.Logger;
+import vara.app.startupargs.exceptions.BadDeclarationParameter;
 import vara.app.startupargs.exceptions.UnexpectedNumberOfArguments;
 import vara.app.startupargs.exceptions.ValidationObjectException;
 
@@ -8,35 +10,82 @@ import vara.app.startupargs.exceptions.ValidationObjectException;
  * @author wara
  */
 public abstract class DefaultParameter implements AbstractParameter {
+	private static Logger log = Logger.getLogger(DefaultParameter.class);
 
-	private String option;
-	private String shortOption;
+	private String symbol;
+	private String shortSymbol;
 
 	public DefaultParameter(String option,String shortOption){
 
-		//TODO:Added detection for prefixes '--' and '-' and auto inserting this
-		this.option = option;
-		this.shortOption = shortOption;
+		this.symbol = check(option,false);
+		this.shortSymbol = check(shortOption,true);
+	}
+
+	private static String check(String symbol,boolean isShort){
+
+		if(log.isDebugEnabled())log.debug("Check symbol '"+symbol+"' isShort:"+isShort);
+
+		if(symbol == null){
+			if(isShort) return null;
+			else throw new NullPointerException("Symbol described parameter must be non-null !");
+		}
+
+		if(symbol.isEmpty()){
+			if(isShort) return null;
+			else throw new BadDeclarationParameter("Symbol described parameter can't be empty ( length != 0 ) !");
+		}
+		symbol = symbol.trim();
+		
+		int prefixCount = countOfPrefixes(symbol,'-');
+		int neededPref = isShort ? 1 : 2;
+
+		if(prefixCount != neededPref){
+
+			if(log.isDebugEnabled())log.debug("Actual Prefixes : "+prefixCount +" Need:"+neededPref);
+
+			if(prefixCount>neededPref){
+				int begin = prefixCount-neededPref;
+				symbol = symbol.substring(begin);
+				if(log.isDebugEnabled())log.debug("Substring from:"+begin +" Result:"+symbol);
+			}else{
+				int diff = (neededPref-prefixCount);
+				symbol =  (diff == 1 ?"-" : "--") +symbol;
+				if(log.isDebugEnabled())log.debug("Is less needed pref :" + diff +"result "+symbol);
+			}
+		}
+
+		return symbol;
+	}
+
+	private static int countOfPrefixes(String str,char prefix){
+		int counter = 0;
+		for(int i=0 ;i<str.length();i++){
+			if(str.charAt(i)==prefix) counter++;
+			else break;
+		}
+		return counter;
 	}
 
 	@Override
 	public String getSymbol() {
-		return option;
+		return symbol;
 	}
 
 	@Override
 	public String getShortSymbol() {
-		return shortOption;
+		return shortSymbol;
 	}
 
 	@Override
 	public String getOptionUsage() {
-		return getSymbol()+"|"+getShortSymbol();
+		if(shortSymbol != null)
+			return getSymbol()+"|"+getShortSymbol();
+		return symbol;
 	}
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName()+"@'"+option+"':'"+shortOption+"'";
+		return getClass().getSimpleName()+"@'"+ symbol +"':'"+ shortSymbol +"'";
 	}
 
 	@Override
@@ -47,14 +96,14 @@ public abstract class DefaultParameter implements AbstractParameter {
 
 		DefaultParameter other = ((DefaultParameter)obj);
 
-		return other.getSymbol().equals(option) || other.getShortSymbol().equals(shortOption);
+		return other.getSymbol().equals(symbol) || other.getShortSymbol().equals(shortSymbol);
 	}
 
 	@Override
 	public int hashCode() {
 		int hash = 3;
-		hash = 97 * hash + (this.option != null ? this.option.hashCode() : 0);
-		hash = 97 * hash + (this.shortOption != null ? this.shortOption.hashCode() : 0);
+		hash = 97 * hash + (this.symbol != null ? this.symbol.hashCode() : 0);
+		hash = 97 * hash + (this.shortSymbol != null ? this.shortSymbol.hashCode() : 0);
 		return hash;
 	}
 
