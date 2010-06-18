@@ -20,64 +20,64 @@ import java.util.List;
 
 //@Ignore /*http://jira.codehaus.org/browse/SUREFIRE-482 <ignore == skip>*/
 public class FixtureUtil {
-private static final Logger log = LoggerFactory.getLogger(FixtureUtil.class);
+	private static final Logger log = LoggerFactory.getLogger(FixtureUtil.class);
 
-@BeforeClass
-public static void beforeClass() throws Exception {
-	BasicConfigurator.configure();
-	org.apache.log4j.Logger.getLogger("org.apache.commons").setLevel(Level.INFO);
-	ArgsParser.setCatchOnException(new Output());
-	//JKlipperLoggerManager.activate();
-}
-
-@Before
-public void beforeTest() throws Exception {}
-
-static class Output implements CatchOnException{
-	@Override
-	public void caughtException(Exception e) {
-		log.warn("",e);
+	@BeforeClass
+	public static void beforeClass() throws Exception {
+		BasicConfigurator.configure();
+		org.apache.log4j.Logger.getLogger("org.apache.commons").setLevel(Level.INFO);
+		ArgsParser.setCatchOnException(new Output());
+		//JKlipperLoggerManager.activate();
 	}
-}
 
-public static List<AbstractParameter> createParameters(){
+	@Before
+	public void beforeTest() throws Exception {}
 
-	List<AbstractParameter> params = new ArrayList();
-
-	params.add(new NoValueParameter("--verbose","-v") {
-		@Override public void handleOption() {
-			System.out.println("Detected verbose option");
-		}
+	static class Output implements CatchOnException{
 		@Override
-		public String getOptionDescription() {
-			return "option set debug level on root logger";
+		public void caughtException(Exception e) {
+			log.warn("",e);
 		}
-	});
+	}
 
-	params.add(new FloatValueParameter("--fraction","-f"){
-		@Override
-		public void handleOption(float optionValue) {
-			System.out.println("Detected fraction option, value was set to "+optionValue);
-		}
+	public static List<AbstractParameter> createParameters(){
 
-		@Override
-		public String getOptionDescription() {
-			return "Set fraction value [float]";
-		}
-	});
+		List<AbstractParameter> params = new ArrayList();
 
-	params.add(new BooleanValueParameter("--boolean","-b"){
-		@Override
-		public void handleOption(boolean optionValue) {
-			System.out.println("Detected boolean parameter, value was set to "+optionValue);
-		}
+		params.add(new NoValueParameter("--verbose","-v") {
+			@Override public void handleOption() {
+				System.out.println("Detected verbose option");
+			}
+			@Override
+			public String getOptionDescription() {
+				return "option set debug level on root logger";
+			}
+		});
 
-		@Override
-		public String getOptionDescription() {
-			return "Set flag like a boolean value (true or false)";
-		}
-	});
+		params.add(new FloatValueParameter("--fraction","-f"){
+			@Override
+			public void handleOption(float optionValue) {
+				System.out.println("Detected fraction option, value was set to "+optionValue);
+			}
 
-	return params;
-}
+			@Override
+			public String getOptionDescription() {
+				return "Set fraction value [float]";
+			}
+		});
+
+		params.add(new BooleanValueParameter("--boolean","-b"){
+			@Override
+			public void handleOption(boolean optionValue) {
+				System.out.println("Detected boolean parameter, value was set to "+optionValue);
+			}
+
+			@Override
+			public String getOptionDescription() {
+				return "Set flag like a boolean value (true or false)";
+			}
+		});
+
+		return params;
+	}
 }
