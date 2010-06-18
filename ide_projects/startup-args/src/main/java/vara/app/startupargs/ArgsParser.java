@@ -134,7 +134,7 @@ public class ArgsParser {
 		for (int i = 0; i < iElements; i++) {
 			String pretenderToSymbolParam = args.get(i);
 
-			if(!isSymbolParameter(pretenderToSymbolParam)){
+			if(!ArgsUtil.isSymbolParameter(pretenderToSymbolParam)){
 				//If parameter flags not detected shift index
 				if(log.isDebugEnabled())log.debug("Current parsing argument ({}) isn't a symbol, skip it.",pretenderToSymbolParam);
 				continue;
@@ -198,13 +198,6 @@ public class ArgsParser {
 				}
 			}
 		}
-	}
-
-	private static boolean isSymbolParameter(String pretender){
-		if(pretender.startsWith("-") || pretender.startsWith("--")){
-			return true;
-		}
-		return false;
 	}
 
 	private static String optionValuesToString(String[] v,String separator){

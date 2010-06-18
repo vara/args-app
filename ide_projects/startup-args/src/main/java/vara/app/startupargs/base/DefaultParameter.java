@@ -2,7 +2,7 @@ package vara.app.startupargs.base;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import vara.app.startupargs.exceptions.BadDeclarationParameter;
+import vara.app.startupargs.ArgsUtil;
 import vara.app.startupargs.exceptions.UnexpectedNumberOfArguments;
 import vara.app.startupargs.exceptions.ValidationObjectException;
 
@@ -18,53 +18,8 @@ public abstract class DefaultParameter implements AbstractParameter {
 
 	public DefaultParameter(String option,String shortOption){
 
-		this.symbol = check(option,false);
-		this.shortSymbol = check(shortOption,true);
-	}
-
-	private static String check(String symbol,boolean isShort){
-
-		if(log.isDebugEnabled())log.debug("Check symbol '{}' isShort: {}",symbol,isShort);
-
-		if(symbol == null){
-			if(isShort) return null;
-			else throw new NullPointerException("Symbol described parameter must be non-null !");
-		}
-
-		if(symbol.isEmpty()){
-			if(isShort) return null;
-			else throw new BadDeclarationParameter("Symbol described parameter can't be empty ( length != 0 ) !");
-		}
-		symbol = symbol.trim();
-		
-		int prefixCount = countOfPrefixes(symbol,'-');
-		int neededPref = isShort ? 1 : 2;
-
-		if(prefixCount != neededPref){
-
-			if(log.isDebugEnabled())log.debug("Actual Prefixes : {} Need: {}",prefixCount,neededPref);
-
-			if(prefixCount>neededPref){
-				int begin = prefixCount-neededPref;
-				symbol = symbol.substring(begin);
-				if(log.isDebugEnabled())log.debug("Substring from : {} result {}",begin,symbol);
-			}else{
-				int diff = (neededPref-prefixCount);
-				symbol =  (diff == 1 ?"-" : "--") +symbol;
-				if(log.isDebugEnabled())log.debug("Is less needed pref : {} result {}",diff,symbol);
-			}
-		}
-
-		return symbol;
-	}
-
-	private static int countOfPrefixes(String str,char prefix){
-		int counter = 0;
-		for(int i=0 ;i<str.length();i++){
-			if(str.charAt(i)==prefix) counter++;
-			else break;
-		}
-		return counter;
+		this.symbol = ArgsUtil.check(option,false);
+		this.shortSymbol = ArgsUtil.check(shortOption,true);
 	}
 
 	@Override
@@ -86,8 +41,8 @@ public abstract class DefaultParameter implements AbstractParameter {
 
 	@Override
 	public String toString() {
-		String str = new StringBuilder(getClass().getSimpleName()).
-						append("@'").append(symbol).append("':'").append(shortSymbol).append("'").toString();
+		String str = new StringBuilder().
+			append(symbol).append("':'").append(shortSymbol).append("'").toString();
 		return str;
 	}
 
