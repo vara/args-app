@@ -180,8 +180,8 @@ public class Parameters {
 				retVal =  false;
 			}else if(this == obj){
 				retVal = true;
-			}else if( ((DefaultParameter)obj).getSymbol().equals(symbolName) ||
-						((DefaultParameter)obj).getShortSymbol().equals(symbolName) ){
+			}else if( ((DefaultParameter)obj).getSymbol().hashCode() == symbolName.hashCode() ||
+						((DefaultParameter)obj).getShortSymbol().hashCode() == symbolName.hashCode() ){
 				retVal = true;
 			}
 			if(log.isDebugEnabled())log.debug("Result is:"+retVal);
