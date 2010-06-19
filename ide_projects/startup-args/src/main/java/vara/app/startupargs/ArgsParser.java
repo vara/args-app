@@ -140,6 +140,12 @@ public class ArgsParser {
 				continue;
 			}
 
+			//If you insert one prefix char '-' then stop parsing args 
+			if(pretenderToSymbolParam.length() == 1){
+				if(log.isDebugEnabled()) log.debug("Detected break char on {} index.",i);
+				break;
+			}
+
 			//Special argument consists of symbol and value(s) separated by charSeparator
 			int equalsPos = pretenderToSymbolParam.indexOf(separatorForCombinedArg);
 
@@ -157,6 +163,9 @@ public class ArgsParser {
 				deliverCaughtException(e);
 
 			} else {
+
+				if(log.isDebugEnabled())log.debug("Found parameter class {}. Expected number of params is :{}",optionHandler.getClass().getSuperclass().getName(),optionHandler.getOptionValuesLength());
+
 				String[] optionValues;
 
 				if(specialArg != null){
