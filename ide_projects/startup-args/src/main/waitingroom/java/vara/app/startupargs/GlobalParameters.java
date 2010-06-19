@@ -49,14 +49,14 @@ public class GlobalParameters extends Parameters{
 
 		GlobalParameter resolvedParam = getGlobalParameter(symbol);
 
-		return  resolvedParam != null ? resolvedParam.getValue() : defaultObject;
-
+		return  (resolvedParam != null && resolvedParam.isSet()) ?
+											resolvedParam.getValue() : defaultObject;
 	}
 
 	public static Integer getIntegerValue(String symbol,Integer defaultObject){
 		GlobalParameter resolvedParam = getGlobalParameter(symbol);
 
-		return  (resolvedParam instanceof GIntegerValueParameter) ?
+		return  (resolvedParam instanceof GIntegerValueParameter && resolvedParam.isSet()) ?
 							((GIntegerValueParameter)resolvedParam).getValue() : defaultObject;
 	}
 
@@ -71,7 +71,7 @@ public class GlobalParameters extends Parameters{
 	public static String getStringValue(String symbol,String defaultObject){
 		GlobalParameter resolvedParam = getGlobalParameter(symbol);
 
-		return  (resolvedParam instanceof GStringValueParameter) ?
+		return  (resolvedParam instanceof GStringValueParameter && resolvedParam.isSet()) ?
 							((GStringValueParameter)resolvedParam).getValue() : defaultObject;
 	}
 
@@ -82,7 +82,7 @@ public class GlobalParameters extends Parameters{
 	public static Boolean getBooleanValue(String symbol,Boolean defaultObject){
 		GlobalParameter resolvedParam = getGlobalParameter(symbol);
 
-		return  (resolvedParam instanceof GBooleanValueParameter) ?
+		return  (resolvedParam instanceof GBooleanValueParameter && resolvedParam.isSet()) ?
 							((GBooleanValueParameter)resolvedParam).getValue() : defaultObject;
 	}
 }

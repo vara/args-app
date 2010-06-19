@@ -56,7 +56,6 @@ public class sampleForGlobalArgs extends Sample{
 		String sName = GlobalParameters.getStringValue("--name");
 		String sName2 = GlobalParameters.getStringValue("n");
 
-
 		log.info("Name1 : {} <==> Name2 : {} (should be te same !)",sName,sName2);
 	}
 }

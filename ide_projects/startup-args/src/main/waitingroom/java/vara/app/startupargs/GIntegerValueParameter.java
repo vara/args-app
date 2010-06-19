@@ -12,11 +12,13 @@ import vara.app.startupargs.exceptions.ValidationObjectException;
 public abstract class GIntegerValueParameter extends IntegerValueParameter implements GlobalParameter<Integer>{
 	private static final Logger log = LoggerFactory.getLogger(GIntegerValueParameter.class);
 
+	@Override
 	public Integer getValue() {
 		return val;
 	}
 
 	int val;
+	boolean isSet = false;
 
 	public GIntegerValueParameter(String symbol, String shortSymbol) {
 		super(symbol, shortSymbol);
@@ -25,6 +27,15 @@ public abstract class GIntegerValueParameter extends IntegerValueParameter imple
 
 	@Override
 	public void handleOption(int optionValue) throws ValidationObjectException {
+
+		if(log.isDebugEnabled()) log.debug("New option value '{}' has been set for GIntegerValueParameter object",optionValue);
+
 		val = optionValue;
+		this.isSet = true;
+	}
+
+	@Override
+	public boolean isSet() {
+		return isSet;
 	}
 }

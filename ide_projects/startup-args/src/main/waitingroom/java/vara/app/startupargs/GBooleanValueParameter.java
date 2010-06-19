@@ -16,7 +16,9 @@ public abstract class GBooleanValueParameter extends BooleanValueParameter imple
 		super(symbol, shortSymbol);
 	}
 
-	boolean val;
+	boolean val = false;
+
+	boolean isSet = false;
 
 	public Boolean getValue() {
 		return val;
@@ -25,5 +27,12 @@ public abstract class GBooleanValueParameter extends BooleanValueParameter imple
 	@Override
 	public void handleOption(boolean optionValue) throws ValidationObjectException {
 		val = optionValue;
+
+		isSet = true;
+	}
+
+	@Override
+	public boolean isSet() {
+		return isSet;
 	}
 }

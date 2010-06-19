@@ -17,7 +17,7 @@ public abstract class GStringValueParameter extends StringValueParameter impleme
 		return val;
 	}
 
-	String val;
+	private String val = null;
 
 	public GStringValueParameter(String symbol, String shortSymbol) {
 		super(symbol, shortSymbol);
@@ -27,5 +27,10 @@ public abstract class GStringValueParameter extends StringValueParameter impleme
 	@Override
 	public void handleOption(String optionValue) throws ValidationObjectException {
 		val = optionValue;
+	}
+
+	@Override
+	public boolean isSet() {
+		return val != null;
 	}
 }
