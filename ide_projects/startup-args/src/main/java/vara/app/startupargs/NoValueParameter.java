@@ -1,6 +1,7 @@
 package vara.app.startupargs;
 
 import vara.app.startupargs.base.DefaultParameter;
+import vara.app.startupargs.base.NumberOfParams;
 import vara.app.startupargs.exceptions.ValidationObjectException;
 
 /**
@@ -22,13 +23,8 @@ public abstract class NoValueParameter extends DefaultParameter {
 	}
 
 	@Override
-	public int getOptionValuesLength() {
-		return 0;
-	}
-
-	@Override
-	public boolean isExit() {
-		return false;
+	public NumberOfParams getOptionValuesLength() {
+		return NumberOfParams.ZERO;
 	}
 
 	public abstract void handleOption()  throws ValidationObjectException;

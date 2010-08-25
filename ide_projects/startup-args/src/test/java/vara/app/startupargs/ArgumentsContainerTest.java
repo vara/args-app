@@ -1,8 +1,9 @@
 package vara.app.startupargs;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.junit.Test;
 import vara.app.startupargs.base.AbstractParameter;
 import vara.app.startupargs.base.DefaultParameter;
 import vara.app.startupargs.base.Parameters;
@@ -21,7 +22,7 @@ public class ArgumentsContainerTest extends FixtureUtil{
 	private static final DefaultParameter paramTest1Bool = new TestParamBoolean("--test1","-t1");
 	private static final DefaultParameter paramTest2Bool = new TestParamBoolean("--test2","-t2");
 
-
+	@Before
 	public void beforeTest(){
 		log.info("Before Test");
 		Parameters.putParameter(paramTest1Bool);

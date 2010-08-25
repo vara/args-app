@@ -1,6 +1,7 @@
 package vara.app.startupargs;
 
 import vara.app.startupargs.base.DefaultParameter;
+import vara.app.startupargs.base.NumberOfParams;
 import vara.app.startupargs.exceptions.ValidationObjectException;
 
 /**
@@ -15,21 +16,13 @@ public abstract class StringValueParameter extends DefaultParameter {
 
 	@Override
 	public void safeOption(String[] optionValues)  throws ValidationObjectException{
-		if(optionValues[0] != null){
-			handleOption(optionValues[0]);
-		}else{
-			throw new ValidationObjectException(this,"Option value must be non-null");
-		}
+
+		handleOption(optionValues[0]);
 	}
 
 	@Override
-	public int getOptionValuesLength() {
-		return 1;
-	}
-
-	@Override
-	public boolean isExit() {
-		return false;
+	public final NumberOfParams getOptionValuesLength() {
+		return NumberOfParams.ONE;
 	}
 
 	public abstract void handleOption(String optionValue) throws ValidationObjectException;

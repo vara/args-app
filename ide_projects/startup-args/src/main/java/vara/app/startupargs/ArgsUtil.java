@@ -50,17 +50,37 @@ public class ArgsUtil {
 		return symbol;
 	}
 
+	/**
+	 * Check whether the parameter is short symbol.
+	 *
+	 * @param symbol
+	 * @return true if parameter is short symbol otherwise return false
+	 */
 	public boolean isShort(String symbol){
 		return countOfPrefixes(symbol,prefixChar) == 1;
 	}
 
-	public static boolean isSymbolParameter(String symbol){
 
+	/**
+	 * Check whether the parameter is the symbol.
+	 * @param symbol
+	 * @return
+	 */
+	public static boolean isSymbolParameter(String symbol){
+		//@Author Grzegorz (vara) Warywoda 2010-06-21 09:02:35 CEST
+		//TODO: protect against negative numbers
 		if(symbol != null && !symbol.isEmpty())
 			return  symbol.charAt(0) == prefixChar;
 		return false;
 	}
 
+	/**
+	 * Detect number of pattern characters placed on the first place in string.
+	 *
+	 * @param str  tested string
+	 * @param prefix pattern character
+	 * @return number of prefixes in string
+	 */
 	private static int countOfPrefixes(String str,char prefix){
 		int counter = 0;
 		for(int i=0 ;i<str.length();i++){

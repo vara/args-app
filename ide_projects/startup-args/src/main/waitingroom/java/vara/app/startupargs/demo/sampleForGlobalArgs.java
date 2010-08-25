@@ -7,8 +7,10 @@ import vara.app.startupargs.GBooleanValueParameter;
 import vara.app.startupargs.GStringValueParameter;
 import vara.app.startupargs.GlobalParameters;
 import vara.app.startupargs.base.AbstractParameter;
+import vara.app.startupargs.exceptions.ValidationObjectException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -34,6 +36,12 @@ public class sampleForGlobalArgs extends Sample{
 
 		params.add(new GBooleanValueParameter("boolean","b"){
 			@Override
+			public void handleOption(String[] optionValues) throws ValidationObjectException {
+				System.out.println("Boolean handle option: "+ Arrays.toString(optionValues));
+				super.handleOption(optionValues);
+			}
+
+			@Override
 			public String getOptionDescription() {
 				return "Set flag like a boolean value (true or false)";
 			}
@@ -57,5 +65,7 @@ public class sampleForGlobalArgs extends Sample{
 		String sName2 = GlobalParameters.getStringValue("n");
 
 		log.info("Name1 : {} <==> Name2 : {} (should be te same !)",sName,sName2);
+
+		log.info("GBoolean parameter value is :"+GlobalParameters.getStringValue("b"));
 	}
 }

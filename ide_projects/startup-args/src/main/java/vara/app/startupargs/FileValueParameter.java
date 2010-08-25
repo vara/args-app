@@ -1,43 +1,35 @@
 package vara.app.startupargs;
 
-import vara.app.startupargs.exceptions.UnexpectedValueException;
+import vara.app.startupargs.base.NumberOfParams;
+import vara.app.startupargs.exceptions.AbstractFileValueParameter;
 import vara.app.startupargs.exceptions.ValidationObjectException;
 
 import java.io.File;
+import java.util.List;
 
 /**
  *
  * @author Grzegorz (vara) Warywoda
  */
-public abstract class FileValueParameter extends StringValueParameter {
+public abstract class FileValueParameter extends AbstractFileValueParameter{
 
-	public FileValueParameter(String symbol,String shortSymbol) {
+	public FileValueParameter(String symbol,String shortSymbol){
 		super(symbol,shortSymbol);
 	}
 
-	@Override
-	public void handleOption(String optionValue)  throws ValidationObjectException{
-
-		File file = createFile(optionValue);
-		if(file == null){
-			throw new UnexpectedValueException(this,"Cant resolve path for '"+optionValue+"'.");
-		}
-		handleOption(file);
+	public FileValueParameter(String symbol,String shortSymbol,BEHAVIOUR behaviour) {
+		super(symbol,shortSymbol,behaviour);
 	}
 
 	@Override
-	public boolean isExit() {
-		return false;
+	protected void handleOptionFiles(List<File> files) throws ValidationObjectException {
+		handleOption(files.get(0));
 	}
 
 	public abstract void handleOption(File optionValue) throws ValidationObjectException;
 
-	private File createFile(String path){
-		File f = new File(path);
-
-		if(!f.exists()){
-			f = null;
-		}
-		return f;
+	@Override
+	public NumberOfParams getOptionValuesLength() {
+		return NumberOfParams.ONE;
 	}
 }

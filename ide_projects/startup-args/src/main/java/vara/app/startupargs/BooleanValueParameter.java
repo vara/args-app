@@ -2,7 +2,8 @@ package vara.app.startupargs;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import vara.app.startupargs.exceptions.UnexpectedValueException;
+import vara.app.startupargs.base.DefaultParameter;
+import vara.app.startupargs.base.NumberOfParams;
 import vara.app.startupargs.exceptions.ValidationObjectException;
 
 /**
@@ -12,7 +13,7 @@ import vara.app.startupargs.exceptions.ValidationObjectException;
  * Time: 18:07:31
  */
 
-public abstract class BooleanValueParameter extends StringValueParameter {
+public abstract class BooleanValueParameter extends DefaultParameter {
 
 	private static Logger log = LoggerFactory.getLogger(BooleanValueParameter.class);
 
@@ -21,14 +22,15 @@ public abstract class BooleanValueParameter extends StringValueParameter {
 	}
 
 	@Override
-	public void handleOption(String optionValue)  throws ValidationObjectException{
-		try{
+	public void safeOption(String[] optionValues)  throws ValidationObjectException{
 
-			handleOption(Boolean.parseBoolean(optionValue));
+		handleOption(optionValues.length == 0 ? true : Boolean.parseBoolean(optionValues[0]));
 
-		} catch(Exception e){
-			throw new UnexpectedValueException(this,e);
-		}
+	}
+
+	@Override
+	public final NumberOfParams getOptionValuesLength() {
+		return NumberOfParams.ONE_OR_ZERO;
 	}
 
 	@Override

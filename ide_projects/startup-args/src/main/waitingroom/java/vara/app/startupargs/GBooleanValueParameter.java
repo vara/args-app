@@ -35,4 +35,29 @@ public abstract class GBooleanValueParameter extends BooleanValueParameter imple
 	public boolean isSet() {
 		return isSet;
 	}
+
+	/**
+	 * Create new global boolean parameter based on inputs arguments.
+	 * Method automagically add this parameter to container.
+	 * Format of symbols (long and short) not required prefixes
+	 *
+	 * @param longSymbolName full name for this parameter
+	 * @param shortSymbolName short name for this parameter
+	 * @param description
+	 */
+	public static void create(final String longSymbolName,final String shortSymbolName,final String description){
+		GlobalParameter val = new GBooleanValueParameter(longSymbolName,shortSymbolName){
+
+			@Override
+			public String getOptionDescription() {
+				return description;
+			}
+		};
+
+		GlobalParameters.putParameter(val);
+	}
+
+	public static void create(final String longSymbolName,final String shortSymbolName){
+		create(longSymbolName,shortSymbolName,"");
+	}
 }

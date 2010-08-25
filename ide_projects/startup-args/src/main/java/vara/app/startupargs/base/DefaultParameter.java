@@ -67,19 +67,39 @@ public abstract class DefaultParameter implements AbstractParameter {
 
 	@Override
 	public void handleOption(String[] optionValues)  throws ValidationObjectException{
-			int nOptions = optionValues != null? optionValues.length: 0;
-			if (nOptions != getOptionValuesLength()){
+		int nOptions = optionValues != null? optionValues.length: 0;
 
-				String msg = new StringBuilder("Wrong Number of input parameters. Got:").
-										append(nOptions).append(" expected:").
-										append(getOptionValuesLength()).toString();
+		NumberOfParams nParams = getOptionValuesLength();
 
-				throw new UnexpectedNumberOfArguments(this,msg);
+		if (nOptions != nParams.intValue()){
+
+			if(!nParams.check(nOptions)){
+
+				String msg = new StringBuilder("Wrong Number of input parameters. Expected: ").
+										append(nParams.toString2()).
+										append(" Got: ").append(nOptions).toString();
+				log.warn(msg);
+
+				if(nOptions<nParams.intValue()){
+					throw new UnexpectedNumberOfArguments(this,msg);
+				}
+
 			}
-
-			safeOption(optionValues);
 		}
 
-	public abstract boolean isExit();
+		for (String optionValue : optionValues) {
+			if(optionValue == null){
+				//TODO: create message
+				log.warn("null");
+			}
+		}
+
+		safeOption(optionValues);
+	}
+
+	public boolean isExit(){
+		return false;
+	}
+
 	public abstract void safeOption(String[] optionValues) throws ValidationObjectException;
 }

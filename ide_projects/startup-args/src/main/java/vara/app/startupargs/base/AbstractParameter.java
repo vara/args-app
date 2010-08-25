@@ -26,15 +26,16 @@ public interface AbstractParameter {
 	 */
 	String getOptionDescription();
 
-	/*
-	 *@Return short descriptions how to use this option (etc. about type of parameters)
+	/**
+	 *
+	 * @return short descriptions how to use this option (etc. about type of parameters)
 	 */
 	String getOptionUsage();
 
 	/**
 	 * @return number of input parameters
 	 */
-	int getOptionValuesLength();
+	NumberOfParams getOptionValuesLength();
 
 	/**
 	 * Method for handling input parameters.

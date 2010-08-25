@@ -37,4 +37,9 @@ public class ValidationObjectException extends RuntimeException{
 		super(message, cause);
 		this.parameter = parameter;
 	}
+
+	@Override
+	public String getMessage() {
+		return parameter.toString()+" "+super.getMessage();
+	}
 }

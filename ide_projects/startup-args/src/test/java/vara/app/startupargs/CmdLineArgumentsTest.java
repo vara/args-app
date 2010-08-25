@@ -41,7 +41,7 @@ public class CmdLineArgumentsTest extends FixtureUtil{
 
 		ArgsParser.parseParameters(args);
 
-		args = Arrays.asList("-f 10.2 --boolean flase".split(" "));
+		args = Arrays.asList("-f 10.2 --boolean false".split(" "));
 
 		ArgsParser.parseParameters(args);
 	}

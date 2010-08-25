@@ -47,6 +47,8 @@ public class DefaultHelpParameter extends NoValueParameter{
 		for (AbstractParameter ap : params) {
 			out.printf(format,ap.getOptionUsage(),ap.getOptionDescription());
 		}
+
+		out.println();
 	}
 
 	@Override

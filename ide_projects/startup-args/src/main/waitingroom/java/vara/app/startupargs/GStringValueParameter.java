@@ -33,4 +33,20 @@ public abstract class GStringValueParameter extends StringValueParameter impleme
 	public boolean isSet() {
 		return val != null;
 	}
+
+	public static void create(final String ls,final String ss,final String description){
+		GlobalParameter val = new GStringValueParameter(ls,ss){
+
+			@Override
+			public String getOptionDescription() {
+				return description;
+			}
+		};
+
+		GlobalParameters.putParameter(val);
+	}
+
+	public static void create(final String ls,final String ss){
+		create(ls,ss,"");
+	}
 }

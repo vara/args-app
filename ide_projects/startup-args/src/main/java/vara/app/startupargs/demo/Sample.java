@@ -3,10 +3,7 @@ package vara.app.startupargs.demo;
 import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import vara.app.startupargs.ArgsParser;
-import vara.app.startupargs.BooleanValueParameter;
-import vara.app.startupargs.FloatValueParameter;
-import vara.app.startupargs.NoValueParameter;
+import vara.app.startupargs.*;
 import vara.app.startupargs.base.AbstractParameter;
 import vara.app.startupargs.base.Parameters;
 import vara.app.startupargs.exceptions.CatchOnException;
@@ -92,6 +89,8 @@ public class Sample {
 				return "Set flag like a boolean value (true or false)";
 			}
 		});
+
+		GBooleanValueParameter.create("globalParam","gp");
 
 		return params;
 	}
