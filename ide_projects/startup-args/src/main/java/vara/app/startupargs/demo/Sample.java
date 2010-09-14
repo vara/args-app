@@ -8,6 +8,7 @@ import vara.app.startupargs.base.AbstractParameter;
 import vara.app.startupargs.base.Parameters;
 import vara.app.startupargs.exceptions.CatchOnException;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,12 @@ public class Sample {
 		ArgsParser.setCatchOnException(new CatchOnException(){
 			@Override
 			public void caughtException(Exception e) {
+//				SwingUtilities.invokeLater(new Runnable(){
+//					@Override public void run(){
+//
+//					}
+//				});
+				JOptionPane.showMessageDialog(null,""+e.getLocalizedMessage());
 				log.error("",e);
 			}
 		});
@@ -50,6 +57,17 @@ public class Sample {
 		}catch (Exception e){ //for this catch see ArgsParser.setExceptionBehaviour
 			log.warn("",e);
 		}
+
+		GlobalParameter gp = null;
+		if( (gp = GlobalParameters.getGlobalParameter("gp")).isSet()){
+			System.out.println("Detected global parameter "+gp.getSymbol() +" and was set to "+gp.getValue());
+		}
+		//or access directly
+		boolean val  = GlobalParameters.getBooleanValue("gp");
+
+		int gInt = GlobalParameters.getIntegerValue("gInt",-1);
+		if(gInt != -1)
+			System.out.println("Detected global integer parameter and was set to "+gInt);
 	}
 
 	 protected List<AbstractParameter> createParameters(){
@@ -66,7 +84,7 @@ public class Sample {
 			}
 		});
 
-		params.add(new FloatValueParameter("--fraction","-f"){
+		params.add(new FloatValueParameter("fraction","f"){
 			@Override
 			public void handleOption(float optionValue) {
 				System.out.println("Detected fraction option, value was set to "+optionValue);
@@ -78,7 +96,7 @@ public class Sample {
 			}
 		});
 
-		params.add(new BooleanValueParameter("--boolean","-b"){
+		params.add(new BooleanValueParameter("boolean","b"){
 			@Override
 			public void handleOption(boolean optionValue) {
 				System.out.println("Detected boolean parameter, value was set to "+optionValue);
@@ -90,7 +108,9 @@ public class Sample {
 			}
 		});
 
-		GBooleanValueParameter.create("globalParam","gp");
+		GBooleanValueParameter.define("globalParam","gp");
+
+		GIntegerValueParameter.define("globalInt","gInt");
 
 		return params;
 	}
