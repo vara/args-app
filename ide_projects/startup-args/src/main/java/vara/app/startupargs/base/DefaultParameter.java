@@ -4,11 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vara.app.startupargs.ArgsUtil;
 import vara.app.startupargs.exceptions.UnexpectedNumberOfArguments;
+import vara.app.startupargs.exceptions.UnexpectedValueException;
 import vara.app.startupargs.exceptions.ValidationObjectException;
 
 /**
  *
- * @author wara
+ * @author Grzegorz (vara) Warywoda
  */
 public abstract class DefaultParameter implements AbstractParameter {
 	private static Logger log = LoggerFactory.getLogger(DefaultParameter.class);
@@ -41,8 +42,8 @@ public abstract class DefaultParameter implements AbstractParameter {
 
 	@Override
 	public String toString() {
-		String str = new StringBuilder().
-			append(symbol).append("':'").append(shortSymbol).append("'").toString();
+		String str = new StringBuilder( symbol.length() + shortSymbol.length() + 8).
+			append('\'').append(symbol).append("':'").append(shortSymbol).append('\'').toString();
 		return str;
 	}
 
@@ -75,14 +76,15 @@ public abstract class DefaultParameter implements AbstractParameter {
 
 			if(!nParams.check(nOptions)){
 
-				String msg = new StringBuilder("Wrong Number of input parameters. Expected: ").
+				String msg = new StringBuilder(256).
+										append("Wrong Number of input arguments. Expected: ").
 										append(nParams.toString2()).
 										append(" Got: ").append(nOptions).toString();
 				log.warn(msg);
 
-				if(nOptions<nParams.intValue()){
+				//if(nOptions<nParams.intValue()){
 					throw new UnexpectedNumberOfArguments(this,msg);
-				}
+				//}
 
 			}
 		}
@@ -90,7 +92,8 @@ public abstract class DefaultParameter implements AbstractParameter {
 		for (String optionValue : optionValues) {
 			if(optionValue == null){
 				//TODO: create message
-				log.warn("null");
+				String msg = "Value for option must be non-null !";
+				throw new UnexpectedValueException(this,msg);
 			}
 		}
 
