@@ -6,7 +6,6 @@ import vara.app.startupargs.base.DefaultParameter;
 import vara.app.startupargs.base.Parameters;
 import vara.app.startupargs.exceptions.CatchOnException;
 import vara.app.startupargs.exceptions.OptionNotFoundException;
-import vara.app.startupargs.exceptions.ValidationObjectException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,13 +26,6 @@ public class ArgsParser {
 	private static final Logger log = LoggerFactory.getLogger(ArgsParser.class);
 
 	private static List<CatchOnException> exceptionCatchers = new ArrayList<CatchOnException>();
-
-	/**
-	 * For special arguments.
-	 * Add ability to concatenate symbols with value(s) separated this char.
-	 * --symbol=value
-	 */
-	private static char separatorForCombinedArg = '=';
 
 	/**
 	 * This class tell to parser what to do when exception will be throw.
@@ -66,9 +58,9 @@ public class ArgsParser {
 		//NOTE:not checked/tested
 		String charForSeparator = System.getProperty("cmdline.symbolseparator","");
 
-		if(!charForSeparator.isEmpty() && charForSeparator.charAt(0) != separatorForCombinedArg){
-			separatorForCombinedArg = charForSeparator.charAt(0);
-			log.info("User define new separator '{}' for combined input arguments.",separatorForCombinedArg);
+		if(!charForSeparator.isEmpty()){
+			ArgsUtil.setSeparatorForArguments(charForSeparator);
+			log.info("User define new separator '{}' for combined input arguments.",ArgsUtil.getSeparatorForArguments());
 		}
 	}
 
@@ -135,7 +127,7 @@ public class ArgsParser {
 	 * @see #exceptionBehaviour
 	 * @see vara.app.startupargs.exceptions.CatchOnException
 	 */
-	private static void deliverCaughtException(RuntimeException exc){
+	private static void deliverCaughtException(final Exception exc){
 		if(!exceptionCatchers.isEmpty()){
 			for (CatchOnException exceptionCatcher : exceptionCatchers) {
 				exceptionCatcher.caughtException(exc);
@@ -143,8 +135,21 @@ public class ArgsParser {
 		}
 
 		if(exceptionBehaviour == ExceptionBehaviour.THROW){
-			throw  exc;
+
+			RuntimeException re;
+			if( !(exc instanceof RuntimeException)){
+				RuntimeException e = new RuntimeException(exc){
+					@Override
+					public String getLocalizedMessage() {
+						return exc.getLocalizedMessage();
+					}
+				};
+				re = e;
+			}else re = (RuntimeException)exc;
+
+			throw re;
 		}
+
 		if(exceptionBehaviour == ExceptionBehaviour.EXIT){
 			log.error("",exc);
 			//TODO: Check for special error code
@@ -157,14 +162,36 @@ public class ArgsParser {
 	 * layout of parameters in main container.
 	 */
 	private static class ParameterEntryHelper{
-		final int index;
-		final String symbol;
-		final int nParameters;
+		/**
+		 * Index in main list of command line arguments,
+		 * where 'symbol' parameter has been placed.
+		 */
+		private final int index;
+		private final String symbol;
+		private final int nArguments;
 
-		private ParameterEntryHelper(int fromIndex, int numOfParams,String symbol) {
+		private boolean isCombined = false;
+		private String rawCombinedArguments = null;
+
+		private ParameterEntryHelper(int fromIndex, int numOfArguments,String symbol) {
 			this.index = fromIndex;
+
+			isCombined = ArgsUtil.isCombinedArgument(symbol);
+			if(isCombined){
+
+				if(numOfArguments != 0){
+					log.warn("Internal: numOfParams is > 0 when argument is CombinedArgument !!!");
+				}
+
+				ArgsUtil.CombinedArgument combArg = ArgsUtil.toCombinedArgObject(symbol);
+				symbol = combArg.getRawSymbol();
+				rawCombinedArguments = combArg.getArguments();
+
+			}
+
+			this.nArguments = numOfArguments;
+
 			this.symbol = symbol;
-			this.nParameters = numOfParams;
 		}
 
 		public String getSymbol() {
@@ -175,18 +202,34 @@ public class ArgsParser {
 			return index;
 		}
 
-		public int getNumberOfParameters(){
-			return nParameters;
+		public int getNumberOfArguments(){
+			return nArguments;
+		}
+
+		public String[] getArguments(List<String> rawArgumentList){
+			String[] retArray = new String[0];
+			if(isCombined){
+				retArray = rawCombinedArguments.split(ArgsUtil.getSeparatorForArguments());
+			}
+			else if(nArguments>0){
+				int indexFrom = index+1;
+				retArray = rawArgumentList.subList(indexFrom,indexFrom + nArguments).toArray(retArray);
+			}
+
+			return retArray;
 		}
 
 		@Override
 		public String toString() {
-			return "sym:"+symbol+" from:"+ index +" numOfParams:"+ nParameters;
+			String msg = "sym:"+symbol+" from:"+ index +" nParams:"+ nArguments + " isCombined:"+isCombined ;
+			if(isCombined) msg = msg + " combinedParams:"+ rawCombinedArguments;
+			return msg;
 		}
 	}
 
 	/**
-	 * Create table with symbol indexes.
+	 * Create table with symbol indexes. To test the argument has been recognized as a symbol see
+	 * {@link vara.app.startupargs.ArgsUtil#isSymbolParameter(String)}. 
 	 *
 	 * @param args container with all raw input arguments
 	 * @return table of indexes
@@ -194,11 +237,11 @@ public class ArgsParser {
 	private static int [] getSymbolIndexes(List<String> args){
 
 		int len = args.size();
-
-		if(len == 0) return new int[0];
+		if(len == 0)	return new int[0];
 
 		int [] symbols = new int [len];
 		int offset=0;
+
 		for(int currentIndex = 0; currentIndex<len;currentIndex++){
 			String pretenderToSymbolParameter = args.get(currentIndex);
 			if(ArgsUtil.isSymbolParameter(pretenderToSymbolParameter)){
@@ -210,7 +253,7 @@ public class ArgsParser {
 	}
 
 	/**
-	 * Create list with
+	 * Create list with TODO:Finish me
 	 *
 	 * @param args container with all raw input arguments
 	 * @return container with <code>ParameterEntryHelper</code> objects
@@ -227,6 +270,10 @@ public class ArgsParser {
 
 			int symbolIndex = symbolIndexes[i];
 			String symbol = args.get(symbolIndex);
+
+			if(log.isTraceEnabled())
+				log.trace("symbol index: {} <=> {}",symbolIndex,symbol);
+
 			//If you insert one prefix char '-' then stop parsing args
 			//TODO:fix me
 			if(symbol.length() == 1){
@@ -243,71 +290,80 @@ public class ArgsParser {
 		return parameterHelper;
 	}
 
+	/**
+	 * TODO:Add description ,  (don't forget write about exceptions thrown in this method)
+	 * --symbol param ; -symbol=param; -symbol parm1 param2 ... ; -symbol=parameter1,parameter2...
+	 *
+	 * @param args container with command line arguments
+	 */
 	public static void parseParameters(List<String> args){
+		if(log.isDebugEnabled()){
+			log.debug("** PARSER: Start parse command line input arguments");
+			log.debug("CmdL args =>'{}'",optionValuesToString(args," "));
+		}
 
 		//make 100% sure that indexes on this list can't be changed
 		args = Collections.unmodifiableList(args);
-
 		List<ParameterEntryHelper> helpers = createParameterEntryHelpers(args);
 
 		for (ParameterEntryHelper entryHelper : helpers) {
 
-			String symbol = entryHelper.symbol;
-
-			//Special argument consists of symbol and value(s) separated by charSeparator
-			int equalsPos = symbol.indexOf(separatorForCombinedArg);
-
-			String specialArg = null;
-			if ( equalsPos != -1 ) {
-				specialArg = symbol.substring(equalsPos+1);
-				symbol = symbol.substring(0,equalsPos);
-			}
-
+			String symbol =  ArgsUtil.recheck(entryHelper.getSymbol());
 			DefaultParameter optionHandler = (DefaultParameter)Parameters.getParameter(symbol);
+
 			if (optionHandler != null){
 
-				if(log.isDebugEnabled())log.debug("Found parameter class {}. Expected number of params are :{}",
-																optionHandler.getClass().getSuperclass().getName(),
-																optionHandler.getOptionValuesLength().toString2());
+				if( log.isDebugEnabled() ){
+					log.debug("Symbol information : {}",entryHelper);
+					log.debug("Found parameter class {}.",optionHandler.getClass().getSuperclass().getName());
+					log.debug("Expected number of params are :{} ",	optionHandler.getOptionValuesLength().toString2());
+				}
 
-				List<String> subList = null;
-				if(specialArg == null){
-					if(entryHelper.nParameters>0){
-						int from = entryHelper.index+1;
-						subList = args.subList(from,from + entryHelper.nParameters);
-					}else{
-						subList = Collections.emptyList();
+				//Create list with arguments to pass internal arguments
+				//List<String> subListWithParameters = Collections.EMPTY_LIST;
+				
+				if(entryHelper.isCombined){
+					if(entryHelper.nArguments > 0){
+						throw new OptionNotFoundException(args.get(entryHelper.index+1),"Missing prefix ?");
 					}
-				}else{
-					subList = Arrays.asList(specialArg);
 				}
 
 				try {
-					optionHandler.handleOption(subList.toArray(new String[0]));
+					String [] arguments = entryHelper.getArguments(args);
+					System.out.println("args:"+arguments.length +"{"+optionValuesToString(arguments,";")+"}");
+					optionHandler.handleOption(arguments);
+				}
+				catch( Exception exc ){	deliverCaughtException(exc); }
 
-				} catch(ValidationObjectException exc){		deliverCaughtException(exc); }
-
-				if(optionHandler.isExit()){
+				if( optionHandler.isExit() ){
 					System.exit(0);
 				}
 
-			}else
-				deliverCaughtException(new OptionNotFoundException(symbol,"Unrecognized parameter "+symbol));
-		}
+			}else{
+				deliverCaughtException(new OptionNotFoundException(entryHelper.symbol,"Unrecognized parameter"));
+			}
+		}//End For
+
+		if(log.isDebugEnabled()) log.debug("**PARSER: Parsing command line input arguments finished ! ");
 	}
 
-	public static void parseParameters(String[] args){
+	public static void parseParameters(String ... args){
 		parseParameters(Arrays.asList(args));
 	}
 
-//	private static String optionValuesToString(String[] v,String separator){
-//
-//		StringBuffer sb = new StringBuffer();
-//		int n = v != null ? v.length:0;
-//		for (int i=0; i<n; i++){
-//			sb.append(v[i] );
-//			sb.append( separator );
-//		}
-//		return sb.toString();
-//	}
+	private static String optionValuesToString(String[] v,String separator){
+		return optionValuesToString(Arrays.asList(v),separator);
+	}
+
+	private static String optionValuesToString(List<String> v,String separator){
+
+		StringBuffer sb = new StringBuffer(512);
+		int n = (v != null) ? v.size():0;
+		for (int i=0; i<n-1; i++,sb.append( separator )){
+			sb.append(v.get(i));
+		}
+		if(n>0)sb.append(v.get(n-1));
+		
+		return sb.toString();
+	}
 }
