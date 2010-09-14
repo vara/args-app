@@ -1,9 +1,12 @@
 package vara.app.startupargs;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import vara.app.startupargs.base.AbstractParameter;
 import vara.app.startupargs.base.Parameters;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * User: Grzegorz (vara) Warywoda
@@ -11,9 +14,14 @@ import vara.app.startupargs.base.Parameters;
  * Time: 06:01:40
  */
 public class GlobalParameters extends Parameters{
-	private static final Logger log = LoggerFactory.getLogger(GlobalParameters.class);
+	//private static final Logger log = LoggerFactory.getLogger(GlobalParameters.class);
 
-	private static GlobalParameter getGlobalParameter(String symbol){
+	/**
+	 *
+	 * @param symbol
+	 * @return
+	 */
+	public static synchronized GlobalParameter getGlobalParameter(String symbol){
 
 		AbstractParameter resolvedParam = null;
 
@@ -41,10 +49,21 @@ public class GlobalParameters extends Parameters{
 		return null;
 	}
 
+	/**
+	 *
+	 * @param symbol
+	 * @return
+	 */
 	public static Object getValue(String symbol){
 		return getValue(symbol,null);
 	}
 
+	/**
+	 *
+	 * @param symbol
+	 * @param defaultObject
+	 * @return
+	 */
 	public static Object getValue(String symbol,Object defaultObject){
 
 		GlobalParameter resolvedParam = getGlobalParameter(symbol);
@@ -53,6 +72,12 @@ public class GlobalParameters extends Parameters{
 											resolvedParam.getValue() : defaultObject;
 	}
 
+	/**
+	 *
+	 * @param symbol
+	 * @param defaultObject
+	 * @return
+	 */
 	public static Integer getIntegerValue(String symbol,Integer defaultObject){
 		GlobalParameter resolvedParam = getGlobalParameter(symbol);
 
@@ -60,14 +85,30 @@ public class GlobalParameters extends Parameters{
 							((GIntegerValueParameter)resolvedParam).getValue() : defaultObject;
 	}
 
+	/**
+	 *
+	 * @param symbol
+	 * @return
+	 */
 	public static Integer getIntegerValue(String symbol){
 		return getIntegerValue(symbol,0);
 	}
 
+	/**
+	 *
+	 * @param symbol
+	 * @return
+	 */
 	public static String getStringValue(String symbol){
 		return getStringValue(symbol,"");
 	}
 
+	/**
+	 *
+	 * @param symbol
+	 * @param defaultObject
+	 * @return
+	 */
 	public static String getStringValue(String symbol,String defaultObject){
 		GlobalParameter resolvedParam = getGlobalParameter(symbol);
 
@@ -75,14 +116,50 @@ public class GlobalParameters extends Parameters{
 							((GStringValueParameter)resolvedParam).getValue() : defaultObject;
 	}
 
+	/**
+	 *
+	 * @param symbol
+	 * @return
+	 */
 	public static Boolean getBooleanValue(String symbol){
 		return getBooleanValue(symbol,false);
 	}
 
+	/**
+	 *
+	 * @param symbol
+	 * @param defaultObject
+	 * @return
+	 */
 	public static Boolean getBooleanValue(String symbol,Boolean defaultObject){
 		GlobalParameter resolvedParam = getGlobalParameter(symbol);
 
 		return  (resolvedParam instanceof GBooleanValueParameter && resolvedParam.isSet()) ?
 							((GBooleanValueParameter)resolvedParam).getValue() : defaultObject;
+	}
+
+	/**
+	 *
+	 * @param symbol
+	 * @return
+	 */
+	public static List<File> getFileListValue(String symbol){
+		GlobalParameter resolvedParam = getGlobalParameter(symbol);
+
+		return  (resolvedParam instanceof GFileListParameter && resolvedParam.isSet()) ?
+							((GFileListParameter)resolvedParam).getValue() : Collections.<File>emptyList();
+	}
+
+	/**
+	 *
+	 * @param symbol
+	 * @param defaultFileObjects
+	 * @return
+	 */
+	public static List<File> getFileListValue(String symbol,File ... defaultFileObjects){
+		GlobalParameter resolvedParam = getGlobalParameter(symbol);
+
+		return  (resolvedParam instanceof GFileListParameter && resolvedParam.isSet()) ?
+							((GFileListParameter)resolvedParam).getValue() : Arrays.asList(defaultFileObjects);
 	}
 }

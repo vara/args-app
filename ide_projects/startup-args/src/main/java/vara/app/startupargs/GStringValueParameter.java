@@ -12,12 +12,12 @@ import vara.app.startupargs.exceptions.ValidationObjectException;
 public abstract class GStringValueParameter extends StringValueParameter implements GlobalParameter<String>{
 	private static final Logger log = LoggerFactory.getLogger(GStringValueParameter.class);
 
+	private String val = null;
+
 	@Override
 	public String getValue() {
 		return val;
 	}
-
-	private String val = null;
 
 	public GStringValueParameter(String symbol, String shortSymbol) {
 		super(symbol, shortSymbol);
@@ -26,7 +26,17 @@ public abstract class GStringValueParameter extends StringValueParameter impleme
 
 	@Override
 	public void handleOption(String optionValue) throws ValidationObjectException {
+
+		if(val != null && log.isWarnEnabled()){ //Print warning about override global value 
+			log.warn("Detected overriding global value for {}",this);
+			log.warn("Last value {} <= new value {}",val,optionValue);
+		}
+
 		val = optionValue;
+
+		if(log.isDebugEnabled()){
+			log.debug("Global string parameter was set : "+val);
+		}
 	}
 
 	@Override
@@ -34,8 +44,15 @@ public abstract class GStringValueParameter extends StringValueParameter impleme
 		return val != null;
 	}
 
-	public static void create(final String ls,final String ss,final String description){
-		GlobalParameter val = new GStringValueParameter(ls,ss){
+	/**
+	 *
+	 * @param ls
+	 * @param ss
+	 * @param description
+	 */
+	public static void define(final String ls,final String ss,final String description){
+
+		final GlobalParameter val = new GStringValueParameter(ls,ss){
 
 			@Override
 			public String getOptionDescription() {
@@ -46,7 +63,12 @@ public abstract class GStringValueParameter extends StringValueParameter impleme
 		GlobalParameters.putParameter(val);
 	}
 
-	public static void create(final String ls,final String ss){
-		create(ls,ss,"");
+	/**
+	 *
+	 * @param ls
+	 * @param ss
+	 */
+	public static void define(final String ls,final String ss){
+		define(ls,ss,"");
 	}
 }

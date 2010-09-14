@@ -39,8 +39,9 @@ public abstract class GIntegerValueParameter extends IntegerValueParameter imple
 		return isSet;
 	}
 	
-	public static void create(final String ls,final String ss,final String description){
-		GlobalParameter val = new GIntegerValueParameter(ls,ss){
+	public static void define(final String ls,final String ss,final String description){
+
+		final GlobalParameter val = new GIntegerValueParameter(ls,ss){
 
 			@Override
 			public String getOptionDescription() {
@@ -51,7 +52,7 @@ public abstract class GIntegerValueParameter extends IntegerValueParameter imple
 		GlobalParameters.putParameter(val);
 	}
 
-	public static void create(final String ls,final String ss){
-		create(ls,ss,"");
+	public static void define(final String ls,final String ss){
+		define(ls,ss,"");
 	}
 }

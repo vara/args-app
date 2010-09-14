@@ -9,7 +9,7 @@ import vara.app.startupargs.base.AbstractParameter;
  */
 public interface GlobalParameter <T> extends AbstractParameter{
 	/**
-	 * Get value specified by generic type.
+	 * Get value specified by object inherits from this.
 	 *
 	 * @return value described by generic type
 	 */
@@ -17,7 +17,7 @@ public interface GlobalParameter <T> extends AbstractParameter{
 	T getValue();
 
 	/**
-	 * Use this method  if can you know that this parameter has been set
+	 * Use this method to check whether the parameter has been set
 	 *
 	 * @return true if this parameter has been set
 	 */

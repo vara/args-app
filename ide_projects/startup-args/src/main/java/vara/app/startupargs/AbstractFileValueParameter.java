@@ -1,6 +1,7 @@
-package vara.app.startupargs.exceptions;
+package vara.app.startupargs;
 
 import vara.app.startupargs.base.DefaultParameter;
+import vara.app.startupargs.exceptions.ValidationObjectException;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public abstract class AbstractFileValueParameter extends DefaultParameter {
 	}
 
 	@Override
-	public void safeOption(String[] optionValues)  throws ValidationObjectException{
+	public void safeOption(String[] optionValues)  throws ValidationObjectException {
 		List<File> files = new ArrayList(optionValues.length);
 
 			for(String optionValue : optionValues){
