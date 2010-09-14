@@ -21,7 +21,6 @@ public abstract class GStringListParameter extends StringListParameter implement
 
 	private List<String> strings = null;
 
-
 	@Override
 	public void handleOption(List<String> optionValue) throws ValidationObjectException {
 
