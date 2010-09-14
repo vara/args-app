@@ -1,9 +1,5 @@
 package vara.app.startupargs;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-import junit.framework.TestCase;
-
 /**
  * FileValueParameter Tester.
  *
@@ -11,18 +7,8 @@ import junit.framework.TestCase;
  * @since <pre>06/20/2010</pre>
  * @version 1.0
  */
-public class FileValueParameterTest extends TestCase {
-    public FileValueParameterTest(String name) {
-        super(name);
-    }
+public class FileValueParameterTest{
 
-    public void setUp() throws Exception {
-        super.setUp();
-    }
-
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
 
     /**
      *
@@ -59,11 +45,5 @@ public class FileValueParameterTest extends TestCase {
     public void testGetOptionValuesLength() throws Exception {
         //TODO: Test goes here...
 		
-    }
-
-
-
-    public static Test suite() {
-        return new TestSuite(FileValueParameterTest.class);
     }
 }

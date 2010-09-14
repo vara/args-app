@@ -2,13 +2,14 @@ package vara.app.startupargs;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
-import org.junit.Before;
+import org.apache.log4j.Logger;
 import org.junit.BeforeClass;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import vara.app.startupargs.base.AbstractParameter;
+import vara.app.startupargs.base.Parameters;
 import vara.app.startupargs.exceptions.CatchOnException;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,18 +21,20 @@ import java.util.List;
 
 //@Ignore /*http://jira.codehaus.org/browse/SUREFIRE-482 <ignore == skip>*/
 public class FixtureUtil {
-	private static final Logger log = LoggerFactory.getLogger(FixtureUtil.class);
+	private static final Logger log = Logger.getLogger(FixtureUtil.class);
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
+		BasicConfigurator.resetConfiguration();
 		BasicConfigurator.configure();
 		org.apache.log4j.Logger.getLogger("org.apache.commons").setLevel(Level.INFO);
 		ArgsParser.setCatchOnException(new Output());
+
+		ArgsUtil.setStoreWithoutPrefix(true);
+
+		Parameters.putParameter(createParameters());
 		//JKlipperLoggerManager.activate();
 	}
-
-	@Before
-	public void beforeTest() throws Exception {}
 
 	static class Output implements CatchOnException{
 		@Override
@@ -79,5 +82,30 @@ public class FixtureUtil {
 		});
 
 		return params;
+	}
+
+	public static Object callPrivateMethod(Class objectClass,String methodName,Class<?>[] paramTypes,Object [] args){
+
+		try {
+
+			Method m = objectClass.getDeclaredMethod(methodName,paramTypes);
+
+			if(m != null){
+
+				if(!m.isAccessible()){
+					m.setAccessible(true);
+				}
+
+				return m.invoke(objectClass,args);
+			}
+
+		} catch (NoSuchMethodException e) {
+			log.warn(e.getLocalizedMessage(),e);
+		} catch (InvocationTargetException e) {
+			log.warn(e.getLocalizedMessage(),e);
+		} catch (IllegalAccessException e) {
+			log.warn(e.getLocalizedMessage(),e);
+		}
+		return null;
 	}
 }

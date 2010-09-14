@@ -19,14 +19,13 @@ import static vara.app.startupargs.base.Parameters.InsertBehavior;
 public class ArgumentsContainerTest extends FixtureUtil{
 	private static final Logger log = LoggerFactory.getLogger(ArgumentsContainerTest.class);
 
-	private static final DefaultParameter paramTest1Bool = new TestParamBoolean("--test1","-t1");
-	private static final DefaultParameter paramTest2Bool = new TestParamBoolean("--test2","-t2");
+	private final DefaultParameter paramTest1Bool = new TestParamBoolean("--test1","-t1");
+	private final DefaultParameter paramTest2Bool = new TestParamBoolean("--test2","-t2");
 
 	@Before
 	public void beforeTest(){
 		log.info("Before Test");
 		Parameters.putParameter(paramTest1Bool);
-
 		assertFalse(Parameters.isEmpty());
 	}
 

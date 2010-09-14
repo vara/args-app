@@ -1,5 +1,6 @@
 package vara.app.startupargs;
 
+import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.junit.Assert;
@@ -16,10 +17,18 @@ import vara.app.startupargs.exceptions.ValidationObjectException;
 public class ParameterCreationTest extends FixtureUtil{
 	private static final Logger log = LoggerFactory.getLogger(ParameterCreationTest.class);
 
-	@Test
-	public void createParamsPrefixes(){
-		log.info("Create parameters test");
+	@Before
+	public void init(){
 
+		ArgsUtil.setStoreWithoutPrefix(true);
+	}
+
+	@Test
+	public void createParametersWithPrefixes(){
+		log.info("* Create parameters with prefixes test");
+
+		ArgsUtil.setStoreWithoutPrefix(false);
+		
 		check(new QuickAccessParam("frac","f"),			"frac","f");
 		check(new QuickAccessParam("-frac","-f"),		"frac","f");
 		check(new QuickAccessParam("--frac","--f"),		"frac","f");
@@ -28,12 +37,39 @@ public class ParameterCreationTest extends FixtureUtil{
 		check(new QuickAccessParam("-frac","--f"),		"frac","f");
 //		check(new QuickAccessParam("  -frac","  --f"),"frac","f");
 //		check(new QuickAccessParam("  -  frac","-   -f"),"frac","f");
+
+	}
+
+	@Test
+	public void createParametersWithoutPrefixes(){
+		log.info("* Create parameters without prefixes test");
+
+		boolean withoutPrefixes = true;
+
+		ArgsUtil.setStoreWithoutPrefix(withoutPrefixes);
+
+		check(new QuickAccessParam("frac","f"),			"frac","f", withoutPrefixes);
+		check(new QuickAccessParam("-frac","-f"),		"frac","f", withoutPrefixes);
+		check(new QuickAccessParam("--frac","--f"),		"frac","f", withoutPrefixes);
+		check(new QuickAccessParam("---frac","---f"),	"frac","f", withoutPrefixes);
+		check(new QuickAccessParam("----------frac","-----------f"),"frac","f", withoutPrefixes);
+		check(new QuickAccessParam("-frac","--f"),		"frac","f", withoutPrefixes);
+//		check(new QuickAccessParam("  -frac","  --f"),"frac","f");
+//		check(new QuickAccessParam("  -  frac","-   -f"),"frac","f");
+
 	}
 
 	private static void check(AbstractParameter param,String s,String ss){
-		Assert.assertEquals("--"+s,param.getSymbol());
-		Assert.assertEquals("-"+ss,param.getShortSymbol());
+		check(param,s,ss,false);
 	}
+
+	private static void check(AbstractParameter param,String s,String ss,boolean withoutPrefixes){
+
+		Assert.assertEquals( (withoutPrefixes? s  : "--"+s ) ,param.getSymbol());
+		Assert.assertEquals( (withoutPrefixes? ss : "-"+ss ) ,param.getShortSymbol());
+	}
+
+
 
 	class QuickAccessParam extends NoValueParameter{
 		QuickAccessParam(String symbol, String shortSymbol) {

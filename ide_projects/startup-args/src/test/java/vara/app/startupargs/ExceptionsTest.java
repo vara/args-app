@@ -1,13 +1,20 @@
 package vara.app.startupargs;
 
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.junit.Test;
+import vara.app.startupargs.base.Parameters;
+import vara.app.startupargs.exceptions.OptionNotFoundException;
+import vara.app.startupargs.exceptions.UnexpectedNumberOfArguments;
 import vara.app.startupargs.exceptions.UnexpectedValueException;
 import vara.app.startupargs.exceptions.ValidationObjectException;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static vara.app.startupargs.ArgsParser.ExceptionBehaviour;
 
 /**
  * User: Grzegorz (vara) Warywoda
@@ -18,40 +25,57 @@ public class ExceptionsTest extends FixtureUtil{
 
 	private static final Logger log = LoggerFactory.getLogger(ExceptionsTest.class);
 
-//	public static void main(String[] args) throws Exception {
-//
-//		CmdLineArgumentsTest.beforeClass();
-//
-//		Parameters.putParameter(createParameters());
-//
-//		Parameters.putParameter(new ArgsName());
-//
-//		ArgsParser.parseParameters(args);
-//	}
+	@BeforeClass
+	public static void beforeClass() throws Exception {
+		FixtureUtil.beforeClass();
+		Parameters.putParameter(new ArgsName("hotkey"));
+	}
 
-	@Test (expected = Exception.class)
-	public void illegalValueArguments(){
+	@Before
+	public void initTest(){
+		ArgsParser.setExceptionBehaviour(ExceptionBehaviour.THROW);
+	}
 
-		ArgsParser.setExceptionBehaviour(ArgsParser.ExceptionBehaviour.THROW);
-
-		log.info("Run illegalValueArguments test");
+	@Test (expected = OptionNotFoundException.class)
+	public void optionNotFoundTest(){
+		log.info(" * Run option not found exception test");
 
 		List params = Arrays.asList("--throwException");
 
 		ArgsParser.parseParameters(params);
 	}
 
+	@Test (expected = UnexpectedNumberOfArguments.class)
+	public void wrongNumberOfArgumentsTest(){
+
+		log.info(" * Run wrong number of arguments test");
+
+		List params = Arrays.asList("-b 1 2 3 -f 12 12 -b -f".split(" "));
+
+		ArgsParser.parseParameters(params);
+
+	}
+
+	@Test (expected = ValidationObjectException.class)
+	public void validationExceptionTest(){
+		log.info("* Run validation exception test");
+
+		ArgsParser.parseParameters("--name=hotkey");
+	}
+
 	static class ArgsName extends StringValueParameter {
-		ArgsName(){
+		private String pattern;
+		ArgsName(String pattern){
 			super("--name","-n");
+			this.pattern = pattern;
 		}
 
 		@Override
 		public void handleOption(String optionValue) throws ValidationObjectException {
-			if(!optionValue.equals("Greg")){
-				throw new UnexpectedValueException(this,"Wrong value \""+optionValue+"\", only \"Greg\" is correct");
+			if(optionValue.equals(pattern)){
+				throw new UnexpectedValueException(this,"Success !");
 			}
-			System.out.println("Success !");
+			log.warn(getSymbol()+" : Wrong value \""+optionValue+"\", only \""+pattern+"\" is correct");
 		}
 
 		@Override
