@@ -2,11 +2,11 @@ package vara.app.startupargs.base;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import vara.app.startupargs.ArgsUtil;
 import vara.app.startupargs.defaultImpl.DefaultHelpParameter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 /**
  *
@@ -16,7 +16,7 @@ public class Parameters {
 
 	private static final Logger log = LoggerFactory.getLogger(Parameters.class);
 
-	private final static List<AbstractParameter> mapOfParameters = new ArrayList();
+	private final static List<AbstractParameter> parameters = new ArrayList();
 
 	public static enum InsertBehavior{
 		DontReplaceExisting,
@@ -24,16 +24,20 @@ public class Parameters {
 	}
 
 	static {
-		mapOfParameters.add(new DefaultHelpParameter("--help","-h"));
+		parameters.add(new DefaultHelpParameter("--help","-h"));
 	}
 
 	/**
 	 * Add new parameter to container.
 	 * If current parameter will be detected in container then not be added to the list.
-	 * If you want changed this behavior use second method {@code putParameter}  
+	 * Default behavior is <code>InsertBehavior.DontReplaceExisting</code>.
+	 * If you want changed this behavior use second method 
+	 * {@link #putParameter(AbstractParameter, vara.app.startupargs.base.Parameters.InsertBehavior)}
 	 *
 	 * @param parameter
-	 * @return true if parameter has benn added to the container otherwise false.
+	 * @return true if parameter has been added to the container otherwise false.
+	 *
+	 * @see vara.app.startupargs.base.Parameters.InsertBehavior
 	 */
 	public static boolean putParameter(AbstractParameter parameter){
 		return putParameter(parameter,InsertBehavior.DontReplaceExisting);
@@ -41,7 +45,7 @@ public class Parameters {
 
 	/**
 	 * Add new parameter to container.
-	 * If current parameter will be detected in container then situation will depend on second parameter.
+	 * If current parameter will be detected in container then situation will depend of second parameter.
 	 *
 	 * @param parameter
 	 * @return true if parameter has benn added to the container otherwise false.
@@ -51,13 +55,13 @@ public class Parameters {
 
 		if(parameter!=null){
 
-			synchronized (mapOfParameters){
+			synchronized (parameters){
 
-				if(!mapOfParameters.contains(parameter)){
+				if(!parameters.contains(parameter)){
 
-					return mapOfParameters.add(parameter);
+					return parameters.add(parameter);
 				}else{
-					if(log.isDebugEnabled())log.debug("Detected multiply parameter in container for '"+parameter+"' behavior:"+behavior);
+					if(log.isWarnEnabled())log.warn("Detected multiply parameter in container for '"+parameter+"' behavior:"+behavior);
 
 					switch (behavior) {
 
@@ -69,16 +73,16 @@ public class Parameters {
 							//this block invoked only when parameter is in array.
 							//and index should be  less then zero.
 							//Added synchronize statement for race condition protection
-							int index = mapOfParameters.indexOf(parameter);
+							int index = parameters.indexOf(parameter);
 
 							assert index!=-1;
 
-							AbstractParameter oldParam = mapOfParameters.get(index);
+							AbstractParameter oldParam = parameters.get(index);
 
 							if(oldParam != parameter){
-								if(log.isDebugEnabled())log.debug("You tried add the same parameter to container with different instance. Parameters will be replaced");
+								if(log.isDebugEnabled())log.debug("You tried add the same parameter to container with different instance. Parameters will be turned");
 
-								mapOfParameters.set(index,parameter);
+								parameters.set(index,parameter);
 								return true;
 								
 							}else{
@@ -92,6 +96,10 @@ public class Parameters {
 		return false;
 	}
 
+	/**
+	 *
+	 * @param vap
+	 */
 	public static void putParameter(List<AbstractParameter> vap){
 		if(vap != null){
 			for (AbstractParameter ap : vap) {
@@ -100,38 +108,67 @@ public class Parameters {
 		}
 	}
 
+	/**
+	 *
+	 */
 	public static void removeAll(){
-		synchronized (mapOfParameters){
-			mapOfParameters.removeAll(mapOfParameters);
+		synchronized (parameters){
+			parameters.clear();
 		}
 	}
 
+	/**
+	 *
+	 * @param symbol
+	 * @return
+	 */
 	public static AbstractParameter getParameter(String symbol){
 
 		EntryParameter entry  = new EntryParameter(symbol);
-		synchronized (mapOfParameters){
+		synchronized (parameters){
 
-			int index = mapOfParameters.lastIndexOf(entry);
+			int index = parameters.lastIndexOf(entry);
 			if(index != -1) {
 				if(log.isDebugEnabled())log.debug("Found parameter for '"+symbol+"' on index "+index);
-				return mapOfParameters.get(index);
+				return parameters.get(index);
 			}
 		}
 		if(log.isDebugEnabled())log.debug("Parameter wasn't found for '"+symbol+"'");
 		return null;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public static List<AbstractParameter> getAllParameters(){
-		Vector<AbstractParameter> allParams = new Vector(mapOfParameters);
+
+		List<AbstractParameter> allParams = null;
+		synchronized (parameters){
+
+			 allParams = new ArrayList(parameters);
+		}
 		return allParams;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public static int numberOfParameters(){
-		return mapOfParameters.size();
+		synchronized (parameters){
+			return parameters.size();
+		}
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public static boolean isEmpty(){
-		return mapOfParameters.isEmpty();
+		synchronized (parameters){
+			return parameters.isEmpty();
+		}
 	}
 
 	/**
@@ -149,7 +186,8 @@ public class Parameters {
 		public EntryParameter(String symbolName){
 
 			if(symbolName == null) throw new NullPointerException("Input parameter must be non-null !");
-			this.symbolName = symbolName;
+
+			this.symbolName = ArgsUtil.recheck(symbolName);
 
 			hashCode = generateHashCode();
 		}
@@ -173,7 +211,7 @@ public class Parameters {
 		@Override
 		public boolean equals(Object obj) {
 
-			if(log.isDebugEnabled()) log.debug("Equals "+this+" with "+obj);
+			if(log.isTraceEnabled()) log.trace("Equals "+this+" with "+obj);
 			boolean retVal = false;
 
 			if( !(obj instanceof DefaultParameter)) {
@@ -184,7 +222,7 @@ public class Parameters {
 						((DefaultParameter)obj).getShortSymbol().hashCode() == symbolName.hashCode() ){
 				retVal = true;
 			}
-			if(log.isDebugEnabled())log.debug("Result is:"+retVal);
+			if(log.isTraceEnabled())log.trace("Result is:"+retVal);
 			return  retVal;
 		}
 
