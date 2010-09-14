@@ -8,31 +8,37 @@ import vara.app.startupargs.exceptions.ValidationObjectException;
  */
 public interface AbstractParameter {
 	/**
-	 * Get full representation of option.
+	 * Get full representation of this option.
 	 *
 	 * @Return symbol name
 	 */
 	String getSymbol();
 
 	/**
-	 * Get short representation of option.
+	 * Get short representation of this option.
 	 *
 	 * @return optional symbol
 	 */
 	String getShortSymbol();
 
-	/*
-	 * @Return description for parameter
+	/**
+	 * Get description for this parameter.
+	 * Description should describing for what this is and what this have doing.
+	 *
+	 * @Return description for for what it is
 	 */
 	String getOptionDescription();
 
 	/**
+	 * Get short descriptions how to use this option (etc. about type of parameters)
 	 *
-	 * @return short descriptions how to use this option (etc. about type of parameters)
+	 * @return description how to use this option
 	 */
 	String getOptionUsage();
 
 	/**
+	 * Get number of potential input parameters
+	 *
 	 * @return number of input parameters
 	 */
 	NumberOfParams getOptionValuesLength();

@@ -1,5 +1,6 @@
 package vara.app.startupargs;
 
+import vara.app.startupargs.exceptions.UnexpectedValueException;
 import vara.app.startupargs.exceptions.ValidationObjectException;
 
 /**
@@ -17,7 +18,7 @@ public abstract class FloatValueParameter extends StringValueParameter {
 		try{
 			handleOption(Float.valueOf(optionValue));
 		} catch(NumberFormatException e){
-			throw new IllegalArgumentException(e);
+			throw new UnexpectedValueException(this,e);
 		}
 	}
 

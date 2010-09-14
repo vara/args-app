@@ -1,6 +1,8 @@
 package vara.app.startupargs.base;
 
 /**
+ * Abstract object to allow for define the ranges of numbers.
+ *
  * User: Grzegorz (vara) Warywoda
  * Date: 2010-06-21
  * Time: 08:27:50
@@ -90,6 +92,13 @@ public abstract class NumberOfParams extends Number{
 		return String.valueOf(value);
 	}
 
+	/**
+	 * Get string representation for this object.
+	 * Returned String can contains arithmetical char '<' or '>'
+	 * depending on the type of the object.
+	 *
+	 * @return
+	 */
 	public String toString2() {
 		StringBuilder sb = new StringBuilder(7);
 

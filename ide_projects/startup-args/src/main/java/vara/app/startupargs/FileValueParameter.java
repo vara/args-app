@@ -1,7 +1,6 @@
 package vara.app.startupargs;
 
 import vara.app.startupargs.base.NumberOfParams;
-import vara.app.startupargs.exceptions.AbstractFileValueParameter;
 import vara.app.startupargs.exceptions.ValidationObjectException;
 
 import java.io.File;
@@ -29,7 +28,7 @@ public abstract class FileValueParameter extends AbstractFileValueParameter{
 	public abstract void handleOption(File optionValue) throws ValidationObjectException;
 
 	@Override
-	public NumberOfParams getOptionValuesLength() {
+	public final NumberOfParams getOptionValuesLength() {
 		return NumberOfParams.ONE;
 	}
 }
