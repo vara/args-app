@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>vara.app</groupId>
   <artifactId>startup-arguments</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.2-SNAPSHOT</version>
   <name>startup-args</name>
   <url>http://maven.apache.org</url>
   <dependencies>
