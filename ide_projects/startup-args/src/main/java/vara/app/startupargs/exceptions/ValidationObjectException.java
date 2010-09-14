@@ -11,7 +11,7 @@ import vara.app.startupargs.base.AbstractParameter;
  *
  * @author Grzegorz (vara) Warywoda
  */
-public class ValidationObjectException extends RuntimeException{
+public abstract class ValidationObjectException extends RuntimeException{
 
 	public AbstractParameter getParameter() {
 		return parameter;
@@ -40,6 +40,8 @@ public class ValidationObjectException extends RuntimeException{
 
 	@Override
 	public String getMessage() {
-		return parameter.toString()+" "+super.getMessage();
+		String mess = super.getMessage();
+		mess = mess.trim().isEmpty() ? "<Empty message>" : mess;
+		return parameter.toString()+" "+mess;
 	}
 }

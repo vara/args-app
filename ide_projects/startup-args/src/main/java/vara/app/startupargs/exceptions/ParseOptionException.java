@@ -32,4 +32,11 @@ public abstract class ParseOptionException extends RuntimeException{
 		super(message, cause);
 		this.option = option;
 	}
+
+	@Override
+	public String getLocalizedMessage() {
+		String mess = super.getLocalizedMessage();
+		mess = mess.trim().isEmpty() ? "<Empty message>" : mess;
+		return option + " : " + mess;
+	}
 }
