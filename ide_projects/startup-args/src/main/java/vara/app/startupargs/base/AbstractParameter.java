@@ -10,7 +10,7 @@ public interface AbstractParameter {
 	/**
 	 * Get full representation of this option.
 	 *
-	 * @Return symbol name
+	 * @return symbol name
 	 */
 	String getSymbol();
 
@@ -25,7 +25,7 @@ public interface AbstractParameter {
 	 * Get description for this parameter.
 	 * Description should describing for what this is and what this have doing.
 	 *
-	 * @Return description for for what it is
+	 * @return description for for what it is
 	 */
 	String getOptionDescription();
 
@@ -41,12 +41,13 @@ public interface AbstractParameter {
 	 *
 	 * @return number of input parameters
 	 */
-	NumberOfParams getOptionValuesLength();
+	RangeNumber getOptionValuesLength();
 
 	/**
 	 * Method for handling input parameters.
 	 *
 	 * @param values table with input parameters
+	 * @throws vara.app.startupargs.exceptions.ValidationObjectException
 	 */
 	void handleOption(String[] values) throws ValidationObjectException;
 }

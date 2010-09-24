@@ -2,7 +2,7 @@ package vara.app.startupargs;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import vara.app.startupargs.base.NumberOfParams;
+import vara.app.startupargs.base.RangeNumber;
 import vara.app.startupargs.exceptions.ValidationObjectException;
 
 import java.io.File;
@@ -32,7 +32,7 @@ public abstract class FileListParameter extends AbstractFileValueParameter {
 	abstract public void handleOption(List<File> optionValue) throws ValidationObjectException;
 
 	@Override
-	public NumberOfParams getOptionValuesLength() {
-		return NumberOfParams.ONE_OR_MORE;
+	public RangeNumber getOptionValuesLength() {
+		return RangeNumber.ONE_OR_MORE;
 	}
 }

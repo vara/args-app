@@ -41,4 +41,32 @@ public abstract class GStringListParameter extends StringListParameter implement
 	public boolean isSet() {
 		return strings != null;
 	}
+
+	/**
+	 *
+	 * @param ls
+	 * @param ss
+	 * @param description
+	 */
+	public static void define(final String ls,final String ss,final String description){
+
+		final GlobalParameter val = new GStringListParameter(ls,ss){
+
+			@Override
+			public String getOptionDescription() {
+				return description;
+			}
+		};
+
+		GlobalParameters.putParameter(val);
+	}
+
+	/**
+	 *
+	 * @param ls
+	 * @param ss
+	 */
+	public static void define(final String ls,final String ss){
+		define(ls,ss,"");
+	}
 }

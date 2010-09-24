@@ -1,7 +1,7 @@
 package vara.app.startupargs;
 
 import vara.app.startupargs.base.DefaultParameter;
-import vara.app.startupargs.base.NumberOfParams;
+import vara.app.startupargs.base.RangeNumber;
 import vara.app.startupargs.exceptions.ValidationObjectException;
 
 import java.util.Arrays;
@@ -25,8 +25,8 @@ public abstract class StringListParameter extends DefaultParameter {
 	}
 
 	@Override
-	public final NumberOfParams getOptionValuesLength() {
-		return NumberOfParams.ONE_OR_MORE;
+	public final RangeNumber getOptionValuesLength() {
+		return RangeNumber.ONE_OR_MORE;
 	}
 
 	public abstract void handleOption(List<String> optionValue) throws ValidationObjectException;

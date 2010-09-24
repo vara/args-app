@@ -70,7 +70,7 @@ public abstract class DefaultParameter implements AbstractParameter {
 	public void handleOption(String[] optionValues)  throws ValidationObjectException{
 		int nOptions = optionValues != null? optionValues.length: 0;
 
-		NumberOfParams nParams = getOptionValuesLength();
+		RangeNumber nParams = getOptionValuesLength();
 
 		if (nOptions != nParams.intValue()){
 

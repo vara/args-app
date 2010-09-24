@@ -3,7 +3,7 @@ package vara.app.startupargs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vara.app.startupargs.base.DefaultParameter;
-import vara.app.startupargs.base.NumberOfParams;
+import vara.app.startupargs.base.RangeNumber;
 import vara.app.startupargs.exceptions.ValidationObjectException;
 
 /**
@@ -29,8 +29,8 @@ public abstract class BooleanValueParameter extends DefaultParameter {
 	}
 
 	@Override
-	public final NumberOfParams getOptionValuesLength() {
-		return NumberOfParams.ONE_OR_ZERO;
+	public final RangeNumber getOptionValuesLength() {
+		return RangeNumber.ONE_OR_ZERO;
 	}
 
 	@Override

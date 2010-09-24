@@ -7,35 +7,35 @@ package vara.app.startupargs.base;
  * Date: 2010-06-21
  * Time: 08:27:50
  */
-public abstract class NumberOfParams extends Number{
+public abstract class RangeNumber extends Number{
 
-	public static final NumberOfParams ZERO = new NumberOfParams(0){
+	public static final RangeNumber ZERO = new RangeNumber(0){
 		@Override	public boolean canLess() {	return false;	}
 		@Override	public boolean canMore() {	return false;	}
 	};
 
-	public static final NumberOfParams ONE = new NumberOfParams(1){
+	public static final RangeNumber ONE = new RangeNumber(1){
 		@Override	public boolean canLess() {	return false;	}
 		@Override	public boolean canMore() {	return false;	}
 	};
 
-	public static final NumberOfParams ZERO_OR_MORE = new NumberOfParams(0){
+	public static final RangeNumber ZERO_OR_MORE = new RangeNumber(0){
 		@Override	public boolean canLess() {	return false;	}
 		@Override	public boolean canMore() {	return true;	}
 	};
 
-	public static final NumberOfParams ONE_OR_MORE = new NumberOfParams(1){
+	public static final RangeNumber ONE_OR_MORE = new RangeNumber(1){
 		@Override	public boolean canLess() {	return false;	}
 		@Override	public boolean canMore() {	return true;	}
 	};
 
-	public static final NumberOfParams ONE_OR_ZERO = new NumberOfParams(1){
+	public static final RangeNumber ONE_OR_ZERO = new RangeNumber(1){
 		@Override	public boolean canLess() {	return true;	}
 		@Override	public boolean canMore() {	return false;	}
 	};
 
 
-	public NumberOfParams(int value) {
+	public RangeNumber(int value) {
 		if(value <0) throw new IllegalArgumentException("Value must be equals or grater then 0");
 		this.value = value;
 	}
@@ -136,8 +136,8 @@ public abstract class NumberOfParams extends Number{
 	 *          <code>false</code> otherwise.
 	 */
 	public boolean equals(Object obj) {
-		if (obj instanceof NumberOfParams) {
-			return value == ((NumberOfParams)obj).intValue();
+		if (obj instanceof RangeNumber) {
+			return value == ((RangeNumber)obj).intValue();
 		}
 		return false;
 	}
@@ -153,7 +153,7 @@ public abstract class NumberOfParams extends Number{
 		return true;
 	}
 
-	public boolean check(NumberOfParams num){
+	public boolean check(RangeNumber num){
 		return check(num);
 	}
 }
