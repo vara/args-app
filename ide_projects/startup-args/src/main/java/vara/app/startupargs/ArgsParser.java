@@ -330,7 +330,7 @@ public class ArgsParser {
 
 				try {
 					String [] arguments = entryHelper.getArguments(args);
-					System.out.println("args:"+arguments.length +"{"+optionValuesToString(arguments,";")+"}");
+					//System.out.println("args:"+arguments.length +"{"+optionValuesToString(arguments,";")+"}");
 					optionHandler.handleOption(arguments);
 				}
 				catch( Exception exc ){	deliverCaughtException(exc); }
