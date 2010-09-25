@@ -38,7 +38,7 @@ public final class ArgsUtil {
 	/**
 	 *
 	 */
-	private static String separatorForArguments = ",";
+	private static String argumentValuesSeparator = ",";
 
 	static {
 
@@ -184,13 +184,13 @@ public final class ArgsUtil {
 		}
 	}
 
-	public static String getSeparatorForArguments() {
-		return separatorForArguments;
+	public static String getArgumentValuesSeparator() {
+		return argumentValuesSeparator;
 	}
 
-	public static void setSeparatorForArguments(String separatorForCombinedArg) {
-		if(ArgsUtil.separatorForArguments != separatorForArguments){
-			ArgsUtil.separatorForArguments = separatorForArguments;
+	public static void setArgumentValuesSeparator(String separatorForCombinedArg) {
+		if(ArgsUtil.argumentValuesSeparator != argumentValuesSeparator){
+			ArgsUtil.argumentValuesSeparator = argumentValuesSeparator;
 		}
 	}
 

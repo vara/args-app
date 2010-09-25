@@ -56,11 +56,11 @@ public class ArgsParser {
 	static {
 		//check if the user didn't specify a variable
 		//NOTE:not checked/tested
-		String charForSeparator = System.getProperty("cmdline.symbolseparator","");
+		String charForSeparator = System.getProperty("cmdline.values.separator","");
 
 		if(!charForSeparator.isEmpty()){
-			ArgsUtil.setSeparatorForArguments(charForSeparator);
-			log.info("User define new separator '{}' for combined input arguments.",ArgsUtil.getSeparatorForArguments());
+			ArgsUtil.setArgumentValuesSeparator(charForSeparator);
+			log.info("User define new separator '{}' for combined input arguments.",ArgsUtil.getArgumentValuesSeparator());
 		}
 	}
 
@@ -206,10 +206,11 @@ public class ArgsParser {
 			return nArguments;
 		}
 
-		public String[] getArguments(List<String> rawArgumentList){
+		public String[] getArguments(List<String> rawArgumentList,String separator){
 			String[] retArray = new String[0];
+			if(separator == null) separator = ArgsUtil.getArgumentValuesSeparator();
 			if(isCombined){
-				retArray = rawCombinedArguments.split(ArgsUtil.getSeparatorForArguments());
+				retArray = rawCombinedArguments.split(separator);
 			}
 			else if(nArguments>0){
 				int indexFrom = index+1;
@@ -329,7 +330,7 @@ public class ArgsParser {
 				}
 
 				try {
-					String [] arguments = entryHelper.getArguments(args);
+					String [] arguments = entryHelper.getArguments(args,optionHandler.getValueSeparator());
 					//System.out.println("args:"+arguments.length +"{"+optionValuesToString(arguments,";")+"}");
 					optionHandler.handleOption(arguments);
 				}

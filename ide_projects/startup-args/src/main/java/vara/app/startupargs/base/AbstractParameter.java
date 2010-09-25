@@ -50,4 +50,16 @@ public interface AbstractParameter {
 	 * @throws vara.app.startupargs.exceptions.ValidationObjectException
 	 */
 	void handleOption(String[] values) throws ValidationObjectException;
+
+	/**
+	 * Get separator for values specified for only current instance.<br>
+	 * e.q. -parameter=val1:val2: ... <br>
+	 * In this case separator should be ':' for proper separate values.
+	 * <br>By default method return <code>null<code> value which means that,
+	 * global separator will be used.
+	 * @see vara.app.startupargs.ArgsUtil.getArgumentValuesSeparator()
+	 *
+	 * @return separator for values
+	 */
+	String getValueSeparator();
 }
