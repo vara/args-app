@@ -197,7 +197,7 @@ public final class ArgsUtil {
 	}
 
 	/**
-	 * Get global variable used for detection values concatenated with special characters.<br>
+	 * Get global value used for detection values concatenated with special characters.<br>
 	 * Default character is comma.
 	 * @return String values separator
 	 */

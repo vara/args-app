@@ -19,6 +19,8 @@ public abstract class DefaultParameter implements AbstractParameter {
 	private String symbol;
 	private String shortSymbol;
 
+	private String separator = null;
+
 	/**
 	 * Default constructor
 	 *
@@ -62,7 +64,19 @@ public abstract class DefaultParameter implements AbstractParameter {
 	 */
 	@Override
 	public String getValueSeparator() {
-		return null;
+		return separator;
+	}
+
+	/**
+	 * Set individual values separator for this option.
+	 * Define new separator may to serve for special options
+	 * e.q. -option=val1:val2...
+	 * In this case separator should be defined as ':' for '-option' object.
+	 *
+	 * @param separator string represented the separator.
+	 */
+	public void setValueSeparator(String separator){
+		this.separator = separator;
 	}
 
 	/**
