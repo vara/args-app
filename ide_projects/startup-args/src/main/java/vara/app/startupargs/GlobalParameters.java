@@ -19,7 +19,7 @@ public class GlobalParameters extends Parameters{
 	/**
 	 *
 	 * @param symbol
-	 * @return
+	 * @return GlobalParameter
 	 */
 	public static synchronized GlobalParameter getGlobalParameter(String symbol){
 
@@ -52,7 +52,7 @@ public class GlobalParameters extends Parameters{
 	/**
 	 *
 	 * @param symbol
-	 * @return
+	 * @return Object
 	 */
 	public static Object getValue(String symbol){
 		return getValue(symbol,null);
@@ -62,7 +62,7 @@ public class GlobalParameters extends Parameters{
 	 *
 	 * @param symbol
 	 * @param defaultObject
-	 * @return
+	 * @return Object
 	 */
 	public static Object getValue(String symbol,Object defaultObject){
 
@@ -76,7 +76,7 @@ public class GlobalParameters extends Parameters{
 	 *
 	 * @param symbol
 	 * @param defaultObject
-	 * @return
+	 * @return Integer
 	 */
 	public static Integer getIntegerValue(String symbol,Integer defaultObject){
 		GlobalParameter resolvedParam = getGlobalParameter(symbol);
@@ -88,7 +88,7 @@ public class GlobalParameters extends Parameters{
 	/**
 	 *
 	 * @param symbol
-	 * @return
+	 * @return Integer
 	 */
 	public static Integer getIntegerValue(String symbol){
 		return getIntegerValue(symbol,0);
@@ -97,7 +97,7 @@ public class GlobalParameters extends Parameters{
 	/**
 	 *
 	 * @param symbol
-	 * @return
+	 * @return String
 	 */
 	public static String getStringValue(String symbol){
 		return getStringValue(symbol,"");
@@ -107,7 +107,7 @@ public class GlobalParameters extends Parameters{
 	 *
 	 * @param symbol
 	 * @param defaultObject
-	 * @return
+	 * @return String
 	 */
 	public static String getStringValue(String symbol,String defaultObject){
 		GlobalParameter resolvedParam = getGlobalParameter(symbol);
@@ -119,7 +119,7 @@ public class GlobalParameters extends Parameters{
 	/**
 	 *
 	 * @param symbol
-	 * @return
+	 * @return Boolean
 	 */
 	public static Boolean getBooleanValue(String symbol){
 		return getBooleanValue(symbol,false);
@@ -129,7 +129,8 @@ public class GlobalParameters extends Parameters{
 	 *
 	 * @param symbol
 	 * @param defaultObject
-	 * @return
+	 * 
+	 * @return Boolean
 	 */
 	public static Boolean getBooleanValue(String symbol,Boolean defaultObject){
 		GlobalParameter resolvedParam = getGlobalParameter(symbol);
@@ -141,7 +142,8 @@ public class GlobalParameters extends Parameters{
 	/**
 	 *
 	 * @param symbol
-	 * @return
+	 *
+	 * @return List<File>
 	 */
 	public static List<File> getFileListValue(String symbol){
 		GlobalParameter resolvedParam = getGlobalParameter(symbol);
@@ -154,7 +156,8 @@ public class GlobalParameters extends Parameters{
 	 *
 	 * @param symbol
 	 * @param defaultFileObjects
-	 * @return
+	 *
+	 * @return  List<File>
 	 */
 	public static List<File> getFileListValue(String symbol,File ... defaultFileObjects){
 		GlobalParameter resolvedParam = getGlobalParameter(symbol);

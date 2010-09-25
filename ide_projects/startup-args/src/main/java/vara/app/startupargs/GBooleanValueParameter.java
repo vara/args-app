@@ -44,10 +44,12 @@ public abstract class GBooleanValueParameter extends BooleanValueParameter imple
 	 * @param longSymbolName full name for this parameter
 	 * @param shortSymbolName short name for this parameter
 	 * @param description
+	 *
+	 * @return GBooleanValueParameter
 	 */
-	public static void define(final String longSymbolName,final String shortSymbolName,final String description){
+	public static GBooleanValueParameter define(final String longSymbolName,final String shortSymbolName,final String description){
 
-		final GlobalParameter val = new GBooleanValueParameter(longSymbolName,shortSymbolName){
+		final GBooleanValueParameter val = new GBooleanValueParameter(longSymbolName,shortSymbolName){
 
 			@Override
 			public String getOptionDescription() {
@@ -56,9 +58,20 @@ public abstract class GBooleanValueParameter extends BooleanValueParameter imple
 		};
 
 		GlobalParameters.putParameter(val);
+		return val;
 	}
 
-	public static void define(final String longSymbolName,final String shortSymbolName){
-		define(longSymbolName,shortSymbolName,"");
+	/**
+	 * Create new global boolean parameter based on inputs arguments.
+	 * Method automagically add this parameter to container.
+	 * Format of symbols (long and short) not required prefixes
+	 *
+	 * @param longSymbolName full name for this parameter
+	 * @param shortSymbolName short name for this parameter
+	 *
+	 * @return GBooleanValueParameter
+	 */
+	public static GBooleanValueParameter define(final String longSymbolName,final String shortSymbolName){
+		return define(longSymbolName,shortSymbolName,"");
 	}
 }

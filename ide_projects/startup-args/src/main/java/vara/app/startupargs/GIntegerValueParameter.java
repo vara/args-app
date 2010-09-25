@@ -38,10 +38,17 @@ public abstract class GIntegerValueParameter extends IntegerValueParameter imple
 	public boolean isSet() {
 		return isSet;
 	}
-	
-	public static void define(final String ls,final String ss,final String description){
 
-		final GlobalParameter val = new GIntegerValueParameter(ls,ss){
+	/**
+	 *
+	 * @param ls
+	 * @param ss
+	 * @param description
+	 * @return GIntegerValueParameter
+	 */
+	public static GIntegerValueParameter define(final String ls,final String ss,final String description){
+
+		final GIntegerValueParameter val = new GIntegerValueParameter(ls,ss){
 
 			@Override
 			public String getOptionDescription() {
@@ -50,9 +57,16 @@ public abstract class GIntegerValueParameter extends IntegerValueParameter imple
 		};
 
 		GlobalParameters.putParameter(val);
+		return val;
 	}
 
-	public static void define(final String ls,final String ss){
-		define(ls,ss,"");
+	/**
+	 *
+	 * @param ls
+	 * @param ss
+	 * @return GIntegerValueParameter
+	 */
+	public static GIntegerValueParameter define(final String ls,final String ss){
+		return define(ls,ss,"");
 	}
 }

@@ -56,10 +56,12 @@ public abstract class GFileListParameter extends FileListParameter implements Gl
 	 * @param ss
 	 * @param description
 	 * @param beh
+	 *
+	 * @return GFileListParameter
 	 */
-	public static void define(final String ls,final String ss,final String description,BEHAVIOUR beh){
+	public static GFileListParameter define(final String ls,final String ss,final String description,BEHAVIOUR beh){
 
-		final GlobalParameter val = new GFileListParameter(ls,ss,beh){
+		final GFileListParameter val = new GFileListParameter(ls,ss,beh){
 
 			@Override
 			public String getOptionDescription() {
@@ -68,6 +70,7 @@ public abstract class GFileListParameter extends FileListParameter implements Gl
 		};
 
 		GlobalParameters.putParameter(val);
+		return val;
 	}
 
 	/**
@@ -75,9 +78,11 @@ public abstract class GFileListParameter extends FileListParameter implements Gl
 	 * @param ls
 	 * @param ss
 	 * @param description
+	 *
+	 * @return GFileListParameter
 	 */
-	public static void define(final String ls,final String ss,final String description){
-		define(ls,ss,description,BEHAVIOUR.DO_NOTHING);
+	public static GFileListParameter define(final String ls,final String ss,final String description){
+		return define(ls,ss,description,BEHAVIOUR.DO_NOTHING);
 	}
 
 	/**
@@ -85,17 +90,21 @@ public abstract class GFileListParameter extends FileListParameter implements Gl
 	 * @param ls
 	 * @param ss
 	 * @param beh
+	 *
+	 * @return GFileListParameter
 	 */
-	public static void define(final String ls,final String ss,BEHAVIOUR beh){
-		define(ls,ss,"",beh);
+	public static GFileListParameter define(final String ls,final String ss,BEHAVIOUR beh){
+		return define(ls,ss,"",beh);
 	}
 
 	/**
 	 *
 	 * @param ls
 	 * @param ss
+	 *
+	 * @return GFileListParameter
 	 */
-	public static void define(final String ls,final String ss){
-		define(ls,ss,"");
+	public static GFileListParameter define(final String ls,final String ss){
+		return define(ls,ss,"");
 	}
 }

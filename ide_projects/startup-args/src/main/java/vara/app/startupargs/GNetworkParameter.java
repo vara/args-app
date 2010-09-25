@@ -46,10 +46,12 @@ public abstract class GNetworkParameter extends NetworkParameter implements Glob
 	 * @param ls
 	 * @param ss
 	 * @param description
+	 *
+	 * @return GNetworkParameter
 	 */
-	public static void define(final String ls,final String ss,final String description){
+	public static GNetworkParameter define(final String ls,final String ss,final String description){
 
-		final GlobalParameter val = new GNetworkParameter(ls,ss){
+		final GNetworkParameter val = new GNetworkParameter(ls,ss){
 
 			@Override
 			public String getOptionDescription() {
@@ -58,14 +60,18 @@ public abstract class GNetworkParameter extends NetworkParameter implements Glob
 		};
 
 		GlobalParameters.putParameter(val);
+
+		return val;
 	}
 
 	/**
 	 *
 	 * @param ls
 	 * @param ss
+	 *
+	 * @return GNetworkParameter
 	 */
-	public static void define(final String ls,final String ss){
-		define(ls,ss,"");
+	public static GNetworkParameter define(final String ls,final String ss){
+		return define(ls,ss,"");
 	}
 }

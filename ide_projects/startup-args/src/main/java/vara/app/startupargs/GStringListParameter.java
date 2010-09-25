@@ -47,10 +47,12 @@ public abstract class GStringListParameter extends StringListParameter implement
 	 * @param ls
 	 * @param ss
 	 * @param description
+	 *
+	 * @return GStringListParameter
 	 */
-	public static void define(final String ls,final String ss,final String description){
+	public static GStringListParameter define(final String ls,final String ss,final String description){
 
-		final GlobalParameter val = new GStringListParameter(ls,ss){
+		final GStringListParameter val = new GStringListParameter(ls,ss){
 
 			@Override
 			public String getOptionDescription() {
@@ -59,14 +61,17 @@ public abstract class GStringListParameter extends StringListParameter implement
 		};
 
 		GlobalParameters.putParameter(val);
+		return val;
 	}
 
 	/**
 	 *
 	 * @param ls
 	 * @param ss
+	 * 
+	 * @return GStringListParameter
 	 */
-	public static void define(final String ls,final String ss){
-		define(ls,ss,"");
+	public static GStringListParameter define(final String ls,final String ss){
+		return define(ls,ss,"");
 	}
 }

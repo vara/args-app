@@ -49,10 +49,12 @@ public abstract class GStringValueParameter extends StringValueParameter impleme
 	 * @param ls
 	 * @param ss
 	 * @param description
+	 *
+	 * @return GStringValueParameter
 	 */
-	public static void define(final String ls,final String ss,final String description){
+	public static GStringValueParameter define(final String ls,final String ss,final String description){
 
-		final GlobalParameter val = new GStringValueParameter(ls,ss){
+		final GStringValueParameter val = new GStringValueParameter(ls,ss){
 
 			@Override
 			public String getOptionDescription() {
@@ -61,14 +63,18 @@ public abstract class GStringValueParameter extends StringValueParameter impleme
 		};
 
 		GlobalParameters.putParameter(val);
+
+		return val;
 	}
 
 	/**
 	 *
 	 * @param ls
 	 * @param ss
+	 *
+	 * @return GStringValueParameter
 	 */
-	public static void define(final String ls,final String ss){
-		define(ls,ss,"");
+	public static GStringValueParameter define(final String ls,final String ss){
+		return define(ls,ss,"");
 	}
 }

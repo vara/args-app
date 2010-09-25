@@ -57,7 +57,7 @@ public interface AbstractParameter {
 	 * In this case separator should be ':' for proper separate values.
 	 * <br>By default method return <code>null<code> value which means that,
 	 * global separator will be used.
-	 * @see vara.app.startupargs.ArgsUtil.getArgumentValuesSeparator()
+	 * @see vara.app.startupargs.ArgsUtil#getArgumentValuesSeparator()
 	 *
 	 * @return separator for values
 	 */

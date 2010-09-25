@@ -8,8 +8,10 @@ import vara.app.startupargs.exceptions.UnexpectedValueException;
 import vara.app.startupargs.exceptions.ValidationObjectException;
 
 /**
+ * Default implementation for parameters object 
  *
  * @author Grzegorz (vara) Warywoda
+ *
  */
 public abstract class DefaultParameter implements AbstractParameter {
 	private static Logger log = LoggerFactory.getLogger(DefaultParameter.class);
@@ -17,22 +19,37 @@ public abstract class DefaultParameter implements AbstractParameter {
 	private String symbol;
 	private String shortSymbol;
 
+	/**
+	 * Default constructor
+	 *
+	 * @param option
+	 * @param shortOption
+	 */
 	public DefaultParameter(String option,String shortOption){
 
 		this.symbol = ArgsUtil.check(option,false);
 		this.shortSymbol = ArgsUtil.check(shortOption,true);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String getSymbol() {
 		return symbol;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String getShortSymbol() {
 		return shortSymbol;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String getOptionUsage() {
 		if(shortSymbol != null)
@@ -40,6 +57,17 @@ public abstract class DefaultParameter implements AbstractParameter {
 		return symbol;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getValueSeparator() {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String toString() {
 		String str = new StringBuilder( symbol.length() + shortSymbol.length() + 8).
@@ -47,6 +75,9 @@ public abstract class DefaultParameter implements AbstractParameter {
 		return str;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if(obj == null) return false;
@@ -58,6 +89,9 @@ public abstract class DefaultParameter implements AbstractParameter {
 		return other.getSymbol().equals(symbol) || other.getShortSymbol().equals(shortSymbol);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int hashCode() {
 		int hash = 3;
@@ -66,6 +100,9 @@ public abstract class DefaultParameter implements AbstractParameter {
 		return hash;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void handleOption(String[] optionValues)  throws ValidationObjectException{
 		int nOptions = optionValues != null? optionValues.length: 0;
@@ -100,6 +137,11 @@ public abstract class DefaultParameter implements AbstractParameter {
 		safeOption(optionValues);
 	}
 
+	/**
+	 *	Method to allow exit from application after handling this option.
+	 *
+	 * @return true if should be exit
+	 */
 	public boolean isExit(){
 		return false;
 	}

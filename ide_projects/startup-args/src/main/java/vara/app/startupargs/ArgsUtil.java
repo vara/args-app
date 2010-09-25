@@ -36,7 +36,8 @@ public final class ArgsUtil {
 	private static String separatorForCombinedArg = "=";
 
 	/**
-	 *
+	 * Global variable used for detection values concatenated with special characters.<br>
+	 *  Default char is comma.
 	 */
 	private static String argumentValuesSeparator = ",";
 
@@ -47,6 +48,10 @@ public final class ArgsUtil {
 		ArgsUtil.setStoreWithoutPrefix(true);
 	}
 	/**
+	 * Method for proper initialization/declaration symbols. Method strip or add prefixes,
+	 *  this is depend from type of mode described by <code>storeWithoutPrefix</code> variable.
+	 *
+	 * @see ArgsUtil#storeWithoutPrefix
 	 *
 	 * @param symbol
 	 * @param isShort
@@ -173,36 +178,65 @@ public final class ArgsUtil {
 		return counter;
 	}
 
-
+	/**
+	 *
+	 * @return
+	 */
 	public static boolean isStoreWithoutPrefix() {
 		return storeWithoutPrefix;
 	}
 
+	/**
+	 *
+	 * @param storeWithoutPrefix
+	 */
 	public static void setStoreWithoutPrefix(boolean storeWithoutPrefix) {
 		if(ArgsUtil.storeWithoutPrefix != storeWithoutPrefix){
 			ArgsUtil.storeWithoutPrefix = storeWithoutPrefix;
 		}
 	}
 
+	/**
+	 * Get global variable used for detection values concatenated with special characters.<br>
+	 * Default character is comma.
+	 * @return String values separator
+	 */
 	public static String getArgumentValuesSeparator() {
 		return argumentValuesSeparator;
 	}
 
+	/**
+	 *
+	 * @param separatorForCombinedArg
+	 */
 	public static void setArgumentValuesSeparator(String separatorForCombinedArg) {
 		if(ArgsUtil.argumentValuesSeparator != argumentValuesSeparator){
 			ArgsUtil.argumentValuesSeparator = argumentValuesSeparator;
 		}
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public static String getSeparatorForCombinedArg() {
 		return separatorForCombinedArg;
 	}
 
+	/**
+	 *
+	 * @param separatorForCombinedArg
+	 */
 	public static void setSeparatorForCombinedArg(String separatorForCombinedArg) {
 		if(ArgsUtil.separatorForCombinedArg != separatorForCombinedArg)
 			ArgsUtil.separatorForCombinedArg = separatorForCombinedArg;
 	}
 
+	/**
+	 *
+	 * @param argument
+	 * @return
+	 */
 	public static boolean isCombinedArgument(String argument){
 		if(argument != null && !argument.isEmpty() ){
 			return argument.indexOf(separatorForCombinedArg) != -1;
@@ -210,6 +244,11 @@ public final class ArgsUtil {
 		return false;
 	}
 
+	/**
+	 *
+	 * @param rawCombinedArgument
+	 * @return
+	 */
 	public static CombinedArgument toCombinedArgObject(String rawCombinedArgument){
 		CombinedArgument ca = null;
 		if(rawCombinedArgument != null && !rawCombinedArgument.isEmpty()){
