@@ -14,7 +14,7 @@ import org.junit.runners.Suite;
 	ArgumentsContainerTest.class,
 	CmdLineArgumentsTest.class,
 	ExceptionsTest.class,
-	/*FileValueParameterTest.class,*/
+	FileValueParameterTest.class,
 	ParameterCreationTest.class
 })
 public class AllSuitTests {
