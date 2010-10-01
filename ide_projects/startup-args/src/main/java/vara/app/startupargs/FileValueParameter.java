@@ -21,7 +21,7 @@ public abstract class FileValueParameter extends AbstractFileValueParameter{
 	}
 
 	@Override
-	protected void handleOptionFiles(List<File> files) throws ValidationObjectException {
+	protected void handleOption(List<File> files) throws ValidationObjectException {
 		handleOption(files.get(0));
 	}
 

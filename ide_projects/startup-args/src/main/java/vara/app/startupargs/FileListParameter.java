@@ -24,11 +24,6 @@ public abstract class FileListParameter extends AbstractFileValueParameter {
 		super(symbol, shortSymbol, behaviour);
 	}
 
-	@Override
-	protected void handleOptionFiles(List<File> files) throws ValidationObjectException {
-		handleOption(files);
-	}
-
 	abstract public void handleOption(List<File> optionValue) throws ValidationObjectException;
 
 	@Override

@@ -65,7 +65,7 @@ public abstract class AbstractFileValueParameter extends DefaultParameter {
 			   }
 			}
 
-			handleOptionFiles(files);
+			handleOption(files);
 	}
 
 	/**
@@ -137,5 +137,5 @@ public abstract class AbstractFileValueParameter extends DefaultParameter {
 		return paths;
 	}
 
-	protected abstract void handleOptionFiles(List<File> files) throws ValidationObjectException;
+	abstract protected void handleOption(List<File> files) throws ValidationObjectException;
 }
