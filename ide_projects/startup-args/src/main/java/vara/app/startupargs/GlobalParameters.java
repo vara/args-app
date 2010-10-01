@@ -165,4 +165,31 @@ public class GlobalParameters extends Parameters{
 		return  (resolvedParam instanceof GFileListParameter && resolvedParam.isSet()) ?
 							((GFileListParameter)resolvedParam).getValue() : Arrays.asList(defaultFileObjects);
 	}
+
+	/**
+	 *
+	 * @param symbol
+	 *
+	 * @return List<String>
+	 */
+	public static List<String> getStringListValue(String symbol){
+		GlobalParameter resolvedParam = getGlobalParameter(symbol);
+
+		return  (resolvedParam instanceof GStringListParameter && resolvedParam.isSet()) ?
+							((GStringListParameter)resolvedParam).getValue() : Collections.<String>emptyList();
+	}
+
+	/**
+	 *
+	 * @param symbol
+	 * @param defaultFileObjects
+	 *
+	 * @return  List<String>
+	 */
+	public static List<String> getStringListValue(String symbol,String ... defaultFileObjects){
+		GlobalParameter resolvedParam = getGlobalParameter(symbol);
+
+		return  (resolvedParam instanceof GStringListParameter && resolvedParam.isSet()) ?
+							((GStringListParameter)resolvedParam).getValue() : Arrays.asList(defaultFileObjects);
+	}
 }
