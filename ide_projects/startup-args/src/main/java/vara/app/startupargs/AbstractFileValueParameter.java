@@ -1,6 +1,7 @@
 package vara.app.startupargs;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import vara.app.startupargs.base.DefaultParameter;
 import vara.app.startupargs.exceptions.ValidationObjectException;
 
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public abstract class AbstractFileValueParameter extends DefaultParameter {
 
-	private static final Logger log = Logger.getLogger(AbstractFileValueParameter.class);
+	private static final Logger log = LoggerFactory.getLogger(AbstractFileValueParameter.class);
 
 	/**
 	 *
@@ -54,9 +55,11 @@ public abstract class AbstractFileValueParameter extends DefaultParameter {
 	public void safeOption(String[] optionValues)  throws ValidationObjectException {
 		List<File> files = new ArrayList(optionValues.length);
 
+			String sep = getValueSeparator();
+
 			for(String optionValue : optionValues){
 
-			   for (String path : parseOptionValue(optionValue,100)){
+			   for (String path : parseOptionValue(optionValue,sep,100)){
 
 					File file = checkFile(createFile(path));
 					if(file != null){
@@ -80,12 +83,13 @@ public abstract class AbstractFileValueParameter extends DefaultParameter {
 				case CHECK_EXISTS:
 					boolean exists = file.exists();
 
-					if(log.isDebugEnabled())log.debug("Detected CHECK_EXISTS mode, exists="+exists);
+					if(log.isDebugEnabled())log.debug("Detected CHECK_EXISTS mode, exists={}",exists);
 
 					if(!exists){
-
+						log.warn("Path '{}' not exists ",file.toString());
 						file = null;
 					}
+
 					break;
 				case DO_NOTHING:	break;
 	//			case CREATE_IF_NOT_EXIST:	break;
@@ -95,13 +99,20 @@ public abstract class AbstractFileValueParameter extends DefaultParameter {
 	}
 
 	/**
+	 * Create object <code>java.io.File</code> from string, representing a path to file or directory.
+	 * Methods allows to passing argument in specified formats :
+	 * 		with protocol file://...
+	 * 		absolute /home/...
+	 * 		unix like ~/...
 	 *
 	 * @param path
 	 * @return
 	 */
 	private static File createFile(String path){
 
-		if(log.isDebugEnabled())log.debug("Try create File object from path '"+path+"'");
+		path = normalize(path);
+
+		if(log.isDebugEnabled())log.debug("Try to create File object from path '{}'",path);
 
 		File file=null;
 		URI uri = createURI(path);
@@ -109,7 +120,7 @@ public abstract class AbstractFileValueParameter extends DefaultParameter {
 		if(uri != null){
 			try{
 				file = new File(uri);
-				if(log.isDebugEnabled())log.debug(" from URI:"+uri);
+				if(log.isDebugEnabled())log.debug(" from URI:{}",uri);
 
 			}catch (IllegalArgumentException e){}
 
@@ -131,9 +142,28 @@ public abstract class AbstractFileValueParameter extends DefaultParameter {
 		return null;
 	}
 
-	private static String[] parseOptionValue(String value,int limit){
-		//TODO: Make separator 
-		String [] paths = value.split(",",limit);
+	private static String normalize(String path){
+
+		int index = 0;
+		if(path.startsWith("file://")){
+			index = 7;
+		}
+
+		if (path.charAt(index) == '~') {
+			String home = System.getProperty("user.home");
+			path = new StringBuilder(path.length() + home.length()).
+								append(path).
+								replace(index, index+1, home).
+								toString();
+		}
+
+		return path;
+	}
+
+	private static String[] parseOptionValue(String value,String separator,int limit){
+		//TODO: Make separator
+		if(separator == null) separator = ArgsUtil.getArgumentValuesSeparator();
+		String [] paths = value.split(separator,limit);
 		return paths;
 	}
 
