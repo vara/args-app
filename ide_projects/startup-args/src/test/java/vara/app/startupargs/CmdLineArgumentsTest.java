@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import vara.app.startupargs.exceptions.UnexpectedNumberOfArguments;
 
 import java.util.Arrays;
 import java.util.List;
@@ -51,5 +52,13 @@ public class CmdLineArgumentsTest extends FixtureUtil{
 		List<String> args = Arrays.asList("-f 1002.2 --boolean -h".split(" "));
 
 		ArgsParser.parseParameters(args);
+	}
+
+	@Test(expected = UnexpectedNumberOfArguments.class)
+	public void cmdlEmptyCombinedArg(){
+		List<String> args = Arrays.asList("-f=".split(" "));
+
+		ArgsParser.parseParameters(args);
+
 	}
 }

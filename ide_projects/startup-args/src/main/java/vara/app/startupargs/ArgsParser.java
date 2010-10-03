@@ -209,9 +209,11 @@ public class ArgsParser {
 		public String[] getArguments(List<String> rawArgumentList,String separator){
 			String[] retArray = new String[0];
 			if(separator == null) separator = ArgsUtil.getArgumentValuesSeparator();
-			if(isCombined){
+
+			if(isCombined && !rawCombinedArguments.trim().isEmpty()){
 				retArray = rawCombinedArguments.split(separator);
 			}
+
 			else if(nArguments>0){
 				int indexFrom = index+1;
 				retArray = rawArgumentList.subList(indexFrom,indexFrom + nArguments).toArray(retArray);
@@ -324,14 +326,16 @@ public class ArgsParser {
 				//List<String> subListWithParameters = Collections.EMPTY_LIST;
 				
 				if(entryHelper.isCombined){
+					//If e.q. -p=12 13 then entryHelper.nArguments will be set to 1
+					//its wrong format for combined argument, notify about this
 					if(entryHelper.nArguments > 0){
-						throw new OptionNotFoundException(args.get(entryHelper.index+1),"Missing prefix ?");
+						throw new OptionNotFoundException(args.get(entryHelper.index+1),"Wrong format for combined argument, missing prefix ?");
 					}
 				}
 
 				try {
 					String [] arguments = entryHelper.getArguments(args,optionHandler.getValueSeparator());
-					//System.out.println("args:"+arguments.length +"{"+optionValuesToString(arguments,";")+"}");
+					//System.out.println("args array length:"+arguments.length +" toString{"+optionValuesToString(arguments,";")+"}");
 					optionHandler.handleOption(arguments);
 				}
 				catch( Exception exc ){	deliverCaughtException(exc); }
