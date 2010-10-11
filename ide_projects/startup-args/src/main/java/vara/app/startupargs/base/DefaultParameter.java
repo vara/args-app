@@ -119,7 +119,13 @@ public abstract class DefaultParameter implements AbstractParameter {
 	 */
 	@Override
 	public void handleOption(String[] optionValues)  throws ValidationObjectException{
-		int nOptions = optionValues != null? optionValues.length: 0;
+		//FIXED: When we can invoke any parameter without argument
+		//e.q Parameters.getParameter("h").handleOption(null); //Before NPE has been generated
+		
+		if(optionValues == null){
+			optionValues = new String[0];
+		}
+		int nOptions = optionValues.length;
 
 		RangeNumber nParams = getOptionValuesLength();
 
