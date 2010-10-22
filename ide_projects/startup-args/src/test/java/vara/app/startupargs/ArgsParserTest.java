@@ -99,7 +99,7 @@ public class ArgsParserTest extends FixtureUtil {
 
 		}catch (OptionNotFoundException e){
 			log.info("Exception Thrown : "+e);
-			boolean isExpectedException = e.getLocalizedMessage().contains("Missing prefix");
+			boolean isExpectedException = e.getLocalizedMessage().contains("missing prefix");
 			log.info("isExpectedException : "+isExpectedException);
 			Assert.assertTrue(isExpectedException);
 
