@@ -295,6 +295,7 @@ public class ArgsParser {
 
 	/**
 	 * TODO:Add description ,  (don't forget write about exceptions thrown in this method)
+	 * TODO:Create more exception objects 
 	 * --symbol param ; -symbol=param; -symbol parm1 param2 ... ; -symbol=parameter1,parameter2...
 	 *
 	 * @param args container with command line arguments
