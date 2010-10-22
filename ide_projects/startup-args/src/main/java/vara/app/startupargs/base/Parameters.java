@@ -61,7 +61,7 @@ public class Parameters {
 
 					return parameters.add(parameter);
 				}else{
-					if(log.isWarnEnabled())log.warn("Detected multiply parameter in container for '"+parameter+"' behavior:"+behavior);
+					if(log.isWarnEnabled())log.warn("Detected multiply parameter in container for '{}' behavior: '{}'",parameter,behavior);
 
 					switch (behavior) {
 
@@ -129,11 +129,11 @@ public class Parameters {
 
 			int index = parameters.lastIndexOf(entry);
 			if(index != -1) {
-				if(log.isDebugEnabled())log.debug("Found parameter for '"+symbol+"' on index "+index);
+				if(log.isDebugEnabled())log.debug("Found parameter for '{}' on index {}",symbol,index);
 				return parameters.get(index);
 			}
 		}
-		if(log.isDebugEnabled())log.debug("Parameter wasn't found for '"+symbol+"'");
+		if(log.isDebugEnabled())log.debug("Parameter wasn't found for '{}'",symbol);
 		return null;
 	}
 
@@ -211,7 +211,7 @@ public class Parameters {
 		@Override
 		public boolean equals(Object obj) {
 
-			if(log.isTraceEnabled()) log.trace("Equals "+this+" with "+obj);
+			if(log.isTraceEnabled()) log.trace("Equals {} with {}",this,obj);
 			boolean retVal = false;
 
 			if( !(obj instanceof DefaultParameter)) {
@@ -222,7 +222,7 @@ public class Parameters {
 						((DefaultParameter)obj).getShortSymbol().hashCode() == symbolName.hashCode() ){
 				retVal = true;
 			}
-			if(log.isTraceEnabled())log.trace("Result is:"+retVal);
+			if(log.isTraceEnabled())log.trace("Result is: {}",retVal);
 			return  retVal;
 		}
 
