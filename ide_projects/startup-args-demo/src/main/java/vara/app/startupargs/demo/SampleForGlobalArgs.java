@@ -18,8 +18,8 @@ import java.util.List;
  * Date: 2010-06-18
  * Time: 04:55:53
  */
-public class sampleForGlobalArgs extends Sample{
-	private static final Logger log = LoggerFactory.getLogger(sampleForGlobalArgs.class);
+public class SampleForGlobalArgs extends Sample{
+	private static final Logger log = LoggerFactory.getLogger(SampleForGlobalArgs.class);
 
 	 @Override
 	 protected List<AbstractParameter> createParameters(){
@@ -52,7 +52,7 @@ public class sampleForGlobalArgs extends Sample{
 
 	public static void main(String[] args) {
 		//for init
-		new sampleForGlobalArgs();
+		new SampleForGlobalArgs();
 
 		try{
 			ArgsParser.parseParameters(args);

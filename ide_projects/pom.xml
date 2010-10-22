@@ -1,0 +1,124 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>vara.app</groupId>
+	<artifactId>startup-arguments-whole</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0.0</version>
+	<name>startup-arguments-whole</name>
+	<url>http://maven.apache.org</url>
+
+	<modules>
+		<module>startup-args</module>
+		<module>startup-args-demo</module>
+	</modules>
+
+	<developers>
+		<developer>
+			<name>Grzegorz Warywoda</name>
+			<email>grzegorz.warywoda@gmail.com</email>
+			<id>vara</id>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:ssh://git@vara.no-ip.org/args-app.git</connection>
+		<url>scm:git:ssh://git@vara.no-ip.org/args-app.git</url>
+		<developerConnection>scm:git:ssh://git@vara.no-ip.org/args-app.git</developerConnection>
+	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>media.verknowsys.com</id>
+			<name>Verknowsys Maven 2 repository</name>
+			<url>scpexe://media.verknowsys.com/home/verknowsys/public_html/media/.m2/repository</url>
+		</repository>
+	</distributionManagement>
+
+	<properties>
+		<maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.6</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.14</version>
+			<!--<scope>test</scope>-->
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.6.0</version>
+		</dependency>
+
+  </dependencies>
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+						<manifestEntries>
+							<Build-Date>${maven.build.timestamp}</Build-Date>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<show>private</show>
+					<nohelp>true</nohelp>
+					<quiet>true</quiet>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+					  		<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+	
+</project>
