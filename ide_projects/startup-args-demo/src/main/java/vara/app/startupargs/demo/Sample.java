@@ -1,10 +1,10 @@
 package vara.app.startupargs.demo;
 
 import org.apache.log4j.BasicConfigurator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import vara.app.startupargs.*;
 import vara.app.startupargs.base.AbstractParameter;
+import vara.app.startupargs.base.ArgsVersion;
 import vara.app.startupargs.base.Parameters;
 import vara.app.startupargs.exceptions.CatchOnException;
 
@@ -18,11 +18,12 @@ import java.util.List;
  * Time: 04:08:44
  */
 public class Sample {
-	private static final Logger log = LoggerFactory.getLogger(Sample.class);
+	private static final Logger log = Logger.getLogger(Sample.class);
 
 	static {
 
 		BasicConfigurator.configure();
+		//Logger.getRootLogger().setLevel(Level.TRACE);
 	}
 
 	{
@@ -50,6 +51,9 @@ public class Sample {
 	}
 
 	public static void main(String[] args) {
+
+		log.info(ArgsVersion.getStringFullVersion());
+
 		new Sample();
 		try{
 			ArgsParser.parseParameters(args);
