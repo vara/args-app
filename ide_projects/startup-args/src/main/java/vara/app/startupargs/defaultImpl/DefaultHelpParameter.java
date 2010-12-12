@@ -1,5 +1,6 @@
 package vara.app.startupargs.defaultImpl;
 
+import vara.app.startupargs.ArgsUtil;
 import vara.app.startupargs.NoValueParameter;
 import vara.app.startupargs.base.AbstractParameter;
 import vara.app.startupargs.base.Parameters;
@@ -41,9 +42,11 @@ public class DefaultHelpParameter extends NoValueParameter{
 
 			out.printf("Usage: %s\n",usage);
 		}
+		out.printf("NOTE: Any option can be excluded by typing '%s' after prefix char '%s'\n",
+			ArgsUtil.getDisableChar(),ArgsUtil.getPrefixChar());
 
 		out.println("Options:");
-		final String format = "\t%s\t\t%s\n";
+		final String format = "\t%s\n\t\t%s\n\n";
 		for (AbstractParameter ap : params) {
 			out.printf(format,ap.getOptionUsage(),ap.getOptionDescription());
 		}

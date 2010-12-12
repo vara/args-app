@@ -54,9 +54,24 @@ public abstract class DefaultParameter implements AbstractParameter {
 	 */
 	@Override
 	public String getOptionUsage() {
-		if(shortSymbol != null)
-			return getSymbol()+"|"+getShortSymbol();
-		return symbol;
+		//if(shortSymbol != null){
+			StringBuilder sb = new StringBuilder(shortSymbol.length() + symbol.length()+15);
+
+			if (ArgsUtil.isStoreWithoutPrefix()){
+				sb.append(ArgsUtil.getPrefixChar());
+			}
+
+			sb.append(shortSymbol);
+			sb.append(" | "); //or
+
+			if (ArgsUtil.isStoreWithoutPrefix()){
+				sb.append(ArgsUtil.getPrefixChar()).append(ArgsUtil.getPrefixChar());
+			}
+
+			sb.append(symbol);
+			return sb.toString();
+		//}
+		//return symbol;
 	}
 
 	/**
