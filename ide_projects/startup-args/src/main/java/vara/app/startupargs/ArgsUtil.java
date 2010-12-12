@@ -41,6 +41,18 @@ public final class ArgsUtil {
 	 */
 	private static String argumentValuesSeparator = ",";
 
+	private static String disableChar = "~";
+
+	/**
+	 *  Get a string object used as marker for exclude option parameter.
+	 * In other words this string object can disable parameter.
+	 *
+	 * @return
+	 */
+	public static String getDisableChar() {
+		return disableChar;
+	}
+
 	static {
 
 		//@Author Grzegorz (vara) Warywoda 2010-08-27 04:04:27 CEST
@@ -123,6 +135,22 @@ public final class ArgsUtil {
 		}
 
 		return symbol;
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public static char getPrefixChar() {
+		return prefixChar;
+	}
+
+	/**
+	 * 
+	 * @param prefixChar
+	 */
+	public static void setPrefixChar(char prefixChar) {
+		ArgsUtil.prefixChar = prefixChar;
 	}
 
 	/**

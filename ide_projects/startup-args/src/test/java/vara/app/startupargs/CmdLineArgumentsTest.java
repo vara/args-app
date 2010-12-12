@@ -23,7 +23,7 @@ public class CmdLineArgumentsTest extends FixtureUtil{
 	public static void beforeClass() throws Exception {
 		FixtureUtil.beforeClass();
 		Logger.getRootLogger().setLevel(Level.TRACE);
-
+		ArgsParser.setExceptionBehaviour(ArgsParser.ExceptionBehaviour.THROW);
 		GStringValueParameter.define("gstring","gs");
 	}
 	
@@ -54,11 +54,47 @@ public class CmdLineArgumentsTest extends FixtureUtil{
 		ArgsParser.parseParameters(args);
 	}
 
-	@Test(expected = UnexpectedNumberOfArguments.class)
+	@Test (expected=UnexpectedNumberOfArguments.class )
 	public void cmdlEmptyCombinedArg(){
+		log.info("Empty combined argument. Should throw exception");
 		List<String> args = Arrays.asList("-f=".split(" "));
 
 		ArgsParser.parseParameters(args);
+	}
 
+	@Test
+	public void sequentialOptions(){
+		log.info("sequential Parameter test");
+
+		String disableMarkChar = ArgsUtil.getDisableChar();
+
+		List<String> args = Arrays.asList("-gs=one -gs=two".split(" "));
+
+		ArgsParser.parseParameters(args);
+		String expected  = "two";
+		String gotValue = GlobalParameters.getStringValue("gs");
+
+		Assert.assertEquals(expected,gotValue);
+
+		String argsStr = "-gs one -gs two";
+		ArgsParser.parseParameters(argsStr);
+		expected  = "two";
+		gotValue = GlobalParameters.getStringValue("gs");
+
+		Assert.assertEquals(expected,gotValue);
+	}
+
+	@Test
+	public void disableParameter(){
+		log.info("Disabled option test");
+
+		String disableMarkChar = ArgsUtil.getDisableChar();
+
+		String args = "-gs=one -"+disableMarkChar+"gs=two";
+		ArgsParser.parseParameters(args);
+		String expected  = "one";
+		String gotValue = GlobalParameters.getStringValue("gs");
+
+		Assert.assertEquals(expected,gotValue);
 	}
 }

@@ -86,7 +86,7 @@ public class ArgsParser {
 
 	/**
 	 * Tell to parser what to do when exception will be generated.
-	 * Default behaviour is <code>ExceptionBehaviour.EXIT<code>
+	 * Default behaviour is <code>ExceptionBehaviour.EXIT</code>
 	 *
 	 * @param exceptionBehaviour
 	 * @see #exceptionBehaviour
@@ -173,6 +173,8 @@ public class ArgsParser {
 		private boolean isCombined = false;
 		private String rawCombinedArguments = null;
 
+		private boolean disable = false;
+
 		private ParameterEntryHelper(int fromIndex, int numOfArguments,String symbol) {
 			this.index = fromIndex;
 
@@ -192,6 +194,17 @@ public class ArgsParser {
 			this.nArguments = numOfArguments;
 
 			this.symbol = symbol;
+			int indexOfDisabledChar = symbol.indexOf(ArgsUtil.getDisableChar());
+			System.out.println(symbol+" DisIndex:"+indexOfDisabledChar);
+			//Only accept 'DisabilityChar' at the beginning of the symbol
+			boolean isDisabled = ( indexOfDisabledChar != -1);
+			if(isDisabled){
+				disable = true;
+			}
+		}
+
+		public boolean isDisable(){
+			return disable;
 		}
 
 		public String getSymbol() {
@@ -312,6 +325,11 @@ public class ArgsParser {
 
 		for (ParameterEntryHelper entryHelper : helpers) {
 
+			if(entryHelper.isDisable()){
+				if(log.isDebugEnabled()) log.debug("Detected disable switch '{}'.",entryHelper.getSymbol());
+				continue;
+			}
+
 			String symbol =  ArgsUtil.recheck(entryHelper.getSymbol());
 			DefaultParameter optionHandler = (DefaultParameter)Parameters.getParameter(symbol);
 
@@ -353,8 +371,20 @@ public class ArgsParser {
 		if(log.isDebugEnabled()) log.debug("**PARSER: Parsing command line input arguments finished ! ");
 	}
 
+	/**
+	 *
+	 * @param args
+	 */
 	public static void parseParameters(String ... args){
 		parseParameters(Arrays.asList(args));
+	}
+
+	/**
+	 *
+	 * @param args
+	 */
+	public static void parseParameters(String args){
+		parseParameters(args.split(" "));
 	}
 
 	private static String optionValuesToString(String[] v,String separator){
