@@ -204,7 +204,6 @@ public class Parameters {
 
 		@Override
 		public int hashCode() {
-			new Throwable().printStackTrace();
 			return hashCode;
 		}
 
