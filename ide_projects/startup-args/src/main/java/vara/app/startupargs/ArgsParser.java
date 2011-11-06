@@ -195,7 +195,7 @@ public class ArgsParser {
 
 			this.symbol = symbol;
 			int indexOfDisabledChar = symbol.indexOf(ArgsUtil.getDisableChar());
-			System.out.println(symbol+" DisIndex:"+indexOfDisabledChar);
+			//System.out.println(symbol+" DisIndex:"+indexOfDisabledChar);
 			//Only accept 'DisabilityChar' at the beginning of the symbol
 			boolean isDisabled = ( indexOfDisabledChar != -1);
 			if(isDisabled){
